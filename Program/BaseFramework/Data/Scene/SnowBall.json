@@ -1,0 +1,6 @@
+{
+  "Name": "SnowBall",
+  "ModelFileName": "Data/SnowBall/Snow.gltf",
+  "Speed": 0.5,
+  "Scale": [ 1, 1, 1 ]
+}

@@ -1,0 +1,91 @@
+{
+  "GameObjects": [
+
+    {
+      "ClassName": "GameObject",
+      "Name": "StageMap",
+      "Tag": 4,
+      "ModelFileName": "Data/StageMap/StageMap2.gltf",
+      "Pos": [ 1, -1, 1 ],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
+      "ClassName": "Human",
+      "Name": "PlayerHuman",
+      "Tag": 3,
+      "ModelFileName": "Data/Human/SnowMan.gltf",
+      "Pos": [ -9, 0, 12 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 0, 0 ]
+    },
+    {
+      "ClassName": "Enemy",
+      "Name": "Enemy00",
+      "Tag": 17,
+      "ModelFileName": "Data/Human/SnowMan.gltf",
+      "Pos": [ 5, 0, 6 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 180, 0 ]
+    },
+    {
+      "ClassName": "Enemy",
+      "Name": "Enemy01",
+      "Tag": 17,
+      "ModelFileName": "Data/Human/SnowMan.gltf",
+      "Pos": [ 0, -0.9, -15 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 180, 0 ]
+    },
+    {
+      "ClassName": "Lamp",
+      "Name": "Lamp01",
+      "ModelFileName": "Data/StageMap/Lamp.gltf",
+      "Pos": [ -15, -0.9, 5 ]
+    },
+    {
+      "ClassName": "Lamp",
+      "Name": "Lamp02",
+      "ModelFileName": "Data/StageMap/Lamp.gltf",
+      "Pos": [ 0, -0.9, 15 ]
+    },
+    {
+      "ClassName": "Lamp",
+      "Name": "Lamp03",
+      "ModelFileName": "Data/StageMap/Lamp.gltf",
+      "Pos": [ 15, -0.9, 5 ]
+    },
+    {
+      "ClassName": "Lamp",
+      "Name": "Lamp04",
+      "ModelFileName": "Data/StageMap/Lamp.gltf",
+      "Pos": [ 0, -0.9, -15 ]
+    },
+    {
+      "ClassName": "Bench",
+      "Name": "Bench01",
+      "Tag": 0,
+      "ModelFileName": "Data/StageMap/Bench.gltf",
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 240, 0 ],
+      "Pos": [ 10, -0.9, -10 ]
+    },
+    {
+      "ClassName": "Bench",
+      "Name": "Town",
+      "ModelFileName": "Data/StageMap/Town.gltf",
+      "Pos": [ 0, -4, 0 ]
+    },
+    {
+      "ClassName": "Bench",
+      "Name": "Wood",
+      "Tag": 0,
+      "ModelFileName": "Data/StageMap/Wood.gltf",
+      "Pos": [ 0, -0.9, 0 ]
+    },
+    {
+      "ClassName": "ActionGameProcess",
+      "Name": "GameProcess",
+      "Time": 20
+    }
+  ]
+}

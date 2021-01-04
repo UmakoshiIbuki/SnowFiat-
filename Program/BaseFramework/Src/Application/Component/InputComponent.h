@@ -1,0 +1,113 @@
+﻿#pragma once
+#include"../Game/GameObject.h"
+
+namespace Input
+{
+	enum Axes  //axisの複数形
+	{
+		L,
+		R,
+		AXS_MAX
+	};
+
+	enum Buttons
+	{
+		A,
+		B,
+		X,
+		Y,
+		L1,
+		R1,
+		BTN_MAX
+	};
+}
+
+class InputComponent
+{
+public:
+	
+	//ボタン状態
+	enum 
+	{
+		FREE=0x00000000,
+		ENTER=0x00000001,
+		STAY=0x00000002,
+		EXIT=0x00000004,
+	};
+
+	InputComponent(GameObject& owner);
+	
+	virtual~InputComponent() {};
+
+	virtual void Update() {};
+
+	//操作軸取得
+	inline const Math::Vector2& GetAxis(Input::Axes no)const
+	{
+		assert(no != Input::Axes::AXS_MAX);
+		return m_axes[no];
+	}
+
+	//ボタンフラグ取得
+	inline int GetButton(Input::Buttons no)const
+	{
+		assert(no != Input::Buttons::BTN_MAX);
+		return m_buttons[no];
+	}
+	//ボタン押した
+	void PushButton(Input::Buttons no);
+	//ボタン離す
+	void ReleaseButton(Input::Buttons no);
+
+	bool m_base = true;
+
+protected:
+
+	//軸操作
+	std::array<Math::Vector2, Input::Axes::AXS_MAX>m_axes;
+	//軸操作
+	std::array<int, Input::Buttons::BTN_MAX>m_buttons;
+	//持ち主
+	GameObject& m_owner;
+};
+
+///////////////////////////////////////////////////////////////
+//キーボード用入力コンポーネント
+///////////////////////////////////////////////////////////////
+class PlayerInputComponent : public InputComponent
+{
+public:
+	PlayerInputComponent(GameObject& owner) :InputComponent(owner) {}
+	virtual void Update()override;
+
+};
+
+///////////////////////////////////////////////////////////////
+//敵用入力コンポーネント
+///////////////////////////////////////////////////////////////
+class EnemyInputComponent : public InputComponent
+{
+public:
+	EnemyInputComponent(GameObject& owner) :InputComponent(owner) {}
+
+	virtual void Update()override;
+private:
+	int frame = 0;
+
+};
+
+//地面を動き回る用のInputコンポーネント
+//WASD:移動
+//マウス：カメラ回転
+class ActionPlayerInputComponent:public InputComponent
+{
+public:
+	ActionPlayerInputComponent(GameObject& rOwner) :InputComponent(rOwner) {}
+	virtual void Update()override;
+
+	POINT m_prevMousePos;
+	POINT m_baseMousePos;
+
+private:
+
+};

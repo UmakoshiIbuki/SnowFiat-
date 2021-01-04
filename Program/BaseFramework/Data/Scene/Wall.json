@@ -1,0 +1,7 @@
+{
+  "ClassName": "Wall",
+  "Name": "Wall",
+  "Tag": 4,
+  "Scale": [ 2, 2.1, 2.1 ],
+  "ModelFileName": "Data/Box/SnowWall.gltf"
+}

@@ -14,7 +14,7 @@
       "Name": "PlayerHuman",
       "Tag": 3,
       "ModelFileName": "Data/Human/SnowMan.gltf",
-      "Pos": [ -9, 0, 12 ],
+      "Pos": [ -9, 5, 12 ],
       "Scale": [ 0.5, 0.5, 0.5 ],
       "Rot": [ 0, 0, 0 ]
     },
@@ -82,10 +82,28 @@
       "ModelFileName": "Data/StageMap/Wood.gltf",
       "Pos": [ 0, -0.9, 0 ]
     },
+
+    {
+      "ClassName": "Bench",
+      "Name": "Wood",
+      "Tag": 0,
+      "ModelFileName": "Data/StageMap/Wood.gltf",
+      "Pos": [ 0, -0.9, 0 ],
+      "Rot": [ 0, 45, 0 ]
+    },
     {
       "ClassName": "ActionGameProcess",
       "Name": "GameProcess",
-      "Time": 20
+      "Time": 60
+    },
+    {
+      "ClassName": "Lift",
+      "Name": "Lift00",
+      "Tag": 4,
+      "ModelFileName": "Data/Box/Box2.gltf",
+      "Pos": [ 0, 1.2, 3 ],
+      "MoveTo": [ 0, 10, 0 ],
+      "Speed": 0.01
     }
   ]
 }

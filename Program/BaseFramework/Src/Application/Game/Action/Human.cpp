@@ -19,7 +19,7 @@ void Human::Deserialize(const json11::Json& jsonObj)
 	if (m_spCameraComponent)
 	{
 		m_spCameraComponent->OffsetMatrix().CreateTranslation(0.0f, 1.0f, 0.0f);
-		m_spCameraComponent->OffsetMatrix().RotateX(10.0f * KdToRadians);
+		m_spCameraComponent->OffsetMatrix().RotateX(5.0f * KdToRadians);
 		m_spCameraComponent->OffsetMatrix().RotateY(270.0f * KdToRadians);
 	}
 
@@ -64,8 +64,8 @@ void Human::Update()
 	//移動力をキャラクターの座標に足しこむ
 	m_pos.Move(m_force);
 
-	m_mWorld.CreateRotationX(m_rot.x);
-	m_mWorld.RotateX(350 * KdToRadians);
+	//m_mWorld.CreateRotationX(m_rot.x);
+	//m_mWorld.RotateX(350 * KdToRadians);
 		
 	m_mWorld.CreateScalling(m_scale.x, m_scale.y, m_scale.z);
 
@@ -89,12 +89,7 @@ void Human::Update()
 		m_hit = false;
 	}
 
-	if (m_spCameraComponent)
-	{
-		Matrix trans;
-		trans.CreateTranslation(m_pos.x, m_pos.y, m_pos.z);
-		m_spCameraComponent->SetCameraMatrix(trans);
-	}
+	
 
 	m_animator.AdvanceTime(m_spModelComponent->GetChangeableNodes());
 
@@ -272,16 +267,25 @@ void Human::UpdaetCamera()
 
 	const Math::Vector2& inputRotate = m_spInputComponent->GetAxis(Input::R);
 
-	m_spCameraComponent->OffsetMatrix().RotateY(inputRotate.x * m_camRotSpeed * KdToRadians);
+	//m_spCameraComponent->OffsetMatrix().RotateY(inputRotate.x * m_camRotSpeed * KdToRadians);
 
-	/*Matrix a, b;
-	a.RotateY(inputRotate.x * m_camRotSpeed * KdToRadians);
+	Vec3 moveVec = { inputRotate.x,0.0f,inputRotate.y };
+	moveVec *= m_movespeed;
 
-	b.RotateZ(inputRotate.y * m_camRotSpeed * KdToRadians);
-	a *= b;
-	m_CamMat *= a;
-	m_CamMat.SetTranslation(m_mWorld.GetTranslation());
-	m_spCameraComponent->SetCameraMatrix(m_CamMat);*/
+	float DeltaX = moveVec.x;
+	float DeltaY = moveVec.z;
+
+	Matrix mRotY, mRotX;
+	mRotY.RotateY(DeltaX * KdToRadians);
+	m_CamMat *= mRotY;
+
+	Vec3 AxisX = m_CamMat.GetAxisZ();
+	AxisX.Normalize();
+	mRotX = DirectX::XMMatrixRotationAxis(AxisX, DeltaY * KdToRadians);
+	m_CamMat *= mRotX;
+
+	m_CamMat.SetTranslation(m_pos);
+	m_spCameraComponent->SetCameraMatrix(m_CamMat);
 
 	/*Matrix m_CamMat=m_spCameraComponent->GetCameraMatrix();
 	if (!m_spCameraComponent) { return; }

@@ -4,7 +4,7 @@ void Particle::Deserialize(const json11::Json& jsonObj)
 {
 	GameObject::Deserialize(jsonObj);
 		
-	m_poly.SetTexture(ResFac.GetTexture("Data/White.png"));
+	m_poly.SetTexture(ResFac.GetTexture(filename));
 	m_poly.Init(1.0f, 1.0f, { 1,1,1,1 });
 }
 
@@ -22,7 +22,7 @@ void Particle::Update()
 	}
 }
 
-void Particle::EmitParticle(PARTICLE* p, float aPosX, float aPosY,float aPosZ, float aMoveX, float aMoveY, int size, int LifeSpan)
+void Particle::EmitParticle(PARTICLE* p, float aPosX, float aPosY,float aPosZ, float aMoveX, float aMoveY, float size, int LifeSpan)
 {
 	p->mPosX = aPosX;
 	p->mPosY = aPosY;
@@ -51,7 +51,7 @@ void Particle::UpdateParticle(PARTICLE* p)
 	p->mLifeSpan--;
 	if (p->mLifeSpan <= 0)
 	{
-		EmitParticle(p, m_mWorld.GetTranslation().x, m_mWorld.GetTranslation().y+0.5, m_mWorld.GetTranslation().z, RND * 0.3f - 0.2f, RND *0.3f - 0.2f, RND * 2, showtime+5);
+		EmitParticle(p, m_mWorld.GetTranslation().x, m_mWorld.GetTranslation().y+0.5, m_mWorld.GetTranslation().z, RND * m_MoveX - m_MoveSpeedX, RND * m_MoveY - m_MoveSpeedY, RND * m_Size, showtime+5);
 	}
 
 	p->mMat.CreateScalling(p->mSize, p->mSize, 0);

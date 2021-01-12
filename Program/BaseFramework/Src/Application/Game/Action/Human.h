@@ -131,6 +131,8 @@ private:
 		virtual void Update(Human& owner)override;
 	};
 
+
+	Matrix m_CamMat;
 	std::shared_ptr<BaseAction>m_spActionState;
 
 };

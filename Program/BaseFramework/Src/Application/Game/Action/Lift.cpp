@@ -1,4 +1,5 @@
 ﻿#include "Lift.h"
+#include"Human.h"
 
 void Lift::Deserialize(const json11::Json& jsonObj)
 {

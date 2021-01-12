@@ -2,6 +2,7 @@
 #include"Application/main.h"
 #include"../../Component/ModelComponent.h"
 #include"../Particle.h"
+#include"../Scene.h"
 
 void SnowBall::Deserialize(const json11::Json& jsonObj)
 {
@@ -17,6 +18,11 @@ void SnowBall::Deserialize(const json11::Json& jsonObj)
 	}
 	//煙テクスチャ
 	m_trailSmoke.SetTexture(ResFac.GetTexture("Data/Texture/smokeline2.png"));
+
+	for (UINT i = 0; i < 30; i++)
+	{
+		particleSnow[i] = std::make_shared< Particle>();
+	}
 }
 
 void SnowBall::Update()
@@ -27,6 +33,20 @@ void SnowBall::Update()
 	{
 		Destroy();
 	}	
+
+	frame++;
+	if (frame % 5 == 0) {
+		static const std::string filename = "Data/Somke.png";
+		particleSnow[count]->SetTextureFile(filename);
+		particleSnow[count]->SetShowTime(15);
+		particleSnow[count]->SetSize(0.1f);
+		particleSnow[count]->SetMove(0.05f, 0.05f, 0.03f, 0.05f);
+		particleSnow[count]->Deserialize(ResFac.GetJSON("Data/Scene/Particle.json"));
+		particleSnow[count]->SetMatrix(m_mWorld);
+
+		Scene::GetInstance().AddObject(particleSnow[count]);
+		count++;
+	}
 	
 	Vec3 move = m_mWorld.GetAxisZ();
 	move.Normalize();
@@ -42,10 +62,9 @@ void SnowBall::Update()
 	UpdateCollision();
 
 	//軌跡の更新
-	UpdateTrail();
+	//UpdateTrail();
 }
 
-#include"../Scene.h"
 #include"Human.h"
 #include"Enemy.h"
 void SnowBall::UpdateCollision()
@@ -118,7 +137,12 @@ void SnowBall::UpdateCollision()
 #include"../../Game/AnimationEffect.h"
 void SnowBall::ParticleEffect()
 {
+	static const std::string filename = "Data/White.png";
 	std::shared_ptr<Particle> particle = std::make_shared< Particle>();
+	particle->SetTextureFile(filename);
+	particle->SetShowTime(30);
+	particle->SetSize(0.5f);
+	particle->SetMove(0.3f, 0.3f,0.2f,0.2f);
 	particle->Deserialize(ResFac.GetJSON("Data/Scene/Particle.json"));
 	particle->SetMatrix(m_mWorld);
 

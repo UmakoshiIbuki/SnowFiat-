@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include"../GameObject.h"
 
+class Particle;
+
 class SnowBall : public GameObject
 {
 public:
@@ -30,4 +32,10 @@ private:
 
 	TrailPolygon m_trailSmoke;
 	float m_trailRotate = 0.0f;
+	int frame = 0;
+
+	std::shared_ptr<Particle> particleSnow[30];
+
+	int count = 0;
+
 };

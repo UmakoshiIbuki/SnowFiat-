@@ -85,7 +85,7 @@ void ActionGameProcess::Draw2D()
 		//時間経過で暗くなる
 		if (SHADER.m_cb8_Light.Work().DL_Color.x > 1)
 		{
-			static const Math::Vector3 a = { 0.009,0.009,0.009 };
+			static const Math::Vector3 a = { 0.00,0.00,0.00 };
 			SHADER.m_cb8_Light.Work().DL_Color -= a;
 			copy = SHADER.m_cb8_Light.Work().DL_Color;
 		}

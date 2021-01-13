@@ -62,7 +62,7 @@ void Title::Update()
 			{
 				flg = true;
 				m_canChange = false;
-				Scene::GetInstance().RequestChangeScene("Data/Scene/Result.json");
+				Scene::GetInstance().RequestChangeScene("Data/Scene/CarPark.json");
 
 			}
 		}

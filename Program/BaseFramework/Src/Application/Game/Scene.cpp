@@ -119,7 +119,7 @@ void Scene::Update()
 
 	if (m_editorCameraEnable)
 	{
-		m_camera.Updata();
+		m_camera.Update();
 	}
 
 

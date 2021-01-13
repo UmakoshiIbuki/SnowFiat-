@@ -40,25 +40,37 @@
       "ClassName": "Lamp",
       "Name": "Lamp01",
       "ModelFileName": "Data/StageMap/Lamp.gltf",
-      "Pos": [ -15, -0.9, 5 ]
+      "Pos": [ -15, -0.9, 5 ],
+      "Color": [ 50, 50, 50 ],
+      "LightPower": 6,
+      "LightPosY": 4.7
     },
     {
       "ClassName": "Lamp",
       "Name": "Lamp02",
       "ModelFileName": "Data/StageMap/Lamp.gltf",
-      "Pos": [ 0, -0.9, 15 ]
+      "Pos": [ 0, -0.9, 15 ],
+      "Color": [ 50, 50, 50 ],
+      "LightPower": 6,
+      "LightPosY": 4.7
     },
     {
       "ClassName": "Lamp",
       "Name": "Lamp03",
       "ModelFileName": "Data/StageMap/Lamp.gltf",
-      "Pos": [ 15, -0.9, 5 ]
+      "Pos": [ 15, -0.9, 5 ],
+      "Color": [ 50, 50, 50 ],
+      "LightPower": 6,
+      "LightPosY": 4.7
     },
     {
       "ClassName": "Lamp",
       "Name": "Lamp04",
       "ModelFileName": "Data/StageMap/Lamp.gltf",
-      "Pos": [ 0, -0.9, -15 ]
+      "Pos": [ 0, -0.9, -15 ],
+      "Color": [ 50, 50, 50 ],
+      "LightPower": 6,
+      "LightPosY": 4.7
     },
     {
       "ClassName": "Bench",
@@ -102,7 +114,7 @@
       "Tag": 4,
       "ModelFileName": "Data/Box/Box2.gltf",
       "Pos": [ 0, 1.2, 3 ],
-      "MoveTo": [ 0, 10, 0 ],
+      "MoveTo": [ 0, 20, 0 ],
       "Speed": 0.01
     }
   ]

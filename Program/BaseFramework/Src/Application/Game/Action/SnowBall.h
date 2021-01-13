@@ -34,7 +34,7 @@ private:
 	float m_trailRotate = 0.0f;
 	int frame = 0;
 
-	std::shared_ptr<Particle> particleSnow[30];
+	std::shared_ptr<Particle> particleSnow[200];
 
 	int count = 0;
 

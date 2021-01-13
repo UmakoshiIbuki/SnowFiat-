@@ -11,4 +11,7 @@ public:
 
 private:
 	float m_light = 0;
+	float m_lightPower = 0;
+
+	Vec3  m_color = { 0.0f,0.0f,0.0f };
 };

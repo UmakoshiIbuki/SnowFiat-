@@ -6,7 +6,7 @@ public:
 	EditorCamera();		//コンストラクタ
 	~EditorCamera();	//デストラクタ
 
-	void Updata();		//更新
+	void Update();		//更新
 	void SetToShader();	//view行列・射影表列をシェーダーセット
 
 private:

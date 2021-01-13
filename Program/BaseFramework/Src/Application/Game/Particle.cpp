@@ -40,7 +40,7 @@ void Particle::UpdateParticle(PARTICLE* p)
 	p->mPosY += p->mMoveY;
 	m_g += m_gravity;
 
-	p->mPosY -= m_g/50;
+	p->mPosY -= m_g/100;
 	//行列作成
 	Matrix matPos, matSize;
 

@@ -1,0 +1,64 @@
+{
+  "GameObjects": [
+
+    {
+      "ClassName": "GameObject",
+      "Name": "StageMap",
+      "Tag": 4,
+      "ModelFileName": "Data/StageMap/CarPark.gltf",
+      "Pos": [ 1, -4, 1 ],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
+      "ClassName": "Human",
+      "Name": "PlayerHuman",
+      "Tag": 3,
+      "ModelFileName": "Data/Human/SnowMan.gltf",
+      "Pos": [ -9, 10, 12 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 0, 0 ]
+    },
+    {
+      "ClassName": "Enemy",
+      "Name": "Enemy00",
+      "Tag": 17,
+      "ModelFileName": "Data/Human/SnowMan.gltf",
+      "Pos": [ 5, 0, 6 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 180, 0 ]
+    },
+    {
+      "ClassName": "Enemy",
+      "Name": "Enemy01",
+      "Tag": 17,
+      "ModelFileName": "Data/Human/SnowMan.gltf",
+      "Pos": [ 0, -0.9, -15 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 180, 0 ]
+    },
+    {
+      "ClassName": "ActionGameProcess",
+      "Name": "GameProcess",
+      "Time": 60
+    },
+    {
+      "ClassName": "Lift",
+      "Name": "Lift00",
+      "Tag": 4,
+      "ModelFileName": "Data/Box/Box2.gltf",
+      "Pos": [ 0, 1.2, 3 ],
+      "MoveTo": [ 0, 10, 0 ],
+      "Speed": 0.01
+    },
+    {
+      "ClassName": "Lamp",
+      "Name": "Lamp02",
+      "ModelFileName": "Data/StageMap/Light.gltf",
+      "Pos": [ -8, 11, 12 ],
+      "Scale": [ 0.3, 0.3, 0.3 ],
+      "Color": [ 50, 50, 0 ],
+      "LightPower": 7,
+      "LightPosY": 3
+    }
+  ]
+}

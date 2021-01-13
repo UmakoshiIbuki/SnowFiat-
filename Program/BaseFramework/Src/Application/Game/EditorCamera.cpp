@@ -17,7 +17,7 @@ EditorCamera::~EditorCamera()
 {
 }
 
-void EditorCamera::Updata()
+void EditorCamera::Update()
 {
 	POINT nowPos;
 	GetCursorPos(&nowPos);

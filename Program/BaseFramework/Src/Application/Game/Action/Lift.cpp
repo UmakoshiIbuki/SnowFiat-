@@ -1,5 +1,6 @@
 ﻿#include "Lift.h"
 #include"Human.h"
+#include"../Scene.h"
 
 void Lift::Deserialize(const json11::Json& jsonObj)
 {
@@ -19,6 +20,8 @@ void Lift::Deserialize(const json11::Json& jsonObj)
 	{
 		m_speed = jsonObj["Speed"].number_value();
 	}
+	m_sphuman = Scene::GetInstance().FindObjectWithName("PlayerHuman");
+
 }
 
 void Lift::Update()
@@ -31,8 +34,14 @@ void Lift::Update()
 	Vec3 vTo = vGoal - vStart;//ゴール地点のベクトル
 	Vec3 vNow = vStart + vTo * sin(easeInOut(m_progress));//進行具合を加味して座標を求める
 
-	m_mWorld.SetTranslation(vNow);
-	//進行具合の更新
-	m_progress += m_speed;
+	//m_mWorld.SetTranslation(vNow);
 
+	if ((m_sphuman->GetMatrix().GetTranslation().y - m_mWorld.GetTranslation().y)==1)
+	{
+		//進行具合の更新
+		//m_progress += m_speed;
+		m_posY += m_speed;
+		m_mWorld.SetTranslation(m_mWorld.GetTranslation().x,m_posY,m_mWorld.GetTranslation().z);
+
+	}
 }

@@ -19,7 +19,7 @@ void SnowBall::Deserialize(const json11::Json& jsonObj)
 	//煙テクスチャ
 	m_trailSmoke.SetTexture(ResFac.GetTexture("Data/Texture/smokeline2.png"));
 
-	for (UINT i = 0; i < 30; i++)
+	for (UINT i = 0; i < 200; i++)
 	{
 		particleSnow[i] = std::make_shared< Particle>();
 	}
@@ -35,10 +35,10 @@ void SnowBall::Update()
 	}	
 
 	frame++;
-	if (frame % 5 == 0) {
+	 {
 		static const std::string filename = "Data/Somke.png";
 		particleSnow[count]->SetTextureFile(filename);
-		particleSnow[count]->SetShowTime(15);
+		particleSnow[count]->SetShowTime(20);
 		particleSnow[count]->SetSize(0.1f);
 		particleSnow[count]->SetMove(0.05f, 0.05f, 0.03f, 0.05f);
 		particleSnow[count]->Deserialize(ResFac.GetJSON("Data/Scene/Particle.json"));

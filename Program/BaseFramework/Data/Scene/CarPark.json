@@ -39,16 +39,27 @@
     {
       "ClassName": "ActionGameProcess",
       "Name": "GameProcess",
-      "Time": 60
+      "Time": 600,
+      "TimeShow": [ 0, 9, 9 ]
     },
     {
       "ClassName": "Lift",
       "Name": "Lift00",
       "Tag": 4,
       "ModelFileName": "Data/Box/Box2.gltf",
-      "Pos": [ 0, 1.2, 3 ],
+      "Pos": [ 45, 9.5, -15 ],
       "MoveTo": [ 0, 10, 0 ],
       "Speed": 0.01
+    },
+    {
+      "ClassName": "Lamp",
+      "Name": "Lamp01",
+      "ModelFileName": "Data/StageMap/Light.gltf",
+      "Pos": [ -7, 11, 12 ],
+      "Scale": [ 0.3, 0.3, 0.3 ],
+      "Color": [ 50, 50, 0 ],
+      "LightPower": 10,
+      "LightPosY": 3
     },
     {
       "ClassName": "Lamp",
@@ -57,7 +68,7 @@
       "Pos": [ -8, 11, 12 ],
       "Scale": [ 0.3, 0.3, 0.3 ],
       "Color": [ 50, 50, 0 ],
-      "LightPower": 7,
+      "LightPower": 10,
       "LightPosY": 3
     }
   ]

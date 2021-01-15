@@ -106,7 +106,8 @@
     {
       "ClassName": "ActionGameProcess",
       "Name": "GameProcess",
-      "Time": 60
+      "Time": 10,
+      "TimeShow": [ 0, 6, 0 ]
     },
     {
       "ClassName": "Lift",

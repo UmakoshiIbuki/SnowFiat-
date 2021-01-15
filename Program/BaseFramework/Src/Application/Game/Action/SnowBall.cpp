@@ -36,7 +36,7 @@ void SnowBall::Update()
 
 	frame++;
 	 {
-		static const std::string filename = "Data/Somke.png";
+		static const std::string filename = "Data/SnowCrystal.png";
 		particleSnow[count]->SetTextureFile(filename);
 		particleSnow[count]->SetShowTime(20);
 		particleSnow[count]->SetSize(0.1f);

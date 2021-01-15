@@ -82,7 +82,7 @@ public:
 		// 平行光
 		Math::Vector3		DL_Dir = { 0.5f,-1,0 };    // 光の方向
 		float					tmp2;
-		Math::Vector3		DL_Color = { 3,3,5 };  // 光の色
+		Math::Vector3		DL_Color = { 5,5,5 };  // 光の色
 		float					tmp3;
 		Matrix            DL_mLightVP;        // ライトカメラのビュー行列*射影行列
 

@@ -36,7 +36,7 @@ void Lift::Update()
 
 	//m_mWorld.SetTranslation(vNow);
 
-	if ((m_sphuman->GetMatrix().GetTranslation().y - m_mWorld.GetTranslation().y)==1)
+	if ((m_sphuman->GetMatrix().GetTranslation().y - m_mWorld.GetTranslation().y)>0.5)
 	{
 		//進行具合の更新
 		//m_progress += m_speed;

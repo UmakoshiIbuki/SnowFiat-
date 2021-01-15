@@ -16,17 +16,28 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonObj)
 
 	m_sphuman = Scene::GetInstance().FindObjectWithName("PlayerHuman");
 
+	//プレイ時間
 	if (jsonObj["Time"].is_null() == false)
 	{
 		time = jsonObj["Time"].int_value();
 	}
 
+	//プレイ時間
+	const std::vector<json11::Json>& TimeNumber = jsonObj["TimeShow"].array_items();
+	if (TimeNumber.size() == 3)
+	{
+		m_TimeMinutes = (int)TimeNumber[1].number_value();
+		m_TimeSeconds = (int)TimeNumber[2].number_value();
+	}
+
+	//雪を集める時のエフェクト
 	for (UINT i = 0; i < SnouNum; i++)
 	{
 		m_SnowMat[i].SetTranslation(RND * 1280 - 640, RND * 720 - 360, 1);
 		pos[i] = m_SnowMat[i].GetTranslation();
 	}
 
+	//雪の降るエフェクト
 	for (UINT i = 0; i < 10; i++)
 	{
 		falleffect[i] = std::make_shared< AinmationEffect>();
@@ -152,106 +163,106 @@ void ActionGameProcess::Update()
 		m_TimeSeconds = 9;
 		m_TimeMinutes--;
 	}
-	Time(m_TimeSeconds, m_TimeMinutes);
+	Time(m_TimeMinutes, m_TimeSeconds);
 }
 
-void ActionGameProcess::CrystaCount(int seconds, int minutes)
-{
-	switch (seconds)
-	{
-	case 0:
-		s = "0";
-		m_spCrystalsOncePlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
-		break;
-	case 1:
-		s = "1";
-		m_spCrystalsOncePlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
-		break;
-	case 2:
-		s = "2";
-		m_spCrystalsOncePlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
-		break;
-	case 3:
-		s = "3";
-		m_spCrystalsOncePlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
-		break;
-	case 4:
-		s = "4";
-		m_spCrystalsOncePlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
-		break;
-	case 5:
-		s = "5";
-		m_spCrystalsOncePlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
-		break;
-	case 6:
-		s = "6";
-		m_spCrystalsOncePlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
-		break;
-	case 7:
-		s = "7";
-		m_spCrystalsOncePlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
-		break;
-	case 8:
-		s = "8";
-		m_spCrystalsOncePlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
-		break;
-	case 9:
-		s = "9";
-		m_spCrystalsOncePlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
-		break;
-	}
-
-	switch (minutes)
-	{
-	case 0:
-		s = "0";
-		m_spCrystalsTenthPlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
-		break;
-	case 1:
-		s = "1";
-		m_spCrystalsTenthPlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
-		break;
-	case 2:
-		s = "2";
-		m_spCrystalsTenthPlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
-		break;
-	case 3:
-		s = "3";
-		m_spCrystalsTenthPlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
-		break;
-	case 4:
-		s = "4";
-		m_spCrystalsTenthPlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
-		break;
-	case 5:
-		s = "5";
-		m_spCrystalsTenthPlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
-		break;
-	case 6:
-		s = "6";
-		m_spCrystalsTenthPlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
-		break;
-	case 7:
-		s = "7";
-		m_spCrystalsTenthPlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
-		break;
-	case 8:
-		s = "8";
-		m_spCrystalsTenthPlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
-		break;
-	case 9:
-		s = "9";
-		m_spCrystalsTenthPlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
-		break;
-	}
-}
-
-void ActionGameProcess::Time(int one, int ten)
+void ActionGameProcess::CrystaCount(int one, int ten)
 {
 	switch (one)
 	{
 	case 0:
 		s = "0";
+		m_spCrystalsOncePlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 1:
+		s = "1";
+		m_spCrystalsOncePlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 2:
+		s = "2";
+		m_spCrystalsOncePlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 3:
+		s = "3";
+		m_spCrystalsOncePlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 4:
+		s = "4";
+		m_spCrystalsOncePlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 5:
+		s = "5";
+		m_spCrystalsOncePlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 6:
+		s = "6";
+		m_spCrystalsOncePlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 7:
+		s = "7";
+		m_spCrystalsOncePlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 8:
+		s = "8";
+		m_spCrystalsOncePlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 9:
+		s = "9";
+		m_spCrystalsOncePlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	}
+
+	switch (ten)
+	{
+	case 0:
+		s = "0";
+		m_spCrystalsTenthPlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 1:
+		s = "1";
+		m_spCrystalsTenthPlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 2:
+		s = "2";
+		m_spCrystalsTenthPlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 3:
+		s = "3";
+		m_spCrystalsTenthPlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 4:
+		s = "4";
+		m_spCrystalsTenthPlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 5:
+		s = "5";
+		m_spCrystalsTenthPlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 6:
+		s = "6";
+		m_spCrystalsTenthPlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 7:
+		s = "7";
+		m_spCrystalsTenthPlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 8:
+		s = "8";
+		m_spCrystalsTenthPlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 9:
+		s = "9";
+		m_spCrystalsTenthPlace = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	}
+}
+
+void ActionGameProcess::Time(int minutes, int seconds)
+{
+	switch (seconds)
+	{
+	case 0:
+		s = "0";
 		m_spTimeSeconds = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 1:
@@ -292,7 +303,7 @@ void ActionGameProcess::Time(int one, int ten)
 		break;
 	}
 
-	switch (ten)
+	switch (minutes)
 	{
 	case 0:
 		s = "0";

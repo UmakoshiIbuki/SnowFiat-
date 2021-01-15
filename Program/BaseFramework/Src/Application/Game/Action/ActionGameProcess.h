@@ -13,9 +13,9 @@ public:
 
 	void Update() override;
 
-	void Time(int one, int ten);
+	void Time(int seconds, int minutes);
 
-	void CrystaCount(int seconds, int minutes);
+	void CrystaCount(int one , int ten);
 	int GetTen() { return m_CrystalsTenthPlace; }
 	int GetOne() { return m_CrystalsOncePlace; }
 

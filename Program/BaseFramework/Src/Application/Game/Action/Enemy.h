@@ -57,7 +57,7 @@ private:
 
 	float		m_speed = 0.2f;			//移動スピード
 
-	float		m_charge = 10.0f;		//雪玉のリロード
+	float		m_charge = 0.0f;		//雪玉のリロード
 	bool        m_canShoot;				//発射可能かどうか
 	bool		m_makeWall;
 	bool CanShoot();
@@ -83,9 +83,12 @@ private:
 
 	int m_RespawnTime = 0;
 
+	float posY;
+
 	KdAnimator m_animator;
 
 	float       m_jumpPow = 0.2f;
+	int         m_cnt = 0;
 
 	std::weak_ptr<GameObject>m_wpTarget;
 

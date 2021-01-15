@@ -8,7 +8,7 @@
 #include"../../Component//InputComponent.h"
 
 const float Enemy::s_allowToStepHeight=0.8f;
-const float Enemy::s_landingHeight=0.5f;
+const float Enemy::s_landingHeight=0.1f;
 
 void Enemy::Deserialize(const json11::Json& jsonObj)
 {	
@@ -86,8 +86,9 @@ void Enemy::Update()
 
 	if (m_canTrace)
 	{
-		m_force = m_mWorld.GetTranslation();
 		Trace();
+		m_force = m_mWorld.GetTranslation();
+
 	}
 	else
 	{
@@ -167,9 +168,11 @@ void Enemy::Trace()
 	m_mWorld.Scale(m_scale.x, m_scale.y, m_scale.z);
 	m_mWorld.SetTranslation(copyMat.GetTranslation());
 	m_pos = Dir * 0.02f;
-	if(m_pos.y<0){m_pos.y = 0;}
-	m_mWorld.Move(m_pos);
-	//m_mWorld._42 = -0.7f;
+	if(m_pos.y>0.0f){ m_pos.y = 0;}
+	posY -= m_gravity;
+
+	if (m_mWorld.GetTranslation().y < -0.67f) { posY = 0; }
+	m_mWorld.Move(m_pos.x,posY, m_pos.z);
 }
 
 void Enemy::UpdateShoot()
@@ -305,11 +308,15 @@ void Enemy::UpdateCollision()
 		{
 			if (obj->HitCheckBySphere(sInfo))
 			{
+				if (m_cnt > 3) {  return; }
+				m_cnt++;
 				//M = obj->GetMatrix();
-				m_canTrace=true;
+				m_canTrace =true;
+				m_mWorld._42 += m_jumpPow;
 			}
 			else {
 				m_canTrace = false;
+				m_cnt = 0;
 			}
 		}
 	}
@@ -332,8 +339,8 @@ void Enemy::CheckBump()
 	SphereInfo info;
 
 	info.m_pos = m_mWorld.GetTranslation();		//中心点キャラクターの位置
-	info.m_pos.y += 0.4f;	//キャラクターのぶつかり判定をするので、ちょっと上に持ち上げる
-	info.m_radius = 0.3f;	//キャラクターの大きさに合わせて半径サイズもいい感じに設定する
+	info.m_pos.y += 0.8f;	//キャラクターのぶつかり判定をするので、ちょっと上に持ち上げる
+	info.m_radius = 0.4f;	//キャラクターの大きさに合わせて半径サイズもいい感じに設定する
 
 	Scene::GetInstance().AddDebugSphereLine(info.m_pos, info.m_radius, { 1.0f,1.0f,1.0f,1.0f });
 

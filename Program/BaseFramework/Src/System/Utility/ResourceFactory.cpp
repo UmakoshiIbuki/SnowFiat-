@@ -80,6 +80,29 @@ json11::Json ResourceFactory::GetJSON(const std::string& filename)
 	}
 }
 
+std::shared_ptr<KdSoundEffect> ResourceFactory::GetSound(const std::string& filename)
+{
+	//filenameのモデルがあるか？
+	auto itFound = m_soundMap.find(filename);
+	//ない場合
+	if (itFound == m_soundMap.end())
+	{
+		std::wstring wFilename = sjis_to_wide(filename);
+		auto newSound = std::make_shared<KdSoundEffect>();
+		if (!newSound->Load(filename))
+		{
+			return nullptr;
+		}
+		m_soundMap[filename] = newSound;
+		return newSound;
+	}
+	//ある場合
+	else
+	{
+		return (*itFound).second;
+	}
+}
+
 //Json読み込み
 inline json11::Json ResourceFactory::LoadJSON(const std::string& filename)
 {

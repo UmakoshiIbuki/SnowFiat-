@@ -17,18 +17,24 @@ public:
 	//Json取得
 	json11::Json GetJSON(const std::string& filename);
 
+	std::shared_ptr<KdSoundEffect>GetSound(const std::string& filename);
+
 	//管理を破棄する
 	void Clear()
 	{
 		m_modelMap.clear();
 		m_texMap.clear();
 		m_jsonMap.clear();
+
+		m_soundMap.clear();
 	}
 
 private:
 
 	//Json読み込み
 	json11::Json LoadJSON(const std::string& filename);
+
+	std::unordered_map<std::string, std::shared_ptr<KdSoundEffect>>m_soundMap;
 
 	//モデルデータ管理マップ
 	std::unordered_map<std::string, std::shared_ptr<KdModel>>m_modelMap;

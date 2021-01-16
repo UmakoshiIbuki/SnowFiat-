@@ -43,5 +43,7 @@
 // ウィンドウ
 #include "Window/KdWindow.h"
 
+#include"Audio/myAudio.h"
+
 //リソース管理
 #include"Utility/ResourceFactory.h"

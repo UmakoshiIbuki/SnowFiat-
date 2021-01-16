@@ -92,9 +92,7 @@ public:
 
 private:
 
-	std::unique_ptr<DirectX::AudioEngine>            m_audioEng = nullptr;
-	std::unique_ptr<DirectX::SoundEffect>            m_soundEffect;
-	std::unique_ptr<DirectX::SoundEffectInstance>    m_instance ;
+	bool m_canPlaySE = false;
 
 	float whiteness = 0.0f;
 

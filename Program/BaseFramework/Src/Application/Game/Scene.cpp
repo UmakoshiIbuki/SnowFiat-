@@ -53,32 +53,8 @@ void Scene::Init()
 
 	DirectX::AUDIO_ENGINE_FLAGS eflags = DirectX::AudioEngine_EnvironmentalReverb | DirectX::AudioEngine_ReverbUseFilters;
 
-	m_audioEng = std::make_unique<DirectX::AudioEngine>(eflags);
-	m_audioEng->SetReverb(DirectX::Reverb_Default);
 
-	if (m_audioEng != nullptr)
-	{
-		try
-		{
-			std::wstring wFilename = sjis_to_wide("Data/Audio/BGM/loop100302.wav");
-			m_soundEffect = std::make_unique<DirectX::SoundEffect>(m_audioEng.get(), wFilename.c_str());
-		}
-		catch (...)
-		{
-			assert(0 && "Sound File Load Error");
-		}
-	}
-
-	if (m_soundEffect != nullptr)
-	{
-		DirectX::SOUND_EFFECT_INSTANCE_FLAGS flags = DirectX::SoundEffectInstance_Default;
-
-		m_instance = m_soundEffect->CreateInstance(flags);
-		if (m_instance)
-		{
-			m_instance->Play();
-		}
-	}
+	KD_AUDIO.Init();
 
 	Deserialize();
 }
@@ -92,8 +68,7 @@ void Scene::Release()
 {
 	m_spobjects.clear();
 
-	m_audioEng = nullptr;
-	m_instance = nullptr;
+	KD_AUDIO.Relese();
 }
 
 //更新
@@ -149,10 +124,19 @@ void Scene::Update()
 		ExecChangeScene();
 	}
 
-	if (m_audioEng == nullptr)
+	KD_AUDIO.Update();
+	if (GetAsyncKeyState('Z'))
 	{
-		m_audioEng->Update();
+		if (m_canPlaySE)
+		{
+			KD_AUDIO.Play("Data/Audio/SE/ItemGet.wav", true);
+			m_canPlaySE = false;
+		}
 	}
+	else {
+		m_canPlaySE = true;
+	}
+
 }
 
 //描画

@@ -181,6 +181,7 @@
     <ClInclude Include="Src\Application\Game\Particle.h" />
     <ClInclude Include="Src\Application\Game\Scene.h" />
     <ClInclude Include="Src\Application\main.h" />
+    <ClInclude Include="Src\System\Audio\myAudio.h" />
     <ClInclude Include="src\System\Direct3D\KdDirect3D.h" />
     <ClInclude Include="Src\System\Direct3D\KdGLTFLoader.h" />
     <ClInclude Include="src\System\Direct3D\KdBuffer.h" />
@@ -193,6 +194,7 @@
     <ClInclude Include="Src\System\Math\Collision.h" />
     <ClInclude Include="Src\System\Math\KdAnimation.h" />
     <ClInclude Include="Src\System\Math\Math.h" />
+    <ClInclude Include="Src\System\MySoundManager\SoundManager.h" />
     <ClInclude Include="Src\System\Shader\EffectShader\KdEffectShader.h" />
     <ClInclude Include="Src\System\Shader\GenerateShadowMapShader\KdGenerateShadowMapShader.h" />
     <ClInclude Include="Src\System\Shader\KdPostProcessShader\KdPostProcessShader.h" />
@@ -239,6 +241,7 @@
     <ClCompile Include="Src\Application\Game\Particle.cpp" />
     <ClCompile Include="Src\Application\Game\Scene.cpp" />
     <ClCompile Include="Src\Application\main.cpp" />
+    <ClCompile Include="Src\System\Audio\myAudio.cpp" />
     <ClCompile Include="src\System\Direct3D\KdDirect3D.cpp" />
     <ClCompile Include="Src\System\Direct3D\KdGLTFLoader.cpp" />
     <ClCompile Include="src\System\Direct3D\KdBuffer.cpp" />
@@ -253,6 +256,7 @@
     <ClCompile Include="Src\System\Direct3D\TrailPolygon.cpp" />
     <ClCompile Include="Src\System\Math\Collision.cpp" />
     <ClCompile Include="Src\System\Math\KdAnimation.cpp" />
+    <ClCompile Include="Src\System\MySoundManager\SoundManager.cpp" />
     <ClCompile Include="Src\System\Shader\EffectShader\KdEffectShader.cpp" />
     <ClCompile Include="Src\System\Shader\GenerateShadowMapShader\KdGenerateShadowMapShader.cpp" />
     <ClCompile Include="Src\System\Shader\KdPostProcessShader\KdPostProcessShader.cpp" />

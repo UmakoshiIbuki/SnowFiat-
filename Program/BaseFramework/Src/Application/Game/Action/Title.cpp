@@ -19,6 +19,9 @@ void Title::Deserialize(const json11::Json& jsonObj)
 	m_Select002Pos.x = 200;
 	m_Select002Pos.y = -270;
 
+	KD_AUDIO.Init();
+	KD_AUDIO.Play("Data/Audio/BGM/loop100302.wav", true);
+
 }
 
 void Title::Update()
@@ -62,8 +65,8 @@ void Title::Update()
 			{
 				flg = true;
 				m_canChange = false;
+				KD_AUDIO.Relese();
 				Scene::GetInstance().RequestChangeScene("Data/Scene/CarPark.json");
-
 			}
 		}
 		else { m_canChange = true; }

@@ -51,6 +51,8 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonObj)
 	}
 	m_spSnow = ResFac.GetTexture("Data/White.png");
 
+	//KD_AUDIO.Play("Data/Audio/BGM/loop100315.wav", true);
+	
 	time = time * 60;
 }
 

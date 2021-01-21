@@ -6,8 +6,6 @@
 
 void SnowBall::Deserialize(const json11::Json& jsonObj)
 {
-	m_lifeSpan = APP.m_maxFps * 20;
-
 	if (jsonObj.is_null()) { return; }
 
 	GameObject::Deserialize(jsonObj);
@@ -52,7 +50,7 @@ void SnowBall::Update()
 	move.Normalize();
 	m_speed *= 0.98;
 	move *= m_speed;
-	m_gravity += 0.01f;
+	m_gravity += 0.005f;
 	move.y -= m_gravity;
 	// 移動前の座標を覚える
 	m_prevPos = m_mWorld.GetTranslation();

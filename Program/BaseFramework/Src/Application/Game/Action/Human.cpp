@@ -33,7 +33,7 @@ void Human::Deserialize(const json11::Json& jsonObj)
 	
 	m_spActionState = std::make_shared<ActionWait>();
 	m_pos = m_mWorld.GetTranslation();
-
+	m_gravity = 0.008;
 }
 
 void Human::Update()
@@ -329,8 +329,14 @@ void Human::CheckBump()
 		if (obj.get() == this) { continue; }
 
 		SphereResult Result;
-
-		if (obj->HitCheckBySphereVsMesh(info, Result))
+		if (obj->GetTag() == TAG_Spring)
+		{
+			if (obj->HitCheckBySphereVsMesh(info, Result))
+			{
+				m_force.y += 0.3;
+			}
+		}
+		else if (obj->HitCheckBySphereVsMesh(info, Result))
 		{
 			m_pos.Move(Result.m_push);
 		}
@@ -411,7 +417,6 @@ void Human::Draw2D()
 	SnowManager snow;
 	snow.Draw2DHP(m_hp, m_hpScroll);
 	snow.Draw2DTex(m_snow, m_gather);
-
 }
 
 bool Human::IsChangeMove()

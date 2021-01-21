@@ -233,6 +233,37 @@ float GameObject::easeInOut(float progress)
 	return -(cos(M_PI * progress) - 1) * 0.5f;
 }
 
+float GameObject::easeOutBack(float progress)
+{
+	const float c1 = 1.70158;
+	const float c3 = c1 + 1;
+
+	return 1 + c3 * pow(progress - 1, 3) + c1 * pow(progress - 1, 2);
+}
+
+float GameObject::easeInBack(float progress)
+{
+	const float c1 = 1.70158;
+	const float c3 = c1 + 1;
+
+	return c3 * progress * progress * progress - c1 * progress * progress;
+}
+
+float easeInOutBack(float progress)
+{
+const float c1 = 1.70158;
+const float c2 = c1 * 1.525;
+
+return progress < 0.5
+  ? (pow(2 * progress, 2) * ((c2 + 1) * 2 * progress - c2)) / 2
+  : (pow(2 * progress - 2, 2) * ((c2 + 1) * (progress * 2 - 2) + c2) + 2) / 2;
+}
+
+float GameObject::easeOutQuart(float progress)
+{
+	return 1 - pow(1 - progress, 4);
+}
+
 void GameObject::Release()
 {
 

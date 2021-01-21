@@ -28,8 +28,7 @@ private:
 
 	//キャラクターの移動関係//////////////////////////////////////////////////////////////////
 	void UpdateMove();							//移動更新処理
-	void UpdateRotate(const Vec3& rMoveDir);    //操作やキャラクターの行動による回転計算
-	float		m_movespeed = 0.05f;				//移動スピード
+	float		m_movespeed = 0.02f;				//移動スピード
 	Vec3		m_pos;
 	Vec3		m_force;						//キャラクターにかかる力
 	Vec3		m_rot;						    //ワールド行列の回転角度 
@@ -75,7 +74,7 @@ private:
 	std::shared_ptr<KdTexture> m_spHpBerTex;		//HPの外側のテクスチャ
 	Matrix					   m_HpMat;			//描画位置
 	int						   m_hpScroll = 0;	//描画位置を合わせる用(位置の調整)	
-
+	
 	bool m_notMove = false;
 	int  m_canMove = 0;//壁を作った時やリロードの間動かなくする用
 
@@ -85,7 +84,7 @@ private:
 	static const float s_landingHeight;			//地面から足が離れていても着地しているとする高さ(坂道などを下るときに宙に浮くのを避ける)
 	
 	int frame = 0;
-	float       m_jumpPow = 0.2f;
+	float       m_jumpPow = 0.1f;
 
 	int m_crystal = 0;
 

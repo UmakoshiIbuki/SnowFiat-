@@ -31,7 +31,9 @@
                 20,
                 21,
                 22,
-                23
+                23,
+                24,
+                25
             ]
         }
     ],
@@ -378,7 +380,7 @@
                 0.7071067690849304
             ],
             "scale" : [
-                33.77109909057617,
+                33.771114349365234,
                 4.79598331451416,
                 0.7519258260726929
             ],
@@ -406,6 +408,34 @@
                 71.01680755615234,
                 9.491235733032227,
                 1.8966712951660156
+            ]
+        },
+        {
+            "mesh" : 24,
+            "name" : "Cube.024",
+            "scale" : [
+                25.015243530273438,
+                1.1244510412216187,
+                7.228474140167236
+            ],
+            "translation" : [
+                -105.76972198486328,
+                48.995704650878906,
+                0.015615030191838741
+            ]
+        },
+        {
+            "mesh" : 25,
+            "name" : "Cube.025",
+            "scale" : [
+                -31.922142028808594,
+                -2.2228267192840576,
+                0.9359224438667297
+            ],
+            "translation" : [
+                7.167023658752441,
+                36.55099105834961,
+                -28.51058578491211
             ]
         }
     ],
@@ -689,6 +719,25 @@
                     0.16513220965862274,
                     0.6795426607131958,
                     0.13013650476932526,
+                    1
+                ],
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.5
+            }
+        },
+        {
+            "doubleSided" : true,
+            "emissiveFactor" : [
+                0,
+                0,
+                0
+            ],
+            "name" : "Material.006",
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0.02172805555164814,
+                    0.0498078353703022,
+                    0.8000000715255737,
                     1
                 ],
                 "metallicFactor" : 0,
@@ -1021,6 +1070,33 @@
                         "TEXCOORD_0" : 76
                     },
                     "indices" : 77
+                }
+            ]
+        },
+        {
+            "name" : "Cube.006",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 78,
+                        "NORMAL" : 79,
+                        "TEXCOORD_0" : 80
+                    },
+                    "indices" : 81,
+                    "material" : 15
+                }
+            ]
+        },
+        {
+            "name" : "Cube.005",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 82,
+                        "NORMAL" : 83,
+                        "TEXCOORD_0" : 84
+                    },
+                    "indices" : 85
                 }
             ]
         }
@@ -1733,6 +1809,74 @@
             "componentType" : 5123,
             "count" : 144,
             "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 78,
+            "componentType" : 5126,
+            "count" : 650,
+            "max" : [
+                1.0825337171554565,
+                1.752777099609375,
+                0.9978398084640503
+            ],
+            "min" : [
+                -1.0491262674331665,
+                -1.7580242156982422,
+                -1.0021601915359497
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 79,
+            "componentType" : 5126,
+            "count" : 650,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 80,
+            "componentType" : 5126,
+            "count" : 650,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 81,
+            "componentType" : 5123,
+            "count" : 1260,
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 82,
+            "componentType" : 5126,
+            "count" : 1691,
+            "max" : [
+                1,
+                1,
+                59.961246490478516
+            ],
+            "min" : [
+                -1,
+                -1,
+                -1
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 83,
+            "componentType" : 5126,
+            "count" : 1691,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 84,
+            "componentType" : 5126,
+            "count" : 1691,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 85,
+            "componentType" : 5123,
+            "count" : 3672,
+            "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
@@ -2125,11 +2269,51 @@
             "buffer" : 0,
             "byteLength" : 288,
             "byteOffset" : 216540
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 7800,
+            "byteOffset" : 216828
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 7800,
+            "byteOffset" : 224628
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 5200,
+            "byteOffset" : 232428
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 2520,
+            "byteOffset" : 237628
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 20292,
+            "byteOffset" : 240148
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 20292,
+            "byteOffset" : 260440
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 13528,
+            "byteOffset" : 280732
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 7344,
+            "byteOffset" : 294260
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 216828,
+            "byteLength" : 301604,
             "uri" : "CarPark.bin"
         }
     ]

@@ -70,6 +70,10 @@ public:
 
 
 	float easeInOut(float progress);
+	float easeOutBack(float progress);
+	float easeInBack(float progress);
+	float easeInOutBack(float progress);
+	float easeOutQuart(float progress);
 
 protected:
 

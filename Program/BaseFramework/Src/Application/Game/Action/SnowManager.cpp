@@ -45,9 +45,6 @@ void SnowManager::Draw2DHP(float f1,int f2)
 	m_HpMat.SetTranslation(Vec3(-400, -280, 0));
 	SHADER.m_spriteShader.SetMatrix(m_HpMat);
 	SHADER.m_spriteShader.DrawTex(m_spHpBerTex.get(), 0, 0);
-
-	
-
 }
 
 void SnowManager::Draw2D()
@@ -64,29 +61,17 @@ void SnowManager::Draw2DRemaining(float snow)
 	SHADER.m_spriteShader.DrawTex(m_spSnowRemainingTex.get(), 0, 0);*/
 }
 
+void SnowManager::DrawTex(std::shared_ptr<KdTexture> TexFile, Vec3 Pos)
+{
+	Matrix mat;
+	mat.SetTranslation(Pos.x-1, Pos.y+2, Pos.z);
+	SHADER.m_spriteShader.SetMatrix(mat);
+	SHADER.m_spriteShader.DrawTex(TexFile.get(), 0, 0);
+}
+
 void SnowManager::Update()
 {
-	////パーティクル更新
-	//for (int i = 0; i < particleNum; i++)
-	//{
-	//	UpdateParticle(&smoke[i]);
-	//}
 	
-}
-
-void SnowManager::EmitParticle(PARTICLE* p, float aPosX, float aPosY, float aMoveX, float aMoveY, int size, int LifeSpan)
-{
-
-}
-
-void SnowManager::UpdateParticle(PARTICLE* p)
-{
-
-}
-
-void SnowManager::DrawParticle(PARTICLE* p)
-{
-
 }
 
 void SnowManager::ChangeTex(float m_snow)

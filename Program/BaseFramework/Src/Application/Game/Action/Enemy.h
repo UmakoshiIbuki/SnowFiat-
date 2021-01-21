@@ -2,6 +2,7 @@
 #include"../GameObject.h"
 
 class Human;
+class AinmationEffect;
 
 class Enemy:public GameObject
 {
@@ -57,7 +58,7 @@ private:
 
 	float		m_speed = 0.2f;			//移動スピード
 
-	float		m_charge = 0.0f;		//雪玉のリロード
+	float		m_charge = 10.0f;		//雪玉のリロード
 	bool        m_canShoot;				//発射可能かどうか
 	bool		m_makeWall;
 	bool CanShoot();
@@ -117,5 +118,8 @@ private:
 		std::shared_ptr<GameObject> m_sphuman;
 	};
 	std::shared_ptr<BaseAction>m_spActionState;
+
+	std::shared_ptr<AinmationEffect> m_spBikkurieffect;
+	Matrix							 m_BikkurieffectMat;
 
 };

@@ -10,12 +10,9 @@ public:
 	void Draw2DHP(float f1,int f2);
 	void Draw2D();
 	void Draw2DRemaining(float snow);
+	void DrawTex(std::shared_ptr<KdTexture> TexFile, Vec3	Pos);
 	void Update()override;
 	
-	void EmitParticle(struct PARTICLE* p, float aPosX, float aPosY, float aMoveX, float aMoveY, int size, int LifeSpan);
-	void UpdateParticle(struct PARTICLE* p);
-	void DrawParticle(struct PARTICLE* p);
-
 private:
 	void ChangeTex(float m_snow);
 	std::shared_ptr<KdTexture> m_spSnowRemainingTex;	//雪玉の残弾数

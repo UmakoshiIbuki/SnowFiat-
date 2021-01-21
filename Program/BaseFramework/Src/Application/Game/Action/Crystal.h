@@ -10,4 +10,5 @@ public:
 	void Update();	
 
 private:
+	Matrix mat;
 };

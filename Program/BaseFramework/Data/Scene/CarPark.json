@@ -70,6 +70,14 @@
       "Color": [ 50, 50, 0 ],
       "LightPower": 10,
       "LightPosY": 3
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Spring",
+      "Tag": 9,
+      "ModelFileName": "Data/StageMap/Light.gltf",
+      "Pos": [ 1, 30, 7 ],
+      "Scale": [ 1, 1, 1 ]
     }
   ]
 }

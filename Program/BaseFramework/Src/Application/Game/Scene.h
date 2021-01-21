@@ -92,6 +92,8 @@ public:
 
 private:
 
+	bool ShowImGui = false;
+
 	bool m_canPlaySE = false;
 
 	float whiteness = 0.0f;

@@ -27,7 +27,7 @@ private:
 	std::weak_ptr<GameObject>m_wpOwner;		//発射したオーナーオブジェクト
 	float m_speed = 0.0f;
 	//float gravity = 0.0f;
-	int	  m_lifeSpan = 0;
+	int	  m_lifeSpan = 50;
 	std::weak_ptr<GameObject>m_wpTarget;
 
 	TrailPolygon m_trailSmoke;

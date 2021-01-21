@@ -137,6 +137,11 @@ void Scene::Update()
 		m_canPlaySE = true;
 	}
 
+	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
+	{
+		ShowImGui = true;
+	}
+
 }
 
 //描画
@@ -155,8 +160,6 @@ void Scene::Draw()
 			spCamera->SetToShader();
 		}
 	}
-
-
 
 	{
 		RestoreRenderTarget rrt;
@@ -322,6 +325,8 @@ void Scene::AddObject(std::shared_ptr<GameObject> spObject)
 
 void Scene::ImGuiUpdate()
 {
+	if (!ShowImGui) { return; }
+
 	auto slectObject = m_wpImguiSelectObj.lock();
 
 	// Graphics Debug

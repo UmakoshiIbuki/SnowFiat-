@@ -112,7 +112,7 @@
     {
       "ClassName": "Lift",
       "Name": "Lift00",
-      "Tag": 4,
+      "Tag": 9,
       "ModelFileName": "Data/Box/Box2.gltf",
       "Pos": [ 0, 1.2, 3 ],
       "MoveTo": [ 0, 20, 0 ],

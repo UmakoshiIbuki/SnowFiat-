@@ -71,6 +71,8 @@ float4 main(VSOutput In) : SV_Target0
 	// 材質の反射色　非金属ほど光の色をそのまま反射し、金属ほど材質の色が乗る
 	const float3 baseSpecular = lerp(0.04, baseColor.rgb, metallic);
 
+	color = g_AmbientLight * baseColor;
+
 	//-------------------------------
 	// シャドウマッピング(影判定)
 	//-------------------------------
@@ -177,6 +179,14 @@ float4 main(VSOutput In) : SV_Target0
 		}
 	}
 
+	//雪シェーダー
+	{
+		//上方向ベクトルと法線ベクトルの角度を求める.
+		float d = dot(float3(0, 1, 0), wN);
+		//上記のベクトル同士の角度が0度に近ければ白を優先、90度に近ければ近いほど元の色を優先.
+		color = lerp(color, float3(1, 1, 1), d * 0.8);
+		//0.8はゲームに合う倍率を入れる
+	}
 
 	//------------------------------------------
 	// 出力

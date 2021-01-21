@@ -109,6 +109,12 @@ void ActionPlayerInputComponent::Update()
 	else { ReleaseButton(Input::Buttons::L1); }
 	if (GetAsyncKeyState(VK_DOWN) & 0x8000) { PushButton(Input::Buttons::R1); }
 	else { ReleaseButton(Input::Buttons::R1); }
+
+	//カーソル固定解除
+	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
+	{
+		m_base = false;
+	}
 	if (m_base)
 	{
 		POINT nowMousePos;

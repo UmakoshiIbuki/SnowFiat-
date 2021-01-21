@@ -64,9 +64,6 @@
     <Filter Include="Src\System\Shader\GenerateShadowMapShader">
       <UniqueIdentifier>{dc5bf4c0-7d72-42a2-a9b1-2c570d8da10a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\System\MySoundManager">
-      <UniqueIdentifier>{a9c576e8-8643-4108-a9e9-2b4384de395a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Src\System\Audio">
       <UniqueIdentifier>{2c63ce95-f186-42ba-8120-5ee6b8c1b28c}</UniqueIdentifier>
     </Filter>
@@ -267,9 +264,6 @@
     <ClInclude Include="Src\Application\Game\Action\Bench.h">
       <Filter>Src\Application\Game\Action</Filter>
     </ClInclude>
-    <ClInclude Include="Src\System\MySoundManager\SoundManager.h">
-      <Filter>Src\System\MySoundManager</Filter>
-    </ClInclude>
     <ClInclude Include="Src\System\Audio\myAudio.h">
       <Filter>Src\System\Audio</Filter>
     </ClInclude>
@@ -436,9 +430,6 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Game\Action\Bench.cpp">
       <Filter>Src\Application\Game\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\System\MySoundManager\SoundManager.cpp">
-      <Filter>Src\System\MySoundManager</Filter>
     </ClCompile>
     <ClCompile Include="Src\System\Audio\myAudio.cpp">
       <Filter>Src\System\Audio</Filter>

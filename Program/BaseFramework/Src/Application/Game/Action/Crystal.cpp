@@ -2,10 +2,12 @@
 #include "Human.h"
 #include "Enemy.h"
 #include "../Scene.h"
+#include"../Particle.h"
 
 void Crystal::Deserialize(const json11::Json& jsonObj)
 {
 	GameObject::Deserialize(jsonObj);
+	mat.SetTranslation(m_mWorld.GetTranslation().x + 1.5, m_mWorld.GetTranslation().y+2,m_mWorld.GetTranslation().z);
 }
 
 void Crystal::UpdateCollision()
@@ -51,5 +53,15 @@ void Crystal::UpdateCollision()
 
 void Crystal::Update()
 {
+	static const std::string filename = "Data/White.png";
+	std::shared_ptr<Particle> particle = std::make_shared< Particle>();
+	particle->SetTextureFile(filename);
+	particle->SetShowTime(30);
+	particle->SetSize(0.5f);
+	particle->SetMove(0.3f, 0.3f, 0.2f, 0.2f);
+	particle->Deserialize(ResFac.GetJSON("Data/Scene/Particle.json"));
+	particle->SetMatrix(mat);
+
+	Scene::GetInstance().AddObject(particle);
 	UpdateCollision();
 }

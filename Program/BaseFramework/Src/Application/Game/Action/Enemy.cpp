@@ -6,6 +6,7 @@
 #include"../../Component//CameraComponent.h"
 #include"../../Component//ModelComponent.h"
 #include"../../Component//InputComponent.h"
+#include"../AnimationEffect.h"
 
 const float Enemy::s_allowToStepHeight=0.8f;
 const float Enemy::s_landingHeight=0.1f;
@@ -29,11 +30,15 @@ void Enemy::Deserialize(const json11::Json& jsonObj)
 	}
 	m_sphuman=Scene::GetInstance().FindObjectWithName("PlayerHuman");
 	
+	m_spBikkurieffect = std::make_shared< AinmationEffect>();
+	Scene::GetInstance().AddObject(m_spBikkurieffect);
+
 	SetAnimation("Walk");
 }
 
 void Enemy::Update()
 {
+
 	if (m_RespawnTime >0)
 	{
 		m_RespawnTime--;
@@ -54,18 +59,13 @@ void Enemy::Update()
 			return;
 		}
 	}
+	if (m_mWorld.GetTranslation().y < -10) { m_hp -= 100; }
 
 	frame++;
 
 	if(m_spInputComponent)
 	{
 		m_spInputComponent->Update();
-	}
-
-	//カーソル固定解除
-	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
-	{
-		m_spInputComponent->m_base=false;
 	}
 
 	if (m_spActionState)
@@ -81,17 +81,22 @@ void Enemy::Update()
 	//SetTarget(m_sphuman->shared_from_this());
 
 	UpdateShoot();
- 
+
 	CheckBump();
 
 	if (m_canTrace)
 	{
 		Trace();
-		m_force = m_mWorld.GetTranslation();
-
+		m_pos = m_mWorld.GetTranslation();
 	}
 	else
 	{
+		
+		m_BikkurieffectMat.SetTranslation(m_mWorld.GetTranslation().x, m_mWorld.GetTranslation().y + 1, m_mWorld.GetTranslation().z);
+		m_spBikkurieffect->SetAnimationInfo(ResFac.GetTexture("Data/Texture/Hatena.png"), 0.4f, 1, 1, 0, 0, 0);
+		m_spBikkurieffect->SetMatrix(m_BikkurieffectMat);
+		
+
 		//重力をキャラクターのYの移動力に加える
 		m_force.y -= m_gravity;
 
@@ -120,7 +125,6 @@ void Enemy::Update()
 	}
 
 	UpdateCollision();
-
 	m_animator.AdvanceTime(m_spModelComponent->GetChangeableNodes());
 
 }
@@ -138,8 +142,6 @@ void Enemy::Damage(int damage)
 {
 	m_hp -= damage;
 	m_force.y = 0.1f;
-
-	//if (m_hp < 10){	m_spActionState = std::make_shared<ActionEscape>();}
 }
 
 bool Enemy::CanShoot()
@@ -157,6 +159,25 @@ bool Enemy::CanMakeWall()
 
 void Enemy::Trace()
 {
+	m_spBikkurieffect->SetAnimationInfo(ResFac.GetTexture("Data/Texture/Bikkuri.png"), 0.4f, 1, 1, 0, 0, 0);
+	m_BikkurieffectMat.SetTranslation(m_mWorld.GetTranslation().x, m_mWorld.GetTranslation().y + 1, m_mWorld.GetTranslation().z);
+	m_spBikkurieffect->SetMatrix(m_BikkurieffectMat);
+
+	//Vec3 Dir = m_sphuman->GetMatrix().GetTranslation() - m_mWorld.GetTranslation();
+
+	//Dir.Normalize();
+	//UpdateRotate(Dir);
+
+	//Matrix copyMat = m_mWorld;
+	//m_mWorld.CreateRotationX(m_rot.x);
+	//m_mWorld.RotateY(m_rot.y);
+	//m_mWorld.Scale(m_scale.x, m_scale.y, m_scale.z);
+	//m_mWorld.SetTranslation(copyMat.GetTranslation());
+	//m_pos = Dir * 0.02f;
+	//posY -= m_gravity;
+	//if (m_pos.y > 0.0f){return;}
+	//if (m_mWorld.GetTranslation().y < -0.67f) { posY = 0; }
+	//m_mWorld.Move(m_pos.x,posY, m_pos.z);
 	Vec3 Dir = m_sphuman->GetMatrix().GetTranslation() - m_mWorld.GetTranslation();
 
 	Dir.Normalize();
@@ -166,13 +187,13 @@ void Enemy::Trace()
 	m_mWorld.CreateRotationX(m_rot.x);
 	m_mWorld.RotateY(m_rot.y);
 	m_mWorld.Scale(m_scale.x, m_scale.y, m_scale.z);
+
 	m_mWorld.SetTranslation(copyMat.GetTranslation());
 	m_pos = Dir * 0.02f;
-	if(m_pos.y>0.0f){ m_pos.y = 0;}
-	posY -= m_gravity;
+	m_pos.y -= m_gravity;
+	if (m_sphuman->GetMatrix().GetTranslation().y > m_mWorld.GetTranslation().y) { m_pos.y = 0; }
 
-	if (m_mWorld.GetTranslation().y < -0.67f) { posY = 0; }
-	m_mWorld.Move(m_pos.x,posY, m_pos.z);
+	m_mWorld.Move(m_pos);
 }
 
 void Enemy::UpdateShoot()
@@ -295,7 +316,6 @@ void Enemy::UpdateCollision()
 {
 	float distanceFromGround = FLT_MAX;
 
-
 	SphereInfo sInfo;
 	sInfo.m_pos = m_mWorld.GetTranslation();
 	sInfo.m_radius = 5.0f;
@@ -308,20 +328,18 @@ void Enemy::UpdateCollision()
 		{
 			if (obj->HitCheckBySphere(sInfo))
 			{
-				if (m_cnt > 3) {  return; }
-				m_cnt++;
+				//if (m_cnt > 3) {  return; }
+				//m_cnt++;
 				//M = obj->GetMatrix();
 				m_canTrace =true;
-				m_mWorld._42 += m_jumpPow;
+				//m_mWorld._42 += m_jumpPow;
 			}
 			else {
 				m_canTrace = false;
-				m_cnt = 0;
+				//m_cnt = 0;
 			}
 		}
 	}
-
-	//Scene::GetInstance().AddDebugSphereLine(m_mWorld.GetTranslation(), 5.0f, { 1.0f,0.0f,0.0f,1.0f });
 
 	//下方向への判定を行い、着地した
 	if (CheckGround(distanceFromGround,TAG_StageObject,m_pos))
@@ -341,8 +359,6 @@ void Enemy::CheckBump()
 	info.m_pos = m_mWorld.GetTranslation();		//中心点キャラクターの位置
 	info.m_pos.y += 0.8f;	//キャラクターのぶつかり判定をするので、ちょっと上に持ち上げる
 	info.m_radius = 0.4f;	//キャラクターの大きさに合わせて半径サイズもいい感じに設定する
-
-	Scene::GetInstance().AddDebugSphereLine(info.m_pos, info.m_radius, { 1.0f,1.0f,1.0f,1.0f });
 
 	for (auto& obj : Scene::GetInstance().GetObjects())
 	{

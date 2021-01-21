@@ -1,0 +1,60 @@
+{
+  "GameObjects": [
+
+    {
+      "ClassName": "GameObject",
+      "Name": "StageMap",
+      "Tag": 4,
+      "ModelFileName": "Data/StageMap/StageBridge.gltf",
+      "Pos": [ 1, -1, 1 ],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Spring",
+      "Tag": 9,
+      "ModelFileName": "Data/StageMap/Light.gltf",
+      "Pos": [ 0, -2, 7 ],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Spring",
+      "Tag": 9,
+      "ModelFileName": "Data/StageMap/Light.gltf",
+      "Pos": [ 1, -2, 7 ],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
+      "ClassName": "Human",
+      "Name": "PlayerHuman",
+      "Tag": 3,
+      "ModelFileName": "Data/Human/SnowMan.gltf",
+      "Pos": [ -9, 5, 12 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 0, 0 ]
+    },
+    {
+      "ClassName": "ActionGameProcess",
+      "Name": "GameProcess",
+      "Time": 100,
+      "TimeShow": [ 0, 6, 0 ]
+    },
+    {
+      "ClassName": "Crystal",
+      "Name": "C",
+      "ModelFileName": "Data/Crystal/Crystal.gltf",
+      "Pos": [ 0, 10, 0 ]
+    },
+    {
+      "ClassName": "Lamp",
+      "Name": "Lamp01",
+      "ModelFileName": "Data/StageMap/Light.gltf",
+      "Pos": [ -10, 1, 6 ],
+      "Scale": [ 0.3, 0.3, 0.3 ],
+      "Color": [ 50, 50, 0 ],
+      "LightPower": 10,
+      "LightPosY": 3
+    }
+  ]
+}

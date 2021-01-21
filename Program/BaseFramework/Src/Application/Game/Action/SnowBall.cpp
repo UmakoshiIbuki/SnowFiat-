@@ -106,6 +106,7 @@ void SnowBall::UpdateCollision()
 			std::shared_ptr<Human> human = std::dynamic_pointer_cast<Human>(obj);
 			if (human)
 			{
+				KD_AUDIO.Play("Data/Audio/SE/swords03.wav", false);
 				human->Damage(10);
 				Scene::GetInstance().SetWhiteIn(20);
 			}
@@ -113,6 +114,8 @@ void SnowBall::UpdateCollision()
 			if (enemy)
 			{
 				enemy->Damage(10);
+				Scene::GetInstance().SetAttackCnt(1);
+
 			}
 		}
 

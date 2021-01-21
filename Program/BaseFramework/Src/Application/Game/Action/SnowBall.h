@@ -38,4 +38,6 @@ private:
 
 	int count = 0;
 
+	int AttackCnt;
+
 };

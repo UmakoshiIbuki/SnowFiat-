@@ -1,6 +1,6 @@
 {
     "asset" : {
-        "generator" : "Khronos glTF Blender I/O v1.0.5",
+        "generator" : "Khronos glTF Blender I/O v1.1.46",
         "version" : "2.0"
     },
     "scene" : 0,
@@ -8,19 +8,64 @@
         {
             "name" : "Scene",
             "nodes" : [
-                0
+                0,
+                1,
+                2
             ]
         }
     ],
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "Cube"
+            "name" : "Cube",
+            "scale" : [
+                -0.15564024448394775,
+                1,
+                1.8601514101028442
+            ],
+            "translation" : [
+                0,
+                2.3703787326812744,
+                0
+            ]
+        },
+        {
+            "name" : "Light",
+            "rotation" : [
+                0.16907575726509094,
+                0.7558803558349609,
+                -0.27217137813568115,
+                0.570947527885437
+            ],
+            "translation" : [
+                4.076245307922363,
+                5.903861999511719,
+                -1.0054539442062378
+            ]
+        },
+        {
+            "name" : "Camera",
+            "rotation" : [
+                0.483536034822464,
+                0.33687159419059753,
+                -0.20870360732078552,
+                0.7804827094078064
+            ],
+            "translation" : [
+                7.358891487121582,
+                4.958309173583984,
+                6.925790786743164
+            ]
         }
     ],
     "materials" : [
         {
             "doubleSided" : true,
+            "emissiveFactor" : [
+                0,
+                0,
+                0
+            ],
             "name" : "Material",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
@@ -40,10 +85,9 @@
                     "attributes" : {
                         "POSITION" : 0,
                         "NORMAL" : 1,
-                        "TEXCOORD_0" : 2,
-                        "COLOR_0" : 3
+                        "TEXCOORD_0" : 2
                     },
-                    "indices" : 4,
+                    "indices" : 3,
                     "material" : 0
                 }
             ]
@@ -57,15 +101,15 @@
     "images" : [
         {
             "mimeType" : "image/png",
-            "name" : "box",
-            "uri" : "box.png"
+            "name" : "Exp",
+            "uri" : "Exp.png"
         }
     ],
     "accessors" : [
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 576,
+            "count" : 92,
             "max" : [
                 1,
                 1,
@@ -73,7 +117,7 @@
             ],
             "min" : [
                 -1,
-                -1,
+                -2.295830011367798,
                 -1
             ],
             "type" : "VEC3"
@@ -81,59 +125,48 @@
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 576,
+            "count" : 92,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 576,
+            "count" : 92,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
-            "componentType" : 5126,
-            "count" : 576,
-            "type" : "VEC4"
-        },
-        {
-            "bufferView" : 4,
             "componentType" : 5123,
-            "count" : 576,
+            "count" : 144,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 6912,
+            "byteLength" : 1104,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 6912,
-            "byteOffset" : 6912
+            "byteLength" : 1104,
+            "byteOffset" : 1104
         },
         {
             "buffer" : 0,
-            "byteLength" : 4608,
-            "byteOffset" : 13824
+            "byteLength" : 736,
+            "byteOffset" : 2208
         },
         {
             "buffer" : 0,
-            "byteLength" : 9216,
-            "byteOffset" : 18432
-        },
-        {
-            "buffer" : 0,
-            "byteLength" : 1152,
-            "byteOffset" : 27648
+            "byteLength" : 288,
+            "byteOffset" : 2944
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 28800,
-            "uri" : "Box2.bin"
+            "byteLength" : 3232,
+            "uri" : "Walk.bin"
         }
     ]
 }

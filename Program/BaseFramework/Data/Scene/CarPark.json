@@ -46,8 +46,8 @@
       "ClassName": "Lift",
       "Name": "Lift00",
       "Tag": 4,
-      "ModelFileName": "Data/Box/Box2.gltf",
-      "Pos": [ 45, 9.5, -15 ],
+      "ModelFileName": "Data/Box/Lift.gltf",
+      "Pos": [ 45.86, 9.5, -15 ],
       "MoveTo": [ 0, 10, 0 ],
       "Speed": 0.01
     },
@@ -76,7 +76,7 @@
       "Name": "Spring",
       "Tag": 9,
       "ModelFileName": "Data/StageMap/Light.gltf",
-      "Pos": [ 1, 30, 7 ],
+      "Pos": [ 38, 30, -14 ],
       "Scale": [ 1, 1, 1 ]
     }
   ]

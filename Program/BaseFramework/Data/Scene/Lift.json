@@ -2,8 +2,8 @@
   "ClassName": "Lift",
   "Name": "Lift00",
   "Tag": 4,
-  "ModelFileName": "Data/Box/Box2.gltf",
+  "ModelFileName": "Data/Box/Lift.gltf",
   "Pos": [ 0, 1.2, 3 ],
   "MoveTo": [ 10, 0, 3 ],
-  "Speed": 0.01
+  "Speed": 0.0001
 }

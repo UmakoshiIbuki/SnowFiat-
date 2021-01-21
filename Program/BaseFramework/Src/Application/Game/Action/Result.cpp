@@ -10,11 +10,15 @@ void Result::Deserialize(const json11::Json& jsonObj)
 
 	m_HitCntOne =  Scene::GetInstance().GetHitCntOne();
 
-	m_spCrystalCntOneTex= ResFac.GetTexture("Data/Texture/UITexture/UI_ONE_0.png");
+	m_AttackCnt =  Scene::GetInstance().GetAttackCnt();
+
+	m_spCrystalCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_ONE_0.png");
 
 	m_spHitCntOneTex= ResFac.GetTexture("Data/Texture/UITexture/UI_ONE_0.png");
 
 	m_spCrystalCntTex = ResFac.GetTexture("Data/Result/Crystal.png");
+
+	m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_ONE_0.png");
 	//Crystals =m_HitCntTen * 10+ m_HitCntOne;
 	Crystals = 20;
 }
@@ -40,6 +44,8 @@ void Result::Update()
 	CrystalCount(m_CrystalCntOne, m_CrystalCntTen);
 
 	HitCount(m_HitCntOne, m_HitCntTen);
+
+	AttackCount(m_AttackCnt);
 }
 
 void Result::Draw()
@@ -67,6 +73,11 @@ void Result::Draw()
 	m_spHitCntTenMat.SetTranslation(Vec3(200, -120, 0));
 	SHADER.m_spriteShader.SetMatrix(m_spHitCntTenMat);
 	SHADER.m_spriteShader.DrawTex(m_spHitCntTenTex.get(), 0, 0);
+
+	m_spAttackCntMat.CreateScalling(0.23f, 0.15f, 1);
+	m_spAttackCntMat.SetTranslation(Vec3(250, -20, 0));
+	SHADER.m_spriteShader.SetMatrix(m_spAttackCntMat);
+	SHADER.m_spriteShader.DrawTex(m_spAttackCntTex.get(), 0, 0);
 
 	if (i < Crystals)
 	{
@@ -196,7 +207,52 @@ void Result::CrystalCount(int one, int ten)
 	}
 }
 
-
+void Result::AttackCount(int one)
+{
+	switch (one)
+	{
+	case 0:
+		s = "0";
+		m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 1:
+		s = "1";
+		m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 2:
+		s = "2";
+		m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 3:
+		s = "3";
+		m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 4:
+		s = "4";
+		m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 5:
+		s = "5";
+		m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 6:
+		s = "6";
+		m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 7:
+		s = "7";
+		m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 8:
+		s = "8";
+		m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 9:
+		s = "9";
+		m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	}
+}
 
 void Result::HitCount(int one, int ten)
 {

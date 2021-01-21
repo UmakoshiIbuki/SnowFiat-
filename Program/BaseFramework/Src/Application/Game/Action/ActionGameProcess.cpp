@@ -130,6 +130,12 @@ void ActionGameProcess::Draw2D()
 
 void ActionGameProcess::Update()
 {
+
+	if (GetAsyncKeyState('Y'))
+	{
+		Scene::GetInstance().RequestChangeScene("Data/Scene/Result.json");
+	}
+
 	m_limit++;
 	if (m_limit >= time)
 	{
@@ -143,6 +149,7 @@ void ActionGameProcess::Update()
 		Scene::GetInstance().SetCrystal(m_CrystalsOncePlace);
 		human->SetCrystal(0);
 		Scene::GetInstance().SetHitCnt(human->GetHitCntOne(), human->GetHitCntTen());
+		AttackCnt = Scene::GetInstance().GetAttackCnt();
 	}
 
 	for (UINT i = 0; i < 10; i++)

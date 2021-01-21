@@ -12,6 +12,7 @@ void Title::Deserialize(const json11::Json& jsonObj)
 	m_spSelect002Tex = ResFac.GetTexture("Data/Title/select_002.png");
 	m_spArrowTex = ResFac.GetTexture("Data/Title/arrow.png");
 	m_spArrow001Tex = ResFac.GetTexture("Data/Title/arrow.png");
+	m_spClickToStartTex = ResFac.GetTexture("Data/Title/ClickToStart.png");
 
 	m_SelectPos.x = 0;
 	m_SelectPos.y = -270;
@@ -46,11 +47,15 @@ void Title::Update()
 	MousePos.x = nowMousePos.x;
 	MousePos.y = nowMousePos.y;
 
+	m_CposY =-80+10* sin(m_CspeedY);
+
+	m_CspeedY += 0.1f;
 	if (nowMousePos.x< m_Arrow001Pos.x + 25 && nowMousePos.x>m_Arrow001Pos.x - 25 && nowMousePos.y > (m_Arrow001Pos.y + 25) * -1 && nowMousePos.y < (m_Arrow001Pos.y - 25) * -1)
 	{
 		if (m_Arrow001scale < 0.85f) { m_Arrow001scale += 0.01f; }
 		if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 		{
+			m_ScrollSpeed = 0.0f;
 			if (m_canChange)
 			{
 				m_mStart.SetTranslation(m_SelectPos);
@@ -60,6 +65,8 @@ void Title::Update()
 				m_vGoal = Vec3(m_SelectPos.x+400, -270, 0);
 				m_vGoal001 = Vec3(m_Select001Pos.x + 400, -270, 0);
 				m_vGoal002 = Vec3(m_Select002Pos.x + 400, -270, 0);
+
+				flgs--;
 
 				m_canChange = false;
 				m_CanScroll = true;
@@ -79,17 +86,20 @@ void Title::Update()
 		{
 			if (m_canChange)
 			{
-				m_mStart.SetTranslation(m_SelectPos.x -(400 * m_ClickCount), m_SelectPos.y,m_SelectPos.z);
-				m_mStart001.SetTranslation(m_Select001Pos.x - (400 * m_ClickCount), m_Select001Pos.y, m_Select001Pos.z);
-				m_mStart002.SetTranslation(m_Select002Pos.x - (400 * m_ClickCount), m_Select002Pos.y, m_Select002Pos.z);
+				m_ScrollSpeed = 0.0f;
 
-				m_vGoal = Vec3(-400 - (400 * m_ClickCount), -270, 0);
-				m_vGoal001 = Vec3(0 - (400 * m_ClickCount), -270, 0);
-				m_vGoal002 = Vec3(400 - (400 * m_ClickCount), -270, 0);
+				m_mStart.SetTranslation(m_SelectPos);
+				m_mStart001.SetTranslation(m_Select001Pos);
+				m_mStart002.SetTranslation(m_Select002Pos);
+
+				m_vGoal = Vec3(m_SelectPos.x-400, -270, 0);
+				m_vGoal001 = Vec3(m_Select001Pos.x-400, -270, 0);
+				m_vGoal002 = Vec3(m_Select002Pos.x-400, -270, 0);
+				
+				flgs++;
 
 				m_canChange = false;
 				m_CanScroll = true;
-				m_ClickCount++;
 			}
 		}
 		else { m_canChange = true; }
@@ -117,76 +127,80 @@ void Title::Update()
 
 	if (m_CanScroll)
 	{
-		if (m_ScrollSpeed < 0.9)
+		if (m_ScrollSpeed < 0.9f)
 		{
 			m_SelectPos = vNow;
 			m_Select001Pos = vNow001;
 			m_Select002Pos = vNow002;
 
-			m_ScrollSpeed += 0.01;
-			m_scale001 += 0.01f;
+			m_ScrollSpeed += 0.01f;
 		}
 	}
 
 	if (m_ScrollSpeed > 1) { m_ScrollSpeed = 0; }
 
-	if (nowMousePos.x< m_SelectPos.x+100 && nowMousePos.x>m_SelectPos.x-100&& nowMousePos.y> (m_SelectPos.y+100)*-1 && nowMousePos.y<(m_SelectPos.y-100)*-1)
-	{
-		flgs = 1;
-		if (m_scale < 0.85f) { m_scale += 0.01f; }
-		if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+	if (flgs == 1) {
+		if (nowMousePos.x< m_SelectPos.x + 100 && nowMousePos.x>m_SelectPos.x - 100 && nowMousePos.y > (m_SelectPos.y + 100) * -1 && nowMousePos.y < (m_SelectPos.y - 100) * -1)
 		{
-			if (m_canChange)
+			if (m_scale < 0.85f) { m_scale += 0.01f; }
+			if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 			{
-				flg = true;
-				m_canChange = false;
+				if (m_canChange)
+				{
+					flg = true;
+					m_canChange = false;
+				}
 			}
+			else { m_canChange = true; }
 		}
-		else{m_canChange = true;}
-	}
-	else
-	{
-		if (m_scale > 0.7) { m_scale -= 0.01f; }
+		else
+		{
+			if (m_scale > 0.7) { m_scale -= 0.01f; }
+		}
 	}
 
-	if (nowMousePos.x< m_Select001Pos.x + 100 && nowMousePos.x>m_Select001Pos.x - 100 && nowMousePos.y > (m_Select001Pos.y + 100) * -1 && nowMousePos.y < (m_Select001Pos.y - 100) * -1)
-	{
-		flgs = 2;
-		//if (m_scale001 < 0.85f) { m_scale001 += 0.01f; }
-		if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
-		{
-			if (m_canChange)
-			{
-				flg = true;
-				m_canChange = false;
-				Scene::GetInstance().RequestChangeScene("Data/Scene/CarPark.json");
-			}
-		}
-		else { m_canChange = true; }
-	}
-	//else
-	//{
-	//	if (m_scale001 > 0.7) { m_scale001 -= 0.01f; }
-	//}
+	if (flgs == 2) {
 
-	if (nowMousePos.x< m_Select002Pos.x + 100 && nowMousePos.x>m_Select002Pos.x - 100 && nowMousePos.y > (m_Select002Pos.y + 100) * -1 && nowMousePos.y < (m_Select002Pos.y - 100) * -1)
-	{
-		flgs = 3;
-		if (m_scale002 < 0.85f) { m_scale002 += 0.01f; }
-		if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+		if (nowMousePos.x< m_Select001Pos.x + 100 && nowMousePos.x>m_Select001Pos.x - 100 && nowMousePos.y > (m_Select001Pos.y + 100) * -1 && nowMousePos.y < (m_Select001Pos.y - 100) * -1)
 		{
-			if (m_canChange)
+			if (m_scale001 < 0.85f) { m_scale001 += 0.01f; }
+			if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 			{
-				flg = true;
-				m_canChange = false;
-				Scene::GetInstance().RequestChangeScene("Data/Scene/Bridge.json");
+				if (m_canChange)
+				{
+					flg = true;
+					m_canChange = false;
+					Scene::GetInstance().RequestChangeScene("Data/Scene/CarPark.json");
+				}
 			}
+			else { m_canChange = true; }
 		}
-		else { m_canChange = true; }
+		else
+		{
+			if (m_scale001 > 0.7) { m_scale001 -= 0.01f; }
+		}
 	}
-	else
-	{
-		if (m_scale002 > 0.7) { m_scale002 -= 0.01f; }
+
+	if (flgs == 3) {
+
+		if (nowMousePos.x< m_Select002Pos.x + 100 && nowMousePos.x>m_Select002Pos.x - 100 && nowMousePos.y > (m_Select002Pos.y + 100) * -1 && nowMousePos.y < (m_Select002Pos.y - 100) * -1)
+		{
+			if (m_scale002 < 0.85f) { m_scale002 += 0.01f; }
+			if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+			{
+				if (m_canChange)
+				{
+					flg = true;
+					m_canChange = false;
+					Scene::GetInstance().RequestChangeScene("Data/Scene/Bridge.json");
+				}
+			}
+			else { m_canChange = true; }
+		}
+		else
+		{
+			if (m_scale002 > 0.7) { m_scale002 -= 0.01f; }
+		}
 	}
 
 	if (m_black<0)
@@ -203,7 +217,7 @@ void Title::Draw2D()
 	SHADER.m_spriteShader.SetMatrix(m_TitleMat);
 	SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 0);
 
-	if (flgs==1)
+	/*if (flgs==1)
 	{
 		m_StageWindowMat.SetTranslation(100, 100, 1);
 		m_spStageWindowTex =ResFac.GetTexture("Data/Title/Hiroba.png");
@@ -228,7 +242,7 @@ void Title::Draw2D()
 		SHADER.m_spriteShader.SetMatrix(m_StageWindowMat);
 		SHADER.m_spriteShader.DrawTex(m_spStageWindowTex.get(), 0, 0);
 		flgs = 0;
-	}
+	}*/
 
 	if (flg)
 	{
@@ -261,9 +275,14 @@ void Title::Draw2D()
 	SHADER.m_spriteShader.DrawTex(m_spArrowTex.get(), 0, 0);
 
 	m_Arrow001Mat.CreateScalling(m_Arrow001scale, m_Arrow001scale, 0);
+	m_Arrow001Mat.RotateY(180*KdToRadians);
 	m_Arrow001Mat.SetTranslation(m_Arrow001Pos);
 	SHADER.m_spriteShader.SetMatrix(m_Arrow001Mat);
 	SHADER.m_spriteShader.DrawTex(m_spArrow001Tex.get(), 0, 0);
+
+	m_ClickToStartMat.SetTranslation(0, m_CposY, 1);
+	SHADER.m_spriteShader.SetMatrix(m_ClickToStartMat);
+	SHADER.m_spriteShader.DrawTex(m_spClickToStartTex.get(), 0, 0);
 }
 
 void Title::ImguiUpdate()

@@ -53,15 +53,15 @@ void Crystal::UpdateCollision()
 
 void Crystal::Update()
 {
-	static const std::string filename = "Data/White.png";
-	std::shared_ptr<Particle> particle = std::make_shared< Particle>();
-	particle->SetTextureFile(filename);
-	particle->SetShowTime(30);
-	particle->SetSize(0.5f);
-	particle->SetMove(0.3f, 0.3f, 0.2f, 0.2f);
-	particle->Deserialize(ResFac.GetJSON("Data/Scene/Particle.json"));
-	particle->SetMatrix(mat);
+	//static const std::string filename = "Data/White.png";
+	//std::shared_ptr<Particle> particle = std::make_shared< Particle>();
+	//particle->SetTextureFile(filename);
+	//particle->SetShowTime(30);
+	//particle->SetSize(0.5f);
+	//particle->SetMove(0.3f, 0.3f, 0.2f, 0.2f);
+	//particle->Deserialize(ResFac.GetJSON("Data/Scene/Particle.json"));
+	//particle->SetMatrix(mat);
 
-	Scene::GetInstance().AddObject(particle);
+	//Scene::GetInstance().AddObject(particle);
 	UpdateCollision();
 }

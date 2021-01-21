@@ -22,7 +22,11 @@ public:
 
 	int GetHitCntOne(){ return m_hitCntOne; }
 	int GetHitCntTen(){ return m_hitCntTen; }
+
+	void SetAttackCnt(int attackCnt) { AttackCnt = attackCnt; }
+	int GetAttackCntTen(){ return AttackCnt; }
 private:
+	int AttackCnt = 0;
 
 	bool CanAction();
 

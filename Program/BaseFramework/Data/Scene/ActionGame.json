@@ -5,7 +5,7 @@
       "ClassName": "GameObject",
       "Name": "StageMap",
       "Tag": 4,
-      "ModelFileName": "Data/StageMap/StageMap2.gltf",
+      "ModelFileName": "Data/StageMap/StageMap.gltf",
       "Pos": [ 1, -1, 1 ],
       "Scale": [ 1, 1, 1 ]
     },
@@ -94,7 +94,6 @@
       "ModelFileName": "Data/StageMap/Wood.gltf",
       "Pos": [ 0, -0.9, 0 ]
     },
-
     {
       "ClassName": "Bench",
       "Name": "Wood",
@@ -106,17 +105,44 @@
     {
       "ClassName": "ActionGameProcess",
       "Name": "GameProcess",
-      "Time": 10,
+      "Time": 100,
       "TimeShow": [ 0, 6, 0 ]
     },
     {
-      "ClassName": "Lift",
-      "Name": "Lift00",
-      "Tag": 9,
-      "ModelFileName": "Data/Box/Box2.gltf",
-      "Pos": [ 0, 1.2, 3 ],
-      "MoveTo": [ 0, 20, 0 ],
-      "Speed": 0.01
+      "ClassName": "Bench",
+      "Name": "Kannban",
+      "Tag": 0,
+      "ModelFileName": "Data/StageMap/Walk.gltf",
+      "Pos": [ -7, 0.44, 12 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 180, 0 ]
+    },
+    {
+      "ClassName": "Bench",
+      "Name": "Kannban",
+      "Tag": 0,
+      "ModelFileName": "Data/StageMap/Mouse.gltf",
+      "Pos": [ -10.5, 0.42, 9 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 300, 0 ]
+    },
+    {
+      "ClassName": "Bench",
+      "Name": "Kannban",
+      "Tag": 0,
+      "ModelFileName": "Data/StageMap/Atack.gltf",
+      "Pos": [ 11, 0.712, 13 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 270, 0 ]
+    },
+    {
+      "ClassName": "Bench",
+      "Name": "Kannban",
+      "Tag": 0,
+      "ModelFileName": "Data/StageMap/Barrier.gltf",
+      "Pos": [ 16, 0.712, 3 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 270, 0 ]
     }
   ]
 }

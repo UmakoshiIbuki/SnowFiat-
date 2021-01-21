@@ -68,5 +68,7 @@ private:
 
 	bool m_canChange = false;
 
+	int AttackCnt = 0;
+
 	Math::Vector3 copy;
 };

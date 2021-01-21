@@ -15,4 +15,11 @@ private:
 	bool  m_goTo = true;	//ゴール地点に向かっている(true)、折り返している(false)
 	std::shared_ptr<GameObject> m_sphuman;
 	float m_posY;
+
+	int SwitchOn = 0;
+	bool m_OnceClick = false;
+
+	Vec3 m_Floor3Pos;
+	Vec3 m_Floor2Pos;
+	Vec3 m_Floor1Pos;
 };

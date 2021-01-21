@@ -90,7 +90,11 @@ public:
 	void SetWhiteIn(float f) { whiteness = f; }
 	float GetWhite() { return whiteness; }
 
+	void SetAttackCnt(int one) { AttackCnt += one; }
+	int GetAttackCnt() { return AttackCnt; }
+
 private:
+	int AttackCnt = 0;
 
 	bool ShowImGui = false;
 

@@ -45,7 +45,7 @@ private:
 	Matrix m_mStart002;
 	Vec3 m_vGoal002 = {};
 
-	int						   flgs = 0;
+	int						   flgs = 1;
 	std::shared_ptr<KdTexture> m_spStageWindowTex;
 	Matrix					   m_StageWindowMat;
 
@@ -55,7 +55,6 @@ private:
 	float					   m_Arrowscale = 0.7f;
 	float                      m_ScrollSpeed = 0.01f;
 	bool                       m_CanScroll=false;
-	int						   m_ClickCount = 0;
 
 	std::shared_ptr<KdTexture> m_spArrow001Tex;
 	Matrix					   m_Arrow001Mat;
@@ -63,4 +62,9 @@ private:
 	float					   m_Arrow001scale = 0.7f;
 	float                      m_ScrollSpeed001 = 0.01f;
 	bool                       m_CanScroll001 = false;
+
+	std::shared_ptr<KdTexture> m_spClickToStartTex;
+	Matrix					   m_ClickToStartMat;
+	float                      m_CposY=0;
+	float                      m_CspeedY;
 };

@@ -21,7 +21,7 @@ void Lift::Deserialize(const json11::Json& jsonObj)
 		m_speed = jsonObj["Speed"].number_value();
 	}
 	m_sphuman = Scene::GetInstance().FindObjectWithName("PlayerHuman");
-	m_Floor3Pos = Vec3(45.86, 34.82, -15);
+	m_Floor3Pos = Vec3(45.86, 30.46, -15);
 	m_Floor2Pos = Vec3(45.86, 19.86, -15);
 	m_Floor1Pos = Vec3(45.86, 8.866, -15);
 }

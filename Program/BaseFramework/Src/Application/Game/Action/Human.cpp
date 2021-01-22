@@ -333,7 +333,7 @@ void Human::CheckBump()
 		{
 			if (obj->HitCheckBySphereVsMesh(info, Result))
 			{
-				m_force.y += 0.3;
+				m_force.y += 0.4;
 			}
 		}
 		else if (obj->HitCheckBySphereVsMesh(info, Result))

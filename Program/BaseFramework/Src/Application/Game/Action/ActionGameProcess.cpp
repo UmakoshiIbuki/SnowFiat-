@@ -51,7 +51,7 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonObj)
 	}
 	m_spSnow = ResFac.GetTexture("Data/White.png");
 
-	//KD_AUDIO.Play("Data/Audio/BGM/loop100315.wav", true);
+	KD_AUDIO.Play("Data/Audio/BGM/loop100315.wav", true);
 	
 	time = time * 60;
 }
@@ -134,6 +134,11 @@ void ActionGameProcess::Update()
 	if (GetAsyncKeyState('Y'))
 	{
 		Scene::GetInstance().RequestChangeScene("Data/Scene/Result.json");
+	}
+
+	if (GetAsyncKeyState('U'))
+	{
+		Scene::GetInstance().RequestChangeScene("Data/Scene/Title.json");
 	}
 
 	m_limit++;

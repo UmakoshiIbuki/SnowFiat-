@@ -29,7 +29,7 @@ void Title::Deserialize(const json11::Json& jsonObj)
 	m_Arrow001Pos.x = 500;
 	m_Arrow001Pos.y = -270;
 
-	//KD_AUDIO.Play("Data/Audio/BGM/loop100302.wav", false);
+	KD_AUDIO.Play("Data/Audio/BGM/loop100302.wav", false);
 }
 
 void Title::Update()
@@ -207,7 +207,7 @@ void Title::Update()
 	{
 		Scene::GetInstance().RequestChangeScene("Data/Scene/ActionGame.json");
 	}
-	ImguiUpdate();
+	//ImguiUpdate();
 }
 
 void Title::Draw2D()

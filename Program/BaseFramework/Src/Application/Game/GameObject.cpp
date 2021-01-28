@@ -26,7 +26,7 @@ void GameObject::Deserialize(const json11::Json& jsonObj)
 {
 	if (jsonObj.is_null()) { return; }
 
-	if (jsonObj["Name"].is_null() == false)
+	if (jsonObj["ClassName"].is_null() == false)
 	{
 		m_name = jsonObj["Name"].string_value();
 	}
@@ -145,6 +145,13 @@ void GameObject::ImguiUpdate()
 			s+= KdFormat("\"Rot\":[%.1f,%.1f,%.1f],\n", rot.x, rot.y, rot.z);
 			ImGui::SetClipboardText(s.c_str());
 		}
+
+		//ディゾルブ閾値
+		if (ImGui::DragFloat("Dissolve", &m_dissolveThreshold, 0.001, 0.0f, 1.0f))
+		{
+			this->GetModelComponent()->SetDissolveThreshold(m_dissolveThreshold);
+		}
+
 		ImGui::TreePop();
 	}
 	
@@ -273,6 +280,7 @@ void GameObject::Release()
 #include"Action/StageSelect.h"
 #include"Particle.h"
 #include"Action/Crystal.h"
+#include"Action/Tank.h"
 std::shared_ptr<GameObject>CreateGameObject(const std::string& name)
 {
 	if (name == "GameObject") {
@@ -316,8 +324,12 @@ std::shared_ptr<GameObject>CreateGameObject(const std::string& name)
 		return std::make_shared<Result>();
 	}
 
-	if (name == "Title")
+	if (name == "Tank")
 	{
+		return std::make_shared<Tank>();
+	}
+
+	if (name == "Title") {
 		return std::make_shared<Title>();
 	}
 

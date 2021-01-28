@@ -9,6 +9,11 @@ public:
 
 	void Update();	
 
+	virtual void ImguiUpdate()override;
+
 private:
-	Matrix mat;
+	float m_rot;
+	Matrix m_rotMat;
+
+	Vec3 pos;
 };

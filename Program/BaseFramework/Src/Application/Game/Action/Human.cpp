@@ -322,7 +322,7 @@ void Human::CheckBump()
 	info.m_pos.y += 0.8f;	//キャラクターのぶつかり判定をするので、ちょっと上に持ち上げる
 	info.m_radius = 0.4f;	//キャラクターの大きさに合わせて半径サイズもいい感じに設定する
 
-	Scene::GetInstance().AddDebugSphereLine(info.m_pos, info.m_radius);
+	Scene::GetInstance().AddDebugSphereLine(info.m_pos, info.m_radius, { 1,1,1,1 });
 
 	for (auto& obj : Scene::GetInstance().GetObjects())
 	{

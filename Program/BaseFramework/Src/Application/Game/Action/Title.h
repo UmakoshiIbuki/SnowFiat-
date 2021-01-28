@@ -39,7 +39,7 @@ private:
 	float					   m_scale002 = 0.7f;
 
 	bool					   m_canChange = false;
-	float                      m_black = 1.0f;
+	float                      m_black = 0.0f;
 	bool                       flg=false;
 	Vec3                       MousePos;
 	Matrix m_mStart002;

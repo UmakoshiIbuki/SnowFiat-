@@ -99,6 +99,8 @@ protected:
 
 	Vec3 m_scale;
 
+	float m_dissolveThreshold = 0.0f;
+
 	std::string m_name = "GameObject";
 };
 

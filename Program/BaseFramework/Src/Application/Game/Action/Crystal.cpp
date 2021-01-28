@@ -3,11 +3,15 @@
 #include "Enemy.h"
 #include "../Scene.h"
 #include"../Particle.h"
+#include"../../Component//ModelComponent.h"
 
 void Crystal::Deserialize(const json11::Json& jsonObj)
 {
 	GameObject::Deserialize(jsonObj);
-	mat.SetTranslation(m_mWorld.GetTranslation().x + 1.5, m_mWorld.GetTranslation().y+2,m_mWorld.GetTranslation().z);
+	pos = m_mWorld.GetTranslation();
+
+	m_dissolveThreshold = 0.5f;
+
 }
 
 void Crystal::UpdateCollision()
@@ -41,11 +45,6 @@ void Crystal::UpdateCollision()
 			{
 				human->SetCrystal(1);
 			}
-			std::shared_ptr<Enemy> enemy = std::dynamic_pointer_cast<Enemy>(obj);
-			if (enemy)
-			{
-				enemy->Damage(10);
-			}
 			Destroy();
 		}
 	}
@@ -63,5 +62,26 @@ void Crystal::Update()
 	//particle->SetMatrix(mat);
 
 	//Scene::GetInstance().AddObject(particle);
+	
+	m_dissolveThreshold -= 0.001f;
+
+	this->GetModelComponent()->SetDissolveThreshold(m_dissolveThreshold);
+
+	m_rot += 0.5;
+	m_mWorld.CreateRotationY(m_rot*KdToRadians);
+	m_mWorld.Move(pos);
+
+
 	UpdateCollision();
+}
+
+void Crystal::ImguiUpdate()
+{
+	if (ImGui::Begin("Dissolve Debug"))
+	//ディゾルブ閾値
+	if (ImGui::DragFloat("Dissolve", &m_dissolveThreshold, 0.001, 0.0f, 1.0f))
+	{
+		this->GetModelComponent()->SetDissolveThreshold(m_dissolveThreshold);
+	}
+	ImGui::End();
 }

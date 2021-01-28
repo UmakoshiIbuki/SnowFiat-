@@ -22,9 +22,9 @@ private:
 	Matrix					   m_spBackMat;
 	
 	std::shared_ptr<KdTexture> m_spSnowGageTex;
-	Matrix					   m_spSnowGageMat; 
+	Matrix					   m_SnowGageMat; 
 	std::shared_ptr<KdTexture> m_spSnowGageTex2;
-	Matrix					   m_spSnowGageMat2;
+	Matrix					   m_SnowGageMat2;
 
 	std::shared_ptr<KdTexture> m_spHpTex;
 	Matrix					   m_HpMat;

@@ -10,6 +10,14 @@
       "Scale": [ 1, 1, 1 ]
     },
     {
+      "ClassName": "GameObject",
+      "Name": "StageMap",
+      "Tag": 4,
+      "ModelFileName": "Data/StageMap/StageBridge.gltf",
+      "Pos": [ 1, -1, 1 ],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
       "ClassName": "Human",
       "Name": "PlayerHuman",
       "Tag": 3,
@@ -17,6 +25,19 @@
       "Pos": [ 35, 9, -12 ],
       "Scale": [ 0.5, 0.5, 0.5 ],
       "Rot": [ 0, 0, 0 ]
+    },
+    {
+      "ClassName": "Tank",
+      "Name": "Tank",
+      "Tag": 0,
+      "ModelFileName": "Data/Human/SnowMan.gltf",
+      "Pos": [ 33, 9, -12 ]
+    },
+    {
+      "ClassName": "Crystal",
+      "Name": "C",
+      "ModelFileName": "Data/Crystal/Crystal.gltf",
+      "Pos": [ 35, 9, -9 ]
     },
     {
       "ClassName": "Enemy",
@@ -100,7 +121,7 @@
       "Name": "C",
       "ModelFileName": "Data/Crystal/Crystal.gltf",
       "Pos": [ 21, 30.79, -11 ],
-      "Rot": [ 0, 180, 0 ]
+      "Rot": [ 0, 0, 56 ]
     }
   ]
 }

@@ -26,6 +26,7 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonObj)
 	const std::vector<json11::Json>& TimeNumber = jsonObj["TimeShow"].array_items();
 	if (TimeNumber.size() == 3)
 	{
+		//m_infinite= (int)TimeNumber[0].number_value();       0…制限時間あり   １…制限時間なし
 		m_TimeMinutes = (int)TimeNumber[1].number_value();
 		m_TimeSeconds = (int)TimeNumber[2].number_value();
 	}
@@ -51,7 +52,7 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonObj)
 	}
 	m_spSnow = ResFac.GetTexture("Data/White.png");
 
-	KD_AUDIO.Play("Data/Audio/BGM/loop100315.wav", true);
+	//KD_AUDIO.Play("Data/Audio/BGM/loop100315.wav", true);
 	
 	time = time * 60;
 }
@@ -116,16 +117,23 @@ void ActionGameProcess::Draw2D()
 	SHADER.m_spriteShader.SetMatrix(m_FrameMat);
 	SHADER.m_spriteShader.DrawTex(m_spFrame.get(), 0, 0);
 
-	//時間表示UI(1の位と10の位)
-	m_TimeSecondsMat.CreateScalling(0.15f, 0.15f, 1);
-	m_TimeSecondsMat.SetTranslation(50, 300, 0);
-	SHADER.m_spriteShader.SetMatrix(m_TimeSecondsMat);
-	SHADER.m_spriteShader.DrawTex(m_spTimeSeconds.get(), 0, 0);
+	//if (m_infinite == 0)
+	{
+		//時間表示UI(1の位と10の位)
+		m_TimeSecondsMat.CreateScalling(0.15f, 0.15f, 1);
+		m_TimeSecondsMat.SetTranslation(50, 300, 0);
+		SHADER.m_spriteShader.SetMatrix(m_TimeSecondsMat);
+		SHADER.m_spriteShader.DrawTex(m_spTimeSeconds.get(), 0, 0);
 
-	m_TimeMinutesMat.CreateScalling(0.15f, 0.15f, 1);
-	m_TimeMinutesMat.SetTranslation(10, 300, 0);
-	SHADER.m_spriteShader.SetMatrix(m_TimeMinutesMat);
-	SHADER.m_spriteShader.DrawTex(m_spTimeMinutes.get(), 0, 0);
+		m_TimeMinutesMat.CreateScalling(0.15f, 0.15f, 1);
+		m_TimeMinutesMat.SetTranslation(10, 300, 0);
+		SHADER.m_spriteShader.SetMatrix(m_TimeMinutesMat);
+		SHADER.m_spriteShader.DrawTex(m_spTimeMinutes.get(), 0, 0);
+	}
+	//else
+	{
+		//制限時間無しのUI表示
+	}
 }
 
 void ActionGameProcess::Update()
@@ -141,18 +149,25 @@ void ActionGameProcess::Update()
 		Scene::GetInstance().RequestChangeScene("Data/Scene/Title.json");
 	}
 
-	m_limit++;
-	if (m_limit >= time)
+	//if (m_infinite == 0)    m_infinite == 0の時は制限時間
 	{
-		Scene::GetInstance().RequestChangeScene("Data/Scene/Result.json");
+		m_limit++;
+		if (m_limit >= time)
+		{
+			Scene::GetInstance().RequestChangeScene("Data/Scene/Result.json");
+		}
+	}
+	//else　　m_infinite == １の時は一定以上クリスタルを指定場所に溜めたら終わり
+	{
+		//一定以上クリスタルを指定場所に溜めたら終わり
 	}
 
 	std::shared_ptr<Human> human = std::dynamic_pointer_cast<Human>(m_sphuman);
 	if (human)
 	{
-		m_CrystalsOncePlace += human->GetCrystal();
+		m_CrystalsOncePlace = human->GetCrystal();
 		Scene::GetInstance().SetCrystal(m_CrystalsOncePlace);
-		human->SetCrystal(0);
+		//human->SetCrystal(0);
 		Scene::GetInstance().SetHitCnt(human->GetHitCntOne(), human->GetHitCntTen());
 		AttackCnt = Scene::GetInstance().GetAttackCnt();
 	}

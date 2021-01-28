@@ -5,6 +5,7 @@
 // テクスチャ（画像データ※そのままでは使えない）
 Texture2D g_baseTex : register(t0);         // ベースカラーテクスチャ
 Texture2D g_mrTex : register(t1);            // メタリック/ラフネステクスチャ
+Texture2D g_dissolveTex : register(t101); // ディゾルブテクスチャ
 Texture2D g_dirShadowMap : register(t102); // 平行光シャドウマップ
 
 // サンプラ（テクスチャのデータを扱う役目）
@@ -30,6 +31,13 @@ float BlinnPhong(float3 lightDir, float3 vCam, float3 normal, float specPower)
 //================================
 float4 main(VSOutput In) : SV_Target0
 {
+	// ディゾルブ
+	float dissolveVal = g_dissolveTex.Sample(g_ss, In.UV).r;
+	if (dissolveVal < g_dissolveThreshold)
+	{
+		discard;
+	}
+
 	// カメラへの方向
 	float3 vCam = g_CamPos - In.wPos;
 	float camDist = length(vCam);       // カメラ - ピクセル距離

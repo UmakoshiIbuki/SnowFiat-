@@ -267,6 +267,9 @@
     <ClInclude Include="Src\System\Audio\myAudio.h">
       <Filter>Src\System\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Game\Action\Tank.h">
+      <Filter>Src\Application\Game\Action</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -433,6 +436,9 @@
     </ClCompile>
     <ClCompile Include="Src\System\Audio\myAudio.cpp">
       <Filter>Src\System\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Game\Action\Tank.cpp">
+      <Filter>Src\Application\Game\Action</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

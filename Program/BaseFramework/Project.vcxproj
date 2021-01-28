@@ -171,6 +171,7 @@
     <ClInclude Include="Src\Application\Game\Action\SnowBall.h" />
     <ClInclude Include="Src\Application\Game\Action\SnowManager.h" />
     <ClInclude Include="Src\Application\Game\Action\StageSelect.h" />
+    <ClInclude Include="Src\Application\Game\Action\Tank.h" />
     <ClInclude Include="Src\Application\Game\Action\Title.h" />
     <ClInclude Include="Src\Application\Game\Action\Wall.h" />
     <ClInclude Include="Src\Application\Game\AnimationEffect.h" />
@@ -231,6 +232,7 @@
     <ClCompile Include="Src\Application\Game\Action\SnowBall.cpp" />
     <ClCompile Include="Src\Application\Game\Action\SnowManager.cpp" />
     <ClCompile Include="Src\Application\Game\Action\StageSelect.cpp" />
+    <ClCompile Include="Src\Application\Game\Action\Tank.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Title.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Wall.cpp" />
     <ClCompile Include="Src\Application\Game\AnimationEffect.cpp" />

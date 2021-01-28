@@ -29,7 +29,7 @@
                 0.3034595251083374
             ],
             "translation" : [
-                2.6566104888916016,
+                1.1832354068756104,
                 1.8473666906356812,
                 -0.6552842855453491
             ]
@@ -51,48 +51,16 @@
         {
             "mesh" : 0,
             "name" : "Cube",
-            "rotation" : [
-                0.3826834559440613,
-                0,
-                0,
-                0.9238795042037964
-            ],
             "scale" : [
-                0.07810056954622269,
-                0.3784483075141907,
-                0.3784483075141907
-            ],
-            "translation" : [
-                1.4196349382400513,
-                0.8977624177932739,
-                -0.35016968846321106
+                0.4530937671661377,
+                0.4530937671661377,
+                0.4530937671661377
             ]
-        }
-    ],
-    "materials" : [
-        {
-            "doubleSided" : true,
-            "emissiveFactor" : [
-                0,
-                0,
-                0
-            ],
-            "name" : "Material.001",
-            "pbrMetallicRoughness" : {
-                "baseColorFactor" : [
-                    0.800000011920929,
-                    0.800000011920929,
-                    0.800000011920929,
-                    1
-                ],
-                "metallicFactor" : 0,
-                "roughnessFactor" : 0.5
-            }
         }
     ],
     "meshes" : [
         {
-            "name" : "Cube.001",
+            "name" : "Cube",
             "primitives" : [
                 {
                     "attributes" : {
@@ -100,8 +68,7 @@
                         "NORMAL" : 1,
                         "TEXCOORD_0" : 2
                     },
-                    "indices" : 3,
-                    "material" : 0
+                    "indices" : 3
                 }
             ]
         }
@@ -110,63 +77,63 @@
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 248,
+            "count" : 140,
             "max" : [
+                0.09974031150341034,
                 1,
-                1.7281863689422607,
-                1.8428053855895996
+                1
             ],
             "min" : [
+                -0.09474031627178192,
                 -1,
-                -1.8427376747131348,
-                -1.7296016216278076
+                -1
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 248,
+            "count" : 140,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 248,
+            "count" : 140,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 384,
+            "count" : 192,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 2976,
+            "byteLength" : 1680,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 2976,
-            "byteOffset" : 2976
+            "byteLength" : 1680,
+            "byteOffset" : 1680
         },
         {
             "buffer" : 0,
-            "byteLength" : 1984,
-            "byteOffset" : 5952
+            "byteLength" : 1120,
+            "byteOffset" : 3360
         },
         {
             "buffer" : 0,
-            "byteLength" : 768,
-            "byteOffset" : 7936
+            "byteLength" : 384,
+            "byteOffset" : 4480
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 8704,
+            "byteLength" : 4864,
             "uri" : "Crystal.bin"
         }
     ]

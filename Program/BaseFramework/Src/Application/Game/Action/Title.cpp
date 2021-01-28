@@ -29,7 +29,7 @@ void Title::Deserialize(const json11::Json& jsonObj)
 	m_Arrow001Pos.x = 500;
 	m_Arrow001Pos.y = -270;
 
-	KD_AUDIO.Play("Data/Audio/BGM/loop100302.wav", false);
+	//KD_AUDIO.Play("Data/Audio/BGM/loop100302.wav", false);
 }
 
 void Title::Update()
@@ -203,7 +203,7 @@ void Title::Update()
 		}
 	}
 
-	if (m_black<0)
+	if (m_black>0.6)
 	{
 		Scene::GetInstance().RequestChangeScene("Data/Scene/ActionGame.json");
 	}
@@ -246,13 +246,13 @@ void Title::Draw2D()
 
 	if (flg)
 	{
-		m_black -= 0.01f;
-		//SHADER.m_postProcessShader.ColorDraw(m_spTitleTex.get(), DirectX::SimpleMath::Vector4(m_black, m_black, m_black, 1));
-	}/*
+		m_black += 0.01f;
+		SHADER.m_postProcessShader.ColorDraw(m_spSelectTex.get(), DirectX::SimpleMath::Vector4(0, 0, 0, m_black));
+	}
 	else
 	{
-		SHADER.m_postProcessShader.ColorDraw(m_spTitleTex.get(), DirectX::SimpleMath::Vector4(1, 1, 1, 1));
-	}*/
+		//SHADER.m_postProcessShader.ColorDraw(m_spTitleTex.get(), DirectX::SimpleMath::Vector4(1, 1, 1, 1));
+	}
 
 	m_SelectMat.CreateScalling(m_scale, m_scale, 0);
 	m_SelectMat.SetTranslation(m_SelectPos.x, m_SelectPos.y, m_SelectPos.z);

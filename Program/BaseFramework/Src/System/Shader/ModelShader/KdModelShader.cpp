@@ -61,6 +61,14 @@ bool KdModelShader::Init()
 	m_cb0.Create();
 	m_cb1_Material.Create();
 
+	//-------------------------------------
+	// テクスチャ読み込み
+	//-------------------------------------
+
+	// ディゾルブテクスチャ
+	m_texDissolve = ResFac.GetTexture("Data/Texture/Dissolve.png");
+	D3D.GetDevContext()->PSSetShaderResources(101, 1, m_texDissolve->GetSRViewAddress());
+
 	return true;
 }
 

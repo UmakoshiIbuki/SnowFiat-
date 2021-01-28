@@ -23,6 +23,9 @@ void ModelComponent::Draw()
 	//モデルがないときはスキップ
 	if (m_spModel == false) { return; }
 
+	// 描画設定
+	SHADER.m_modelShader.SetDissolveThreshold(m_dissolveThreshold);
+
 	//全てのノードを一つ一つ描画
 	for (UINT i = 0; i < m_coppiedNodes.size(); i++)
 	{

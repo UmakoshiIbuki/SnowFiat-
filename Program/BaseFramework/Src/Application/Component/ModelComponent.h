@@ -57,6 +57,13 @@ public:
 	// シャドウマップ生成描画
 	void DrawShadowMap();
 
+	// ディゾルブの閾値設定
+	void SetDissolveThreshold(float threshold)
+	{
+		m_dissolveThreshold = threshold;
+	}
+
+
 private:
 
 	std::vector<KdModel::Node>m_coppiedNodes;	//個別管理のためオリジナルからコピーして保持する配列
@@ -67,4 +74,7 @@ private:
 	//モデルデータの参照
 	std::shared_ptr<KdModel>m_spModel;
 	GameObject& m_owner;
+
+	// 描画設定
+	float			m_dissolveThreshold = 0.0f;
 };

@@ -12,16 +12,16 @@ void SnowManager::Draw2DTex(float f1,float f2)
 {	
 	m_spSnowGageTex = ResFac.GetTexture("Data/Texture/UITexture/UI_BER.png");
 
-	m_spSnowGageMat.CreateScalling(1.0f, 1.0f, 1.0f);
-	m_spSnowGageMat.SetTranslation(Vec3(-400, -340, 0));
-	SHADER.m_spriteShader.SetMatrix(m_spSnowGageMat);
+	m_SnowGageMat.CreateScalling(1.0f, 1.0f, 1.0f);
+	m_SnowGageMat.SetTranslation(Vec3(-400, -340, 0));
+	SHADER.m_spriteShader.SetMatrix(m_SnowGageMat);
 	SHADER.m_spriteShader.DrawTex(m_spSnowGageTex.get(), 0, 0);
 
 	m_spSnowGageTex = ResFac.GetTexture("Data/Texture/UITexture/UI_BER1.png");
 
-	m_spSnowGageMat.CreateScalling(f1 / 3, 1.0f, 1.0f);
-	m_spSnowGageMat.SetTranslation(Vec3(-400 - (40 * f2), -340, 0));
-	SHADER.m_spriteShader.SetMatrix(m_spSnowGageMat);
+	m_SnowGageMat.CreateScalling(f1 / 3, 1.0f, 1.0f);
+	m_SnowGageMat.SetTranslation(Vec3(-400 - (40 * f2), -340, 0));
+	SHADER.m_spriteShader.SetMatrix(m_SnowGageMat);
 	SHADER.m_spriteShader.DrawTex(m_spSnowGageTex.get(), 0, 0);
 }
 

@@ -3,6 +3,23 @@
     {
       "ClassName": "Title",
       "Name": "Title"
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "StageMap",
+      "Tag": 4,
+      "ModelFileName": "Data/StageMap/StageMap2.gltf",
+      "Pos": [ 1, -1, 1 ],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
+      "ClassName": "Enemy",
+      "Name": "Enemy00",
+      "Tag": 17,
+      "ModelFileName": "Data/Human/SnowMan.gltf",
+      "Pos": [ 5, 0, 6 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 180, 0 ]
     }
   ]
 }

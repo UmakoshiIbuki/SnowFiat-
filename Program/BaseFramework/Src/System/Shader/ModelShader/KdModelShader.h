@@ -45,6 +45,12 @@ public:
 		Release();
 	}
 
+	// ディゾルブの閾値設定
+	void SetDissolveThreshold(float threshold)
+	{
+		m_cb0.Work().DissolveThreshold = threshold;
+	}
+
 private:
 
 	// 3Dモデル用シェーダ
@@ -53,11 +59,16 @@ private:
 
 	ID3D11PixelShader* m_PS = nullptr;				// ピクセルシェーダー
 
+	//テクスチャ
+	std::shared_ptr<KdTexture>	m_texDissolve;		// ディゾルブ
 
 	// 定数バッファ(オブジェクト単位更新)
 	struct cbObject
 	{
 		Math::Matrix		mW;		// ワールド行列　行列は16バイトx4バイトの64バイトなのでピッタリ。
+	
+		float	DissolveThreshold = 0.5f;
+		float	tmp[3];
 	};
 	KdConstantBuffer<cbObject>	m_cb0;
 

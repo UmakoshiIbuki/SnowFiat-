@@ -17,7 +17,7 @@ public:
 	void SetAnimation(const char* pAnimName);
 	void SetChange(float snow) { m_snow = snow; }
 
-	void SetCrystal(int crystal) { m_crystal = crystal; }
+	void SetCrystal(int crystal) { m_crystal += crystal; }
 	int GetCrystal() { return m_crystal; }
 
 	int GetHitCntOne(){ return m_hitCntOne; }
@@ -90,7 +90,7 @@ private:
 	int frame = 0;
 	float       m_jumpPow = 0.1f;
 
-	int m_crystal = 0;
+	int m_crystal = 1;
 
 	bool IsChangeMove();  // 移動状態に遷移するかどうか
 	bool IsChangeJump();  // ジャンプ状態に遷移するかどうか

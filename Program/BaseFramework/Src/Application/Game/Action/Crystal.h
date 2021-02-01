@@ -9,8 +9,6 @@ public:
 
 	void Update();	
 
-	virtual void ImguiUpdate()override;
-
 private:
 	float m_rot;
 	Matrix m_rotMat;

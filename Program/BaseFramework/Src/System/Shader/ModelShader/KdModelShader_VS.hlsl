@@ -7,7 +7,8 @@
 VSOutput main(float4 pos : POSITION, // 頂点座標
     float2 uv : TEXCOORD0, // テクスチャUV座標
     float3 normal : NORMAL, // 法線ベクトル
-    float4 color : COLOR
+    float4 color : COLOR,
+    float3 tangent : TANGENT    // 接線
 )
 {
     VSOutput Out;
@@ -23,6 +24,13 @@ VSOutput main(float4 pos : POSITION, // 頂点座標
 
     // 法線
     Out.wN = normalize(mul(normal, (float3x3)g_mW));
+
+    // 接線
+    Out.wT = normalize(mul(tangent, (float3x3)g_mW));
+
+    // 従法線
+    float3 binormal = cross(normal, tangent);
+    Out.wB = normalize(mul(binormal, (float3x3)g_mW));
 
     // UV座標
     Out.UV = uv;

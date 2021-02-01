@@ -24,6 +24,7 @@ bool KdModelShader::Init()
 			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,			0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 			{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 20, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 			{ "COLOR",    0, DXGI_FORMAT_R8G8B8A8_UNORM,		0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "TANGENT",  0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 36, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		};
 
 		// 頂点入力レイアウト作成
@@ -136,6 +137,8 @@ void KdModelShader::DrawMesh(const KdMesh* mesh, const std::vector<KdMaterial>& 
 		// Metallic Roughness Map
 		D3D.GetDevContext()->PSSetShaderResources(1, 1, material.MetallicRoughnessTex->GetSRViewAddress());
 
+		// Normal Map
+		D3D.GetDevContext()->PSSetShaderResources(2, 1, material.NormalTex->GetSRViewAddress());
 		//-----------------------
 		// サブセット描画
 		//-----------------------

@@ -271,7 +271,8 @@
                 260,
                 261,
                 262,
-                263
+                263,
+                264
             ]
         }
     ],
@@ -4131,9 +4132,9 @@
                 91.3507080078125
             ],
             "translation" : [
-                -1.0783100128173828,
-                0.06128900125622749,
-                -0.3613690137863159
+                -0.6892443299293518,
+                0.006852377206087112,
+                -0.15590360760688782
             ]
         },
         {
@@ -4154,14 +4155,14 @@
             "mesh" : 197,
             "name" : "Cylinder.006",
             "scale" : [
-                7.127700328826904,
-                0.11986847966909409,
-                7.127700328826904
+                6.934910774230957,
+                0.1166262999176979,
+                6.934910774230957
             ],
             "translation" : [
-                -0.6963387727737427,
-                0.5833349227905273,
-                -0.611574649810791
+                -0.6963390111923218,
+                0.5038260221481323,
+                -0.6115750074386597
             ]
         },
         {
@@ -5459,6 +5460,15 @@
                 -0.11429011821746826,
                 -0.880953311920166
             ]
+        },
+        {
+            "mesh" : 264,
+            "name" : "Torus.003",
+            "translation" : [
+                -0.6963390111923218,
+                0.5038260221481323,
+                -5.459904670715332
+            ]
         }
     ],
     "materials" : [
@@ -5527,13 +5537,15 @@
                 0
             ],
             "name" : "Material.006",
+            "normalTexture" : {
+                "index" : 0,
+                "texCoord" : 0
+            },
             "pbrMetallicRoughness" : {
-                "baseColorFactor" : [
-                    0.3087218999862671,
-                    0.8000000715255737,
-                    0.391913503408432,
-                    1
-                ],
+                "baseColorTexture" : {
+                    "index" : 1,
+                    "texCoord" : 0
+                },
                 "metallicFactor" : 0,
                 "roughnessFactor" : 0.5
             }
@@ -5551,6 +5563,51 @@
                     0,
                     0.08160918951034546,
                     0,
+                    1
+                ],
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.5
+            }
+        },
+        {
+            "doubleSided" : true,
+            "emissiveFactor" : [
+                0,
+                0,
+                0
+            ],
+            "name" : "Material.001",
+            "normalTexture" : {
+                "index" : 2,
+                "scale" : 0.3999999761581421,
+                "texCoord" : 0
+            },
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 3,
+                    "texCoord" : 0
+                },
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.5
+            }
+        },
+        {
+            "doubleSided" : true,
+            "emissiveFactor" : [
+                0,
+                0,
+                0
+            ],
+            "name" : "Material",
+            "normalTexture" : {
+                "index" : 4,
+                "texCoord" : 0
+            },
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
                     1
                 ],
                 "metallicFactor" : 0,
@@ -9244,9 +9301,68 @@
                         "NORMAL" : 796,
                         "TEXCOORD_0" : 797
                     },
-                    "indices" : 798
+                    "indices" : 798,
+                    "material" : 5
                 }
             ]
+        },
+        {
+            "name" : "Torus.003",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 799,
+                        "NORMAL" : 800,
+                        "TEXCOORD_0" : 801
+                    },
+                    "indices" : 802,
+                    "material" : 6
+                }
+            ]
+        }
+    ],
+    "textures" : [
+        {
+            "source" : 0
+        },
+        {
+            "source" : 1
+        },
+        {
+            "source" : 2
+        },
+        {
+            "source" : 3
+        },
+        {
+            "source" : 4
+        }
+    ],
+    "images" : [
+        {
+            "mimeType" : "image/png",
+            "name" : "grs.normal",
+            "uri" : "grs_normal.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "grs",
+            "uri" : "grs.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "StoneTileNormal",
+            "uri" : "StoneTileNormal.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "StoneTile",
+            "uri" : "StoneTile.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "grs_normal",
+            "uri" : "grs_normal-1.png"
         }
     ],
     "accessors" : [
@@ -16683,6 +16799,40 @@
             "componentType" : 5123,
             "count" : 600,
             "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 799,
+            "componentType" : 5126,
+            "count" : 968,
+            "max" : [
+                20.686336517333984,
+                -0.17931848764419556,
+                23.871992111206055
+            ],
+            "min" : [
+                -20.96898078918457,
+                -0.3101646900177002,
+                -14.33477783203125
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 800,
+            "componentType" : 5126,
+            "count" : 968,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 801,
+            "componentType" : 5126,
+            "count" : 968,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 802,
+            "componentType" : 5123,
+            "count" : 1686,
+            "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
@@ -20680,11 +20830,31 @@
             "buffer" : 0,
             "byteLength" : 1200,
             "byteOffset" : 1234700
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 11616,
+            "byteOffset" : 1235900
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 11616,
+            "byteOffset" : 1247516
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 7744,
+            "byteOffset" : 1259132
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 3372,
+            "byteOffset" : 1266876
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 1235900,
+            "byteLength" : 1270248,
             "uri" : "StageMap2.bin"
         }
     ]

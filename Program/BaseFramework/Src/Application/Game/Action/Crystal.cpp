@@ -9,6 +9,7 @@ void Crystal::Deserialize(const json11::Json& jsonObj)
 {
 	GameObject::Deserialize(jsonObj);
 	pos = m_mWorld.GetTranslation();
+	pos.y += 1;
 
 	m_dissolveThreshold = 0.5f;
 
@@ -63,25 +64,9 @@ void Crystal::Update()
 
 	//Scene::GetInstance().AddObject(particle);
 	
-	m_dissolveThreshold -= 0.001f;
-
-	this->GetModelComponent()->SetDissolveThreshold(m_dissolveThreshold);
-
 	m_rot += 0.5;
 	m_mWorld.CreateRotationY(m_rot*KdToRadians);
 	m_mWorld.Move(pos);
 
-
 	UpdateCollision();
-}
-
-void Crystal::ImguiUpdate()
-{
-	if (ImGui::Begin("Dissolve Debug"))
-	//ディゾルブ閾値
-	if (ImGui::DragFloat("Dissolve", &m_dissolveThreshold, 0.001, 0.0f, 1.0f))
-	{
-		this->GetModelComponent()->SetDissolveThreshold(m_dissolveThreshold);
-	}
-	ImGui::End();
 }

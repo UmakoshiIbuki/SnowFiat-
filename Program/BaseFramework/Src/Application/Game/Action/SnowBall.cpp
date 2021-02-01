@@ -108,7 +108,7 @@ void SnowBall::UpdateCollision()
 			{
 				KD_AUDIO.Play("Data/Audio/SE/swords03.wav", false);
 				human->Damage(10);
-				Scene::GetInstance().SetWhiteIn(20);
+				Scene::GetInstance().SetWhiteIn(255);
 			}
 			std::shared_ptr<Enemy> enemy = std::dynamic_pointer_cast<Enemy>(obj);
 			if (enemy)

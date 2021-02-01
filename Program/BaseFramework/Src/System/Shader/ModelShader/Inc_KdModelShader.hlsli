@@ -41,4 +41,6 @@ struct VSOutput
     float4 Color    : TEXCOORD1;    // 色
     float3 wN       : TEXCOORD2;    // ワールド法線
     float3 wPos     : TEXCOORD3;    // ワールド3D座標
+    float3 wT       : TEXCOORD4;    // ワールド接線(Tangent)
+    float3 wB       : TEXCOORD5;    // ワールド従法線(Binormal)
 };

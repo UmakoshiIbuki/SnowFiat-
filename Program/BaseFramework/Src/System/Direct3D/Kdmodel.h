@@ -17,6 +17,8 @@ public:
 
 	const std::vector<KdMaterial>& GetMaterials()const { return m_materials; }
 
+	void SetMaterials(std::vector<KdMaterial>materials) { m_materials=materials; }
+
 	//ノード：モデルを形成するメッシュを扱うための最小単位
 	struct Node
 	{

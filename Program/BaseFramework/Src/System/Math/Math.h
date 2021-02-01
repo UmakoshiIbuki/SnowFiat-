@@ -5,6 +5,14 @@ class Vec3 :public DirectX::XMFLOAT3
 {
 public:
 
+	// XMFLOAT3から代入してきた時
+	Vec3(const DirectX::XMFLOAT3& V)
+	{
+		x = V.x;
+		y = V.y;
+		z = V.z;
+	}
+
 	inline void Complement(const Vec3& vTo, float rot)
 	{
 		Vec3  vRotAxis = Vec3::Cross(*this, vTo);

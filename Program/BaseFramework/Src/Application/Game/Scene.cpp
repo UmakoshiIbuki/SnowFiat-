@@ -304,7 +304,7 @@ void Scene::Draw()
 	if (whiteness >= 1)
 	{
 		SHADER.m_postProcessShader.ColorDraw(m_spScreenRT.get(), DirectX::SimpleMath::Vector4(whiteness, whiteness, whiteness, 1));
-		whiteness -= 0.2f;
+		whiteness *= 0.7f;
 		if (whiteness < 1.0f) { whiteness = 1.0f; }
 	}
 	else {

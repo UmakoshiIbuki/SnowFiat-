@@ -7,12 +7,6 @@ void Title::Deserialize(const json11::Json& jsonObj)
 	GameObject::Deserialize(jsonObj);
 
 	m_spTitleTex = ResFac.GetTexture("Data/Title/Title.png");
-	m_spSelectTex = ResFac.GetTexture("Data/Title/Hiroba.png");
-	m_spSelect001Tex = ResFac.GetTexture("Data/Title/select_001.png");
-	m_spSelect002Tex = ResFac.GetTexture("Data/Title/select_002.png");
-	m_spArrowTex = ResFac.GetTexture("Data/Title/arrow.png");
-	m_spArrow001Tex = ResFac.GetTexture("Data/Title/arrow.png");
-	m_spClickToStartTex = ResFac.GetTexture("Data/Title/ClickToStart.png");
 
 	m_SelectPos.x = 0;
 	m_SelectPos.y = -270;
@@ -212,6 +206,7 @@ void Title::Update()
 
 void Title::Draw2D()
 {
+	m_spTitleTex = ResFac.GetTexture("Data/Title/Title.png");
 	
 	m_TitleMat.SetTranslation(Vec3(0,0,0));
 	SHADER.m_spriteShader.SetMatrix(m_TitleMat);
@@ -247,42 +242,48 @@ void Title::Draw2D()
 	if (flg)
 	{
 		m_black += 0.01f;
-		SHADER.m_postProcessShader.ColorDraw(m_spSelectTex.get(), DirectX::SimpleMath::Vector4(0, 0, 0, m_black));
+		SHADER.m_postProcessShader.ColorDraw(m_spTitleTex.get(), DirectX::SimpleMath::Vector4(0, 0, 0, m_black));
 	}
 	else
 	{
-		//SHADER.m_postProcessShader.ColorDraw(m_spTitleTex.get(), DirectX::SimpleMath::Vector4(1, 1, 1, 1));
+		//SHADER.m_postProcessShader.ColorDraw(m_spTitleTex.get(), DirectX::SimpleMath::Vector4(0,0,0,0));
 	}
 
+	m_spTitleTex = ResFac.GetTexture("Data/Title/Hiroba.png");
 	m_SelectMat.CreateScalling(m_scale, m_scale, 0);
 	m_SelectMat.SetTranslation(m_SelectPos.x, m_SelectPos.y, m_SelectPos.z);
 	SHADER.m_spriteShader.SetMatrix(m_SelectMat);
-	SHADER.m_spriteShader.DrawTex(m_spSelectTex.get(),0,0);
+	SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(),0,0);
 
+	m_spTitleTex = ResFac.GetTexture("Data/Title/select_001.png");
 	m_Select001Mat.CreateScalling(m_scale001, m_scale001, 0);
 	m_Select001Mat.SetTranslation(m_Select001Pos.x, m_Select001Pos.y, m_Select001Pos.z);
 	SHADER.m_spriteShader.SetMatrix(m_Select001Mat);
-	SHADER.m_spriteShader.DrawTex(m_spSelect001Tex.get(), 0, 0);
+	SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 0);
 
+	m_spTitleTex = ResFac.GetTexture("Data/Title/select_002.png");
 	m_Select002Mat.CreateScalling(m_scale002, m_scale002, 0);
 	m_Select002Mat.SetTranslation(m_Select002Pos.x, m_Select002Pos.y, m_Select002Pos.z);
 	SHADER.m_spriteShader.SetMatrix(m_Select002Mat);
-	SHADER.m_spriteShader.DrawTex(m_spSelect002Tex.get(), 0, 0);
+	SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 0);
 
+	m_spTitleTex = ResFac.GetTexture("Data/Title/arrow.png");
 	m_ArrowMat.CreateScalling(m_Arrowscale, m_Arrowscale, 0);
 	m_ArrowMat.SetTranslation(m_ArrowPos);
 	SHADER.m_spriteShader.SetMatrix(m_ArrowMat);
-	SHADER.m_spriteShader.DrawTex(m_spArrowTex.get(), 0, 0);
+	SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 0);
 
+	m_spTitleTex = ResFac.GetTexture("Data/Title/arrow.png");
 	m_Arrow001Mat.CreateScalling(m_Arrow001scale, m_Arrow001scale, 0);
 	m_Arrow001Mat.RotateY(180*KdToRadians);
 	m_Arrow001Mat.SetTranslation(m_Arrow001Pos);
 	SHADER.m_spriteShader.SetMatrix(m_Arrow001Mat);
-	SHADER.m_spriteShader.DrawTex(m_spArrow001Tex.get(), 0, 0);
+	SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 0);
 
+	m_spTitleTex = ResFac.GetTexture("Data/Title/ClickToStart.png");
 	m_ClickToStartMat.SetTranslation(0, m_CposY, 1);
 	SHADER.m_spriteShader.SetMatrix(m_ClickToStartMat);
-	SHADER.m_spriteShader.DrawTex(m_spClickToStartTex.get(), 0, 0);
+	SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 0);
 }
 
 void Title::ImguiUpdate()

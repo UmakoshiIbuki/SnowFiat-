@@ -11,6 +11,7 @@ void Tank::Deserialize(const json11::Json& jsonObj)
 	m_sphuman = Scene::GetInstance().FindObjectWithName("PlayerHuman");
 	
 	pos = m_mWorld.GetTranslation();
+	pos.y += 1;
 
 	m_dissolveThreshold = 0.5f;
 }
@@ -18,6 +19,7 @@ void Tank::Deserialize(const json11::Json& jsonObj)
 void Tank::Update()
 {
 	this->GetModelComponent()->SetDissolveThreshold(m_dissolveThreshold);
+	//this->GetModelComponent()->
 
 	if (m_crystal >= 5)
 	{
@@ -28,7 +30,9 @@ void Tank::Update()
 
 	m_rot += 0.5;
 	m_mWorld.CreateRotationY(m_rot * KdToRadians);
+	m_mWorld.Scale(m_scale.x, m_scale.y, m_scale.z);
 	m_mWorld.Move(pos);
+
 
 	UpdateCollision();	
 

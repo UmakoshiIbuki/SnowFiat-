@@ -30,8 +30,16 @@
       "ClassName": "Tank",
       "Name": "Tank",
       "Tag": 0,
-      "ModelFileName": "Data/Human/SnowMan.gltf",
-      "Pos": [ 33, 9, -12 ]
+      "ModelFileName": "Data/Crystal/Crystal.gltf",
+      "Scale": [ 1.5, 1.5, 1.5 ],
+      "Pos": [ 36.2, 31.2, -17.9 ]
+    },
+    {
+      "ClassName": "Bench",
+      "Name": "Box",
+      "Tag": 0,
+      "ModelFileName": "Data/Box/Tank.gltf",
+      "Pos": [ 36.2, 30.47, -17.9 ]
     },
     {
       "ClassName": "Crystal",

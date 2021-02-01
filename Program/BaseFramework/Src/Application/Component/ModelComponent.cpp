@@ -35,6 +35,12 @@ void ModelComponent::Draw()
 		SHADER.m_standardShader.DrawMesh(rNode.m_spMesh.get(),m_spModel->GetMaterials());*/
 		// 行列セット
 		SHADER.m_modelShader.SetWorldMatrix(rNode.m_localTransform * m_owner.GetMatrix());
+		/*std::vector<KdMaterial>m_materials;
+		Math::Vector4 vec4 = { 1,1,1,0 };
+		m_materials =m_spModel->GetMaterials();
+		m_materials[0].BaseColor = vec4;
+			
+		m_spModel->SetMaterials(m_materials);*/
 
 		// 描画
 		SHADER.m_modelShader.DrawMesh(rNode.m_spMesh.get(), m_spModel->GetMaterials());

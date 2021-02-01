@@ -7,6 +7,7 @@ Texture2D g_baseTex : register(t0);         // ベースカラーテクスチャ
 Texture2D g_mrTex : register(t1);            // メタリック/ラフネステクスチャ
 Texture2D g_dissolveTex : register(t101); // ディゾルブテクスチャ
 Texture2D g_dirShadowMap : register(t102); // 平行光シャドウマップ
+Texture2D g_normalTex : register(t2);        // 法線マップ
 
 // サンプラ（テクスチャのデータを扱う役目）
 SamplerState g_ss : register(s0);
@@ -43,9 +44,20 @@ float4 main(VSOutput In) : SV_Target0
 	float camDist = length(vCam);       // カメラ - ピクセル距離
 	vCam = normalize(vCam);
 
-	// 法線正規化
-	// 2点間の頂点の法線を使って新しく法線を作られるため、再度長さを1にする必要がある
-	float3 wN = normalize(In.wN);
+	// ３種の法線から法線行列を作成
+	row_major float3x3 mTBN = {
+		normalize(In.wT),
+		normalize(In.wB),
+		normalize(In.wN),
+	};
+
+	// 法線マップから法線ベクトル取得
+	float3 wN = g_normalTex.Sample(g_ss, In.UV).rgb;
+
+	// 0～1　から -1～1　へ変換
+	wN = wN * 2.0 - 1.0;
+	// 法線ベクトルをこのピクセル空間へ変換
+	wN = normalize(mul(wN, mTBN));
 
 	//------------------------------------------
 	// 材質色

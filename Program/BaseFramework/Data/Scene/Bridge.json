@@ -5,9 +5,9 @@
       "ClassName": "GameObject",
       "Name": "StageMap",
       "Tag": 4,
-      "ModelFileName": "Data/StageMap/StageBridge.gltf",
+      "ModelFileName": "Data/StageMap/iceStage.gltf",
       "Pos": [ 1, -1, 1 ],
-      "Scale": [ 1, 1, 1 ]
+      "Scale": [ 10, 10, 10 ]
     },
     {
       "ClassName": "GameObject",

@@ -14,9 +14,9 @@
       "Name": "PlayerHuman",
       "Tag": 3,
       "ModelFileName": "Data/Human/SnowMan.gltf",
-      "Pos": [ -9, 5, 12 ],
+      "Pos": [ -9, -0.9, 12 ],
       "Scale": [ 0.5, 0.5, 0.5 ],
-      "Rot": [ 0, 0, 0 ]
+      "Rot": [ 90, 0, 0 ]
     },
     {
       "ClassName": "Enemy",
@@ -73,7 +73,7 @@
       "LightPosY": 4.7
     },
     {
-      "ClassName": "Bench",
+      "ClassName": "GameObject",
       "Name": "Bench01",
       "Tag": 0,
       "ModelFileName": "Data/StageMap/Bench.gltf",
@@ -82,20 +82,20 @@
       "Pos": [ 10, -0.9, -10 ]
     },
     {
-      "ClassName": "Bench",
+      "ClassName": "GameObject",
       "Name": "Town",
       "ModelFileName": "Data/StageMap/Town.gltf",
       "Pos": [ 0, -4, 0 ]
     },
     {
-      "ClassName": "Bench",
+      "ClassName": "GameObject",
       "Name": "Wood",
       "Tag": 0,
       "ModelFileName": "Data/StageMap/Wood.gltf",
       "Pos": [ 0, -0.9, 0 ]
     },
     {
-      "ClassName": "Bench",
+      "ClassName": "GameObject",
       "Name": "Wood",
       "Tag": 0,
       "ModelFileName": "Data/StageMap/Wood.gltf",
@@ -105,11 +105,11 @@
     {
       "ClassName": "ActionGameProcess",
       "Name": "GameProcess",
-      "Time": 100,
-      "TimeShow": [ 0, 9, 9 ]
+      "Time": 60,
+      "TimeShow": [ 0, 6, 0 ]
     },
     {
-      "ClassName": "Bench",
+      "ClassName": "GameObject",
       "Name": "Kannban",
       "Tag": 0,
       "ModelFileName": "Data/StageMap/Walk.gltf",
@@ -118,7 +118,7 @@
       "Rot": [ 0, 180, 0 ]
     },
     {
-      "ClassName": "Bench",
+      "ClassName": "GameObject",
       "Name": "Kannban",
       "Tag": 0,
       "ModelFileName": "Data/StageMap/Mouse.gltf",
@@ -127,7 +127,7 @@
       "Rot": [ 0, 300, 0 ]
     },
     {
-      "ClassName": "Bench",
+      "ClassName": "GameObject",
       "Name": "Kannban",
       "Tag": 0,
       "ModelFileName": "Data/StageMap/Atack.gltf",
@@ -136,13 +136,58 @@
       "Rot": [ 0, 270, 0 ]
     },
     {
-      "ClassName": "Bench",
+      "ClassName": "GameObject",
       "Name": "Kannban",
       "Tag": 0,
       "ModelFileName": "Data/StageMap/Barrier.gltf",
       "Pos": [ 16, -1, 3 ],
       "Scale": [ 0.5, 0.5, 0.5 ],
       "Rot": [ 0, 270, 0 ]
+    },
+    {
+      "ClassName": "Tank",
+      "Name": "Tank",
+      "Tag": 0,
+      "ModelFileName": "Data/Crystal/Crystal.gltf",
+      "Scale": [ 1.5, 1.5, 1.5 ],
+      "Pos": [ -8, -0.97, 10 ]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Box",
+      "Tag": 0,
+      "ModelFileName": "Data/Box/Tank.gltf",
+      "Pos": [ -8, -0.77, 10 ]
+    },
+    {
+      "ClassName": "Crystal",
+      "Name": "C",
+      "ModelFileName": "Data/Crystal/Crystal.gltf",
+      "Pos": [ -8, -0.9, 12 ]
+    },
+    {
+      "ClassName": "Crystal",
+      "Name": "C",
+      "ModelFileName": "Data/Crystal/Crystal.gltf",
+      "Pos": [ -7, -0.9, -4 ]
+    },
+    {
+      "ClassName": "Crystal",
+      "Name": "C",
+      "ModelFileName": "Data/Crystal/Crystal.gltf",
+      "Pos": [ -10, -0.9, 2 ]
+    },
+    {
+      "ClassName": "Crystal",
+      "Name": "C",
+      "ModelFileName": "Data/Crystal/Crystal.gltf",
+      "Pos": [ -1, -0.9, -10 ]
+    },
+    {
+      "ClassName": "Crystal",
+      "Name": "C",
+      "ModelFileName": "Data/Crystal/Crystal.gltf",
+      "Pos": [ -4, -0.9, 5 ]
     }
   ]
 }

@@ -9,6 +9,8 @@ public:
 
 	void UpdateCollision();
 
+	int GetCrystal() { return m_crystal; }
+
 	virtual void Draw2D() override;
 
 private:
@@ -20,9 +22,9 @@ private:
 	std::shared_ptr<GameObject> m_sphuman;
 
 	int m_crystal = 0;
-
+	float i = 0;
 	float m_rot;
-
+	int m_frame = 0;
 	Vec3 pos;
 
 };

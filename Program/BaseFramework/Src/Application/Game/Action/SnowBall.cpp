@@ -14,10 +14,8 @@ void SnowBall::Deserialize(const json11::Json& jsonObj)
 	{
 		m_speed = jsonObj["Speed"].number_value();
 	}
-	//煙テクスチャ
-	m_trailSmoke.SetTexture(ResFac.GetTexture("Data/Texture/smokeline2.png"));
 
-	for (UINT i = 0; i < 200; i++)
+	for (UINT i = 0; i < particleNum; i++)
 	{
 		particleSnow[i] = std::make_shared< Particle>();
 	}
@@ -58,9 +56,6 @@ void SnowBall::Update()
 	m_mWorld.Move(move);
 	
 	UpdateCollision();
-
-	//軌跡の更新
-	//UpdateTrail();
 }
 
 #include"Human.h"
@@ -150,17 +145,6 @@ void SnowBall::ParticleEffect()
 	Scene::GetInstance().AddObject(particle);
 }
 
-void SnowBall::UpdateTrail()
-{
-	//軌跡の座標を先頭に追加
-	m_trailSmoke.AddPoint(m_mWorld);
-
-	//軌跡の数制限(100以前の軌跡を消去する
-	if (m_trailSmoke.GetNumPonints() > 10) {
-		m_trailSmoke.DelPoint_Back();
-	}
-}
-
 void SnowBall::DrawEffect()
 {
 	if (!m_alive) { return; }
@@ -168,5 +152,4 @@ void SnowBall::DrawEffect()
 	SHADER.m_effectShader.SetWorldMatrix(Matrix());
 	SHADER.m_effectShader.WriteToCB();
 
-	m_trailSmoke.DrawBillboard(0.5f);
 }

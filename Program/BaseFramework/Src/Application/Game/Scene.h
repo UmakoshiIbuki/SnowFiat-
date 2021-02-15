@@ -121,7 +121,7 @@ private:
 	//-------------------------
 	// 平行光
 	//-------------------------
-	Vec3 m_lightDir = { 0,-1,0 };		//方向
+	Vec3 m_lightDir = { -5,1,2 };		//方向
 	Vec3 m_lightColor = { 1,1,1 };		//光の色
 
 	std::string m_jsonPath = "";

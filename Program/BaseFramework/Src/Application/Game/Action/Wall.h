@@ -18,8 +18,10 @@ private:
 	Matrix	m_ui;
 	int		m_ShowUiTime;
 	int     m_Life = 150;
+	Vec3    pos;
+	Vec3    scale;
 	std::weak_ptr<GameObject>m_wpOwner;		
 	std::shared_ptr<KdTexture> m_spCollTimeTex;
-	std::shared_ptr<Human> spHuman = std::make_shared<Human>();
+	std::shared_ptr<GameObject> m_sphuman = std::make_shared<GameObject>();
 
 };

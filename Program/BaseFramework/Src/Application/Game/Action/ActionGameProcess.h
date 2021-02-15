@@ -26,6 +26,7 @@ private:
 
 	int m_limit = 0;
 	std::shared_ptr<GameObject> m_sphuman;
+	std::shared_ptr<GameObject> m_sptank;
 
 	std::shared_ptr<KdTexture> m_spCrystalsOncePlace;
 	Matrix m_CrystalsOncePlaceMat;

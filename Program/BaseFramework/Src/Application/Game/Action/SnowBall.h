@@ -30,11 +30,11 @@ private:
 	int	  m_lifeSpan = 50;
 	std::weak_ptr<GameObject>m_wpTarget;
 
-	TrailPolygon m_trailSmoke;
 	float m_trailRotate = 0.0f;
 	int frame = 0;
 
-	std::shared_ptr<Particle> particleSnow[200];
+	static const int particleNum = 200;
+	std::shared_ptr<Particle> particleSnow[particleNum];
 
 	int count = 0;
 

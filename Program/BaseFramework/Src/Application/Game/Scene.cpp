@@ -246,9 +246,6 @@ void Scene::Draw()
 		SHADER.m_effectShader.SetToDevice();
 		SHADER.m_effectShader.SetTexture(D3D.GetWhiteTex()->GetSRView());
 		{
-			AddDebugLine(Math::Vector3(), Math::Vector3(0.0f, 10.0f, 0.0f));
-
-			AddDebugSphereLine(Math::Vector3(5.0f, 5.0f, 0.0f), 2.0f);
 
 			AddDebugCoordinateAxisLine(Math::Vector3(0.0f, 0.0f, 0.0f), 2.0f);
 

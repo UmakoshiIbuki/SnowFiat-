@@ -21,13 +21,8 @@ void Tank::Update()
 	this->GetModelComponent()->SetDissolveThreshold(m_dissolveThreshold);
 	//this->GetModelComponent()->
 
-	if (m_crystal >= 5)
-	{
-		Scene::GetInstance().RequestChangeScene("Data/Scene/Result.json");
-	}
-
 	m_hit = false;
-
+	m_scale.x += 0.01;
 	m_rot += 0.5;
 	m_mWorld.CreateRotationY(m_rot * KdToRadians);
 	m_mWorld.Scale(m_scale.x, m_scale.y, m_scale.z);
@@ -43,8 +38,19 @@ void Tank::Update()
 	{
 		m_crystal += human->GetCrystal();
 		human->SetCrystal(-human->GetCrystal());
-		m_dissolveThreshold = 0.5f-(float)m_crystal / 10;
+		float f = 0.5f-(float)m_crystal / 10;
+		if(m_dissolveThreshold> f)
+		m_dissolveThreshold -= 0.001f;
 	}
+
+	if (m_crystal >= 5)
+	{
+		m_frame++;
+		if (m_dissolveThreshold > 0) { return; }
+		Scene::GetInstance().SetCrystal(m_crystal);
+		Scene::GetInstance().RequestChangeScene("Data/Scene/Result.json");
+	}
+
 }
 
 void Tank::UpdateCollision()
@@ -73,8 +79,8 @@ void Tank::UpdateCollision()
 
 void Tank::Draw2D()
 {
-	if (!m_hit) { return; }
+	/*if (!m_hit) { return; }
 	m_TankMat.SetTranslation(0,0,0);
 	SHADER.m_spriteShader.SetMatrix(m_TankMat);
-	SHADER.m_spriteShader.DrawTex(m_spTankTex.get(), 0, 0);
+	SHADER.m_spriteShader.DrawTex(m_spTankTex.get(), 0, 0);*/
 }

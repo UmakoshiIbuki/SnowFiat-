@@ -10,7 +10,8 @@
             "nodes" : [
                 0,
                 1,
-                2
+                2,
+                3
             ]
         }
     ],
@@ -56,6 +57,15 @@
                 0.6954474449157715,
                 0
             ]
+        },
+        {
+            "mesh" : 1,
+            "name" : "Sphere",
+            "scale" : [
+                2.4499051570892334,
+                2.4499051570892334,
+                2.4499051570892334
+            ]
         }
     ],
     "materials" : [
@@ -79,6 +89,25 @@
                 "metallicFactor" : 1,
                 "roughnessFactor" : 1
             }
+        },
+        {
+            "doubleSided" : true,
+            "emissiveFactor" : [
+                0,
+                0,
+                0
+            ],
+            "name" : "Material.003",
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0.39128053188323975,
+                    0.768907904624939,
+                    0.8000000715255737,
+                    1
+                ],
+                "metallicFactor" : 0,
+                "roughnessFactor" : 1
+            }
         }
     ],
     "meshes" : [
@@ -93,6 +122,20 @@
                     },
                     "indices" : 3,
                     "material" : 0
+                }
+            ]
+        },
+        {
+            "name" : "Sphere.001",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 4,
+                        "NORMAL" : 5,
+                        "TEXCOORD_0" : 6
+                    },
+                    "indices" : 7,
+                    "material" : 1
                 }
             ]
         }
@@ -151,6 +194,40 @@
             "componentType" : 5123,
             "count" : 756,
             "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 4,
+            "componentType" : 5126,
+            "count" : 2344,
+            "max" : [
+                1.1912341117858887,
+                1,
+                1.1996517181396484
+            ],
+            "min" : [
+                -1.1912380456924438,
+                -0.002939760684967041,
+                -1.180594801902771
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 5,
+            "componentType" : 5126,
+            "count" : 2344,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 6,
+            "componentType" : 5126,
+            "count" : 2344,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 7,
+            "componentType" : 5123,
+            "count" : 3420,
+            "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
@@ -173,11 +250,31 @@
             "buffer" : 0,
             "byteLength" : 1512,
             "byteOffset" : 16384
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 28128,
+            "byteOffset" : 17896
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 28128,
+            "byteOffset" : 46024
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 18752,
+            "byteOffset" : 74152
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 6840,
+            "byteOffset" : 92904
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 17896,
+            "byteLength" : 99744,
             "uri" : "Tank.bin"
         }
     ]

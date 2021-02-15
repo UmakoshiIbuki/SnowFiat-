@@ -5539,7 +5539,6 @@
             "name" : "Material.006",
             "normalTexture" : {
                 "index" : 0,
-                "scale" : 9.999999046325684,
                 "texCoord" : 0
             },
             "pbrMetallicRoughness" : {
@@ -5602,15 +5601,18 @@
                 0
             ],
             "name" : "Material.001",
+            "normalTexture" : {
+                "index" : 3,
+                "scale" : 0.3999999761581421,
+                "texCoord" : 0
+            },
             "pbrMetallicRoughness" : {
-                "baseColorFactor" : [
-                    0.05474592745304108,
-                    0.1831638216972351,
-                    0.002816013526171446,
-                    1
-                ],
-                "metallicFactor" : 1,
-                "roughnessFactor" : 0.15335464477539062
+                "baseColorTexture" : {
+                    "index" : 4,
+                    "texCoord" : 0
+                },
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.5
             }
         },
         {
@@ -5622,7 +5624,7 @@
             ],
             "name" : "Material",
             "normalTexture" : {
-                "index" : 3,
+                "index" : 5,
                 "texCoord" : 0
             },
             "pbrMetallicRoughness" : {
@@ -9352,27 +9354,38 @@
             "source" : 1
         },
         {
+            "source" : 0
+        },
+        {
             "source" : 2
         },
         {
             "source" : 3
+        },
+        {
+            "source" : 4
         }
     ],
     "images" : [
         {
             "mimeType" : "image/png",
-            "name" : "housen",
-            "uri" : "housen.png"
-        },
-        {
-            "mimeType" : "image/png",
-            "name" : "yuka",
-            "uri" : "yuka.png"
-        },
-        {
-            "mimeType" : "image/png",
             "name" : "grs.normal",
             "uri" : "grs_normal.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "grs",
+            "uri" : "grs.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "StoneTileNormal",
+            "uri" : "StoneTileNormal.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "StoneTile",
+            "uri" : "StoneTile.png"
         },
         {
             "mimeType" : "image/png",
@@ -16786,7 +16799,7 @@
             "componentType" : 5126,
             "count" : 400,
             "max" : [
-                1.2550901174545288,
+                1.25,
                 0.24457570910453796,
                 1.25
             ],
@@ -20870,7 +20883,7 @@
     "buffers" : [
         {
             "byteLength" : 1270248,
-            "uri" : "StageMap2.bin"
+            "uri" : "StageMap - \u30b3\u30d4\u30fc.bin"
         }
     ]
 }

@@ -20,7 +20,7 @@ void Result::Deserialize(const json11::Json& jsonObj)
 
 	m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_ONE_0.png");
 	//Crystals =m_HitCntTen * 10+ m_HitCntOne;
-	Crystals = 20;
+	//Crystals = 20;
 }
 
 void Result::Update()
@@ -79,7 +79,7 @@ void Result::Draw()
 	SHADER.m_spriteShader.SetMatrix(m_spAttackCntMat);
 	SHADER.m_spriteShader.DrawTex(m_spAttackCntTex.get(), 0, 0);
 
-	if (i < Crystals)
+	if (i < m_CrystalCntOne)
 	{
 		if (i < 10)
 		{
@@ -98,7 +98,7 @@ void Result::Draw()
 	}
 	else
 	{
-		for (UINT i = 0; i < Crystals; i++)
+		for (UINT i = 0; i < m_CrystalCntOne; i++)
 		{
 			if (i < 10)
 			{

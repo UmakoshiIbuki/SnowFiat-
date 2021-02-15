@@ -18,7 +18,7 @@ void Human::Deserialize(const json11::Json& jsonObj)
 	
 	if (m_spCameraComponent)
 	{
-		m_spCameraComponent->OffsetMatrix().CreateTranslation(0.0f, 1.0f, 0.0f);
+		m_spCameraComponent->OffsetMatrix().CreateTranslation(0.0f, 0.8f, 0.2f);
 		m_spCameraComponent->OffsetMatrix().RotateX(5.0f * KdToRadians);
 		m_spCameraComponent->OffsetMatrix().RotateY(270.0f * KdToRadians);
 	}
@@ -173,7 +173,7 @@ void Human::UpdateShoot()
 				spSnowBall->Deserialize(ResFac.GetJSON("Data/Scene/SnowBall.json"));
 
 				Matrix mLaunch;
-				mLaunch.CreateTranslation(5.0f, 10.0f, 0.3f);
+				mLaunch.CreateTranslation(0.0f, 7.0f, 3.0f);
 				mLaunch.RotateX(340 * KdToRadians);
 				mLaunch.Scale(0.2f, 0.2f, 0.2f);
 				mLaunch *= m_mWorld;
@@ -210,9 +210,8 @@ void Human::MakeWall()
 				spWall->Deserialize(ResFac.GetJSON("Data/Scene/Wall.json"));
 
 				Matrix mLaunch;
-				//Matrix mScale;
+
 				mLaunch.CreateTranslation(0.0f, -0.5f, 5.0f);
-				mLaunch.Scale(2.0f, 1.5, 0.5f);
 
 				mLaunch *= m_mWorld;
 
@@ -319,7 +318,7 @@ void Human::CheckBump()
 	SphereInfo info;
 
 	info.m_pos = m_pos;		//中心点キャラクターの位置
-	info.m_pos.y += 0.8f;	//キャラクターのぶつかり判定をするので、ちょっと上に持ち上げる
+	info.m_pos.y += 0.4f;	//キャラクターのぶつかり判定をするので、ちょっと上に持ち上げる
 	info.m_radius = 0.4f;	//キャラクターの大きさに合わせて半径サイズもいい感じに設定する
 
 	Scene::GetInstance().AddDebugSphereLine(info.m_pos, info.m_radius, { 1,1,1,1 });

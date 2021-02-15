@@ -2,6 +2,7 @@
 #include"../Scene.h"
 #include"../AnimationEffect.h"
 #include"Human.h"
+#include"Tank.h"
 
 void ActionGameProcess::Deserialize(const json11::Json& jsonObj)
 {
@@ -15,6 +16,7 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonObj)
 	m_spFrame_1 = ResFac.GetTexture("Data/Texture/UITexture/UI_FRAME_1.png");
 
 	m_sphuman = Scene::GetInstance().FindObjectWithName("PlayerHuman");
+	m_sptank = Scene::GetInstance().FindObjectWithName("Tank");
 
 	//プレイ時間
 	if (jsonObj["Time"].is_null() == false)
@@ -52,7 +54,7 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonObj)
 	}
 	m_spSnow = ResFac.GetTexture("Data/White.png");
 
-	//KD_AUDIO.Play("Data/Audio/BGM/loop100315.wav", true);
+	KD_AUDIO.Play("Data/Audio/BGM/loop100315.wav", true);
 	
 	time = time * 60;
 }
@@ -163,14 +165,15 @@ void ActionGameProcess::Update()
 	}
 
 	std::shared_ptr<Human> human = std::dynamic_pointer_cast<Human>(m_sphuman);
+	std::shared_ptr<Tank> tank = std::dynamic_pointer_cast<Tank>(m_sptank);
+
 	if (human)
 	{
 		m_CrystalsOncePlace = human->GetCrystal();
-		Scene::GetInstance().SetCrystal(m_CrystalsOncePlace);
-		//human->SetCrystal(0);
 		Scene::GetInstance().SetHitCnt(human->GetHitCntOne(), human->GetHitCntTen());
 		AttackCnt = Scene::GetInstance().GetAttackCnt();
 	}
+
 
 	for (UINT i = 0; i < 10; i++)
 	{

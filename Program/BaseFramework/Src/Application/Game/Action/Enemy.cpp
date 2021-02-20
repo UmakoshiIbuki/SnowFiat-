@@ -38,6 +38,10 @@ void Enemy::Deserialize(const json11::Json& jsonObj)
 
 void Enemy::Update()
 {
+	SphereInfo sinfo;
+	sinfo.m_pos = m_sphuman->GetMatrix().GetTranslation();
+	sinfo.m_radius = 15;
+	if (!HitCheckBySphere(sinfo)) { return; }
 
 	if (m_RespawnTime >0)
 	{

@@ -210,8 +210,8 @@ void Human::MakeWall()
 				spWall->Deserialize(ResFac.GetJSON("Data/Scene/Wall.json"));
 
 				Matrix mLaunch;
-
-				mLaunch.CreateTranslation(0.0f, -0.5f, 5.0f);
+				mLaunch.CreateScalling(0.3f, 0.3f, 0.3f);
+				mLaunch.SetTranslation(0.0f, -0.5f, 10.0f);
 
 				mLaunch *= m_mWorld;
 

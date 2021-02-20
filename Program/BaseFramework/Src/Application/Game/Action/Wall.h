@@ -10,6 +10,7 @@ public:
 	 void Deserialize(const json11::Json& jsonObj) override;
 	 void Update()override;
 	 void Draw2D();
+	 void CheckBump();
 
 	 inline void SetOwner(const std::shared_ptr<GameObject>& spOwner) { m_wpOwner = spOwner; }
 private:

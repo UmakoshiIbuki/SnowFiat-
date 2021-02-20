@@ -65,6 +65,9 @@ private:
 	bool CanMakeWall();
 	float m_canWall = 3;
 
+	float m_length;
+	Vec3 m_hitVec;
+
 	std::shared_ptr<KdTexture> m_spWallUiTex;
 	Matrix	m_WallUi;
 	Matrix M;

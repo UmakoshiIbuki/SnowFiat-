@@ -17,59 +17,79 @@ public:
 
 	void CrystaCount(int one , int ten);
 	int GetTen() { return m_CrystalsTenthPlace; }
-	int GetOne() { return m_CrystalsOncePlace; }
+	int GetOne() { return m_CrystalsOncePlace ; }
 
 private:
 
-	std::shared_ptr<KdTexture> m_spScreenRT = nullptr;
-	std::shared_ptr<KdTexture> m_spScreenZ = nullptr;
+	//時間系///////////////////////////////////////////////////////////////
 
-	int m_limit = 0;
+	int m_TimeMinutes = 0;
+	int m_TimeSeconds = 0;
+
+	int time = 0;								//制限時間設定用　例：60を入れると制限時間60秒となる
+
+	std::shared_ptr<KdTexture> m_spFrameTex;		//枠用テクスチャ
+	std::shared_ptr<KdTexture> m_spMeterTex;		//制限時間表示メーター
+	std::shared_ptr<KdTexture> m_spInfinityTex;		//制限時間無しのテクスチャ
+	std::shared_ptr<KdTexture> m_spTimeSecondsTex;	//秒数テクスチャ
+	std::shared_ptr<KdTexture> m_spTimeMinutesTex;	//秒数テクスチャ
+
+	////////////////////////////////////////////////////////////////////////
+
+
+	Matrix m_TexMat;	//テクスチャの行列
+	Vec3   m_TexPos;	//テクスチャの座標
+
+	std::shared_ptr<KdTexture> m_spMissionTex;		//進め方表示テクスチャ
+	std::shared_ptr<KdTexture> m_spExpTex;			//操作説明画面テクスチャ
+
+	float m_rotate;
+	float m_angle = 0;
+	float scale = 1;
+
+
 	std::shared_ptr<GameObject> m_sphuman;
 	std::shared_ptr<GameObject> m_sptank;
 
-	std::shared_ptr<KdTexture> m_spCrystalsOncePlace;
-	Matrix m_CrystalsOncePlaceMat;
+	std::shared_ptr<KdTexture> m_spCrystalsOncePlaceTex;
 
-	std::shared_ptr<KdTexture> m_spCrystalsTenthPlace;
-	Matrix m_spCrystalsTenthPlaceMat;
+	std::shared_ptr<KdTexture> m_spCrystalsTenthPlaceTex;
 
-	std::string s;
+	std::string m_number;
 
-	std::shared_ptr<KdTexture> m_spFrame;
-	Matrix m_FrameMat;
+	std::shared_ptr<KdTexture> m_spSnowTex;
 
-	std::shared_ptr<KdTexture> m_spFrame_1;
-	Matrix m_FrameMat_1;
-
-	std::shared_ptr<KdTexture> m_spTimeSeconds;
-	Matrix m_TimeSecondsMat;
-
-	std::shared_ptr<KdTexture> m_spTimeMinutes;
-	Matrix m_TimeMinutesMat;
-
-	std::shared_ptr<KdTexture> m_spSnow;
-
-	static const int SnouNum=50;
-	Matrix m_SnowMat[SnouNum];
-	Vec3 pos[SnouNum] ;
+	static const int SnowNum=50;
+	Matrix m_SnowMat[SnowNum];
+	Vec3 pos[SnowNum];
 	Vec3 move;
-	float scale = 1;
-	int m_TimeMinutes = 1;
-	int m_TimeSeconds = 9;
-
-	int time = 0;
-
-	std::shared_ptr<AinmationEffect> falleffect[10] ;
-	Matrix falleffectMat[10];
+	
+	std::shared_ptr<AinmationEffect> fallSnowTex[10] ;
+	Matrix  falleffectMat[10];
 	float   falleffectposY[10];
 
-	int m_CrystalsTenthPlace = 0;
-	int m_CrystalsOncePlace = 0;
-
 	bool m_canChange = false;
+	std::shared_ptr<KdTexture> m_spPauseTex;
+	bool					   m_GoPause = false;
 
-	int AttackCnt = 0;
+	Matrix					   m_ReplayMat;
+	Vec3					   m_ReplayPos;
+
+	Matrix					   m_GoTitleMat;
+	Vec3					   m_GoTitlePos;
+
+	Matrix					   m_PauseMat;
+
+	Vec3                       MousePos;
+
+
+
 
 	Math::Vector3 copy;
+
+	///////////////////////////////////////////////////////////////////////////////////////
+	int  m_CrystalsTenthPlace = 0;
+	int  m_CrystalsOncePlace = 0;
+	int  AttackCnt = 0;
+	//////////////////////////////////////////////////////////////////////////////////////
 };

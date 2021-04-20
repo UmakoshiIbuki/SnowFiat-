@@ -66,15 +66,6 @@ public:
 
 	void ImGuiPrefabFactoryUpdate();
 
-	//デバッグライン描画
-	void AddDebugLine(const Math::Vector3& p1, const Math::Vector3& p2, const Math::Color& color = { 1,1,1,1 });
-
-	//デバッグスフィア描画
-	void AddDebugSphereLine(const Math::Vector3& pos, float radius, const Math::Color& color = { 1,1,1,1 });
-
-	//デバッグ座標軸描画
-	void AddDebugCoordinateAxisLine(const Math::Vector3& pos, float scale = 1.0f);
-
 	//GameObjectのリストを返す
 	const std::list<std::shared_ptr<GameObject>>GetObjects()const { return m_spobjects; }
 	
@@ -84,17 +75,21 @@ public:
 	int GetCrystal() { return m_crystals; }
 
 	void SetHitCnt(int one, int ten) { m_hitCntOne = one, m_hitCntTen = ten; }
-	int GetHitCntOne() { return m_hitCntOne; }
-	int GetHitCntTen() { return m_hitCntTen; }
+	int GetPlayerHitCntOne() { return m_hitCntOne; }
+	int GetPlayerHitCntTen() { return m_hitCntTen; }
 
 	void SetWhiteIn(float f) { whiteness = f; }
 	float GetWhite() { return whiteness; }
 
-	void SetAttackCnt(int one) { AttackCnt += one; }
-	int GetAttackCnt() { return AttackCnt; }
+	void SetHitCnt(int one) { HitCnt += one; }
+	int GetHitCnt() { return HitCnt; }
+
+	void SetShotCnt(int one) { ShotCnt += one; }
+	int GetShotCnt() { return ShotCnt; }
 
 private:
-	int AttackCnt = 0;
+	int HitCnt = 0;
+	int ShotCnt = 0;
 
 	bool ShowImGui = false;
 
@@ -104,8 +99,6 @@ private:
 
 	std::shared_ptr<KdTexture> m_spHeightBrightTex = nullptr;
 
-	std::shared_ptr<KdTexture> m_spTestImage = nullptr;
-
 	std::shared_ptr<KdTexture> m_spBlurRT[2] = { nullptr, nullptr };
 
 	KdBlurTexture m_blurTex;
@@ -114,6 +107,8 @@ private:
 	int m_hitCntTen = 0;
 
 	int m_crystals = 0;
+
+	bool b = false;
 
 	std::shared_ptr<KdTexture> m_spScreenRT = nullptr;
 	std::shared_ptr<KdTexture> m_spScreenZ = nullptr;
@@ -149,9 +144,6 @@ private:
 
 	//ターゲットのカメラ
 	std::weak_ptr<CameraComponent>m_wpTaegetCamera;
-
-	//デバッグライン描画用の頂点配列
-	std::vector<KdEffectShader::Vertex> m_debugLines;
 
 	ImGuiLogWindow m_Editor_Log;
 

@@ -6,8 +6,7 @@
 #include"EditorCamera.h"
 
 #include"AnimationEffect.h"
-
-#include"Bridge.h"
+#include"DebugLine.h"
 
 //コンストラクタ
 Scene::Scene()
@@ -25,12 +24,8 @@ Scene::~Scene()
 void Scene::Init()
 {
 	Scene::GetInstance().RequestChangeScene("Data/Scene/Title.json");
-	//Scene::GetInstance().RequestChangeScene("Data/Scene/Result.json");
 
 	m_spsky = ResourceFactory::GetInstance().GetModel("Data/Sky/Sky.gltf");
-	
-	//m_poly.Init(10.0f, 10.0f, { 1,1,1,1 });
-	//m_poly.SetTexture(ResFac.GetTexture("Data/Snow.png"));
 
 	m_spScreenRT = std::make_shared<KdTexture>();
 	m_spScreenRT->CreateRenderTarget(1280, 720, DXGI_FORMAT_R16G16B16A16_FLOAT);
@@ -48,8 +43,6 @@ void Scene::Init()
 	m_spHeightBrightTex->CreateRenderTarget(1280, 720, DXGI_FORMAT_R16G16B16A16_FLOAT);
 
 	m_blurTex.Create(1280, 720);
-
-	m_spTestImage = ResourceFactory::GetInstance().GetTexture("./data/texture/image.png");
 
 	DirectX::AUDIO_ENGINE_FLAGS eflags = DirectX::AudioEngine_EnvironmentalReverb | DirectX::AudioEngine_ReverbUseFilters;
 
@@ -75,34 +68,37 @@ void Scene::Release()
 void Scene::Update()
 {
 
-
 	// 点光の登録をリセットする
 	SHADER.ResetPointLight();
-
-	{
-		//疑似的な太陽の表示
-		const Vec3 sunPos = { 0.f,5.f,0.f };
-		Vec3 sunDir = m_lightDir;
-		sunDir.Normalize();
-		Vec3 color = m_lightColor;
-		color.Normalize();
-		Math::Color sunColor = color;
-		sunColor.w = 1.0f;
-		AddDebugLine(sunPos, sunPos + sunDir * 2, sunColor);
-		AddDebugSphereLine(sunPos, 0.5f, sunColor);
-	}
 
 	if (m_editorCameraEnable)
 	{
 		m_camera.Update();
 	}
 
-
 	auto slectObject = m_wpImguiSelectObj.lock();
 
 	for (auto spObj : m_spobjects)
 	{
-		spObj->Update();
+		std::string ObjName = "GameProcess";
+		std::string Name = "Title";
+
+		if (spObj->GetName() == ObjName|| spObj->GetName() == Name)
+		{
+			spObj->Update();
+		}
+		else
+		{
+			ObjName = "PlayerHuman";
+
+			if (spObj->GetName() == ObjName)
+			{
+				b = spObj->m_base;
+			}
+
+			if (b) { continue; }
+			spObj->Update();
+		}	
 	}
 
 	for (auto spObjectItr = m_spobjects.begin(); spObjectItr != m_spobjects.end();)
@@ -136,9 +132,10 @@ void Scene::Update()
 		m_canPlaySE = true;
 	}
 
-	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
+	if (GetAsyncKeyState('M') & 0x8000)
 	{
 		ShowImGui = true;
+		DebugLine::GetInstance().DebugDraw();
 	}
 
 }
@@ -191,7 +188,7 @@ void Scene::Draw()
 
 		SHADER.m_effectShader.SetWorldMatrix(skyScale);
 
-		//モデルの描画(メッシュ情報とマテリアルの情報を渡す)
+		//モデルの描画
 		if (m_spsky)
 		{
 			SHADER.m_effectShader.DrawMesh(m_spsky->GetMesh(0).get(), m_spsky->GetMaterials());
@@ -242,36 +239,7 @@ void Scene::Draw()
 		//シェーダの終了
 		SHADER.m_spriteShader.End();
 
-		////デバッグライン描画
-		SHADER.m_effectShader.SetToDevice();
-		SHADER.m_effectShader.SetTexture(D3D.GetWhiteTex()->GetSRView());
-		{
-
-			AddDebugCoordinateAxisLine(Math::Vector3(0.0f, 0.0f, 0.0f), 2.0f);
-
-			//Zバッファ使用OFF・書き込みOFF
-			D3D.GetDevContext()->OMSetDepthStencilState(SHADER.m_ds_ZDisable_ZWriteDisable, 0);
-
-			if (m_debugLines.size() >= 1)
-			{
-				SHADER.m_effectShader.SetWorldMatrix(Math::Matrix());
-
-				SHADER.m_effectShader.DrawVertices(m_debugLines, D3D_PRIMITIVE_TOPOLOGY_LINELIST);
-
-				m_debugLines.clear();
-			}
-
-			D3D.GetDevContext()->OMSetDepthStencilState(SHADER.m_ds_ZEnable_ZWriteEnable, 0);
-		}
 	}
-
-	//{
-	//	RestoreRenderTarget rrt;
-	//	D3D.GetDevContext()->OMSetRenderTargets(1, m_spBlurRT->GetRTViewAddress(), nullptr);
-	//	SHADER.m_postProcessShader.BlurDraw(m_spScreenRT.get(), DirectX::SimpleMath::Vector2(1, 0));
-	//}
-
-	//SHADER.m_postProcessShader.BlurDraw(m_spScreenRT.get(), DirectX::SimpleMath::Vector2(1, 0));
 
 	// ぼかしていない状況をそのまま表示
 	SHADER.m_postProcessShader.ColorDraw(m_spScreenRT.get(),
@@ -307,8 +275,6 @@ void Scene::Draw()
 	else {
 		SHADER.m_postProcessShader.ColorDraw(m_spScreenRT.get(), DirectX::SimpleMath::Vector4(1, 1, 1, 1));
 	}
-
-	//SHADER.m_postProcessShader.BlurDraw(m_spScreenRT.get(), DirectX::SimpleMath::Vector2(1, 0));
 
 	
 }
@@ -472,98 +438,6 @@ void Scene::LoadScene(const std::string& seneFilename)
 		//リストへ追加
 		AddObject(newGameObj);
 	}
-}
-
-//デバッグライン描画
-void Scene::AddDebugLine(const Math::Vector3& p1, const Math::Vector3& p2, const Math::Color& color)
-{
-	//ラインの開始頂点
-	KdEffectShader::Vertex ver;
-	ver.Color = color;
-	ver.UV = { 0.0f,0.0f };
-	ver.Pos = p1;
-	m_debugLines.push_back(ver);
-
-	//ラインの終端頂点
-	ver.Pos = p2;
-	m_debugLines.push_back(ver);
-}
-
-//デバッグスフィア描画
-void Scene::AddDebugSphereLine(const Math::Vector3& pos, float radius, const Math::Color& color)
-{
-	KdEffectShader::Vertex ver;
-	ver.Color = color;
-	ver.UV = { 0.0f,0.0f };
-
-	static constexpr int kDetail = 32;
-	for (UINT i = 0; i < kDetail + 1; ++i)
-	{
-		//XZ平面
-		ver.Pos = pos;
-		ver.Pos.x += cos((float)i * (360 / kDetail) * KdToRadians) * radius;
-		ver.Pos.z += sin((float)i * (360 / kDetail) * KdToRadians) * radius;
-		m_debugLines.push_back(ver);
-
-		ver.Pos = pos;
-		ver.Pos.x += cos((float)(i + 1) * (360 / kDetail) * KdToRadians) * radius;
-		ver.Pos.z += sin((float)(i + 1) * (360 / kDetail) * KdToRadians) * radius;
-		m_debugLines.push_back(ver);
-
-		//XY平面
-		ver.Pos = pos;
-		ver.Pos.x += cos((float)i * (360 / kDetail) * KdToRadians) * radius;
-		ver.Pos.y += sin((float)i * (360 / kDetail) * KdToRadians) * radius;
-		m_debugLines.push_back(ver);
-
-		ver.Pos = pos;
-		ver.Pos.x += cos((float)(i + 1) * (360 / kDetail) * KdToRadians) * radius;
-		ver.Pos.y += sin((float)(i + 1) * (360 / kDetail) * KdToRadians) * radius;
-		m_debugLines.push_back(ver);
-
-		//YZ平面
-		ver.Pos = pos;
-		ver.Pos.y += cos((float)i * (360 / kDetail) * KdToRadians) * radius;
-		ver.Pos.z += sin((float)i * (360 / kDetail) * KdToRadians) * radius;
-		m_debugLines.push_back(ver);
-
-		ver.Pos = pos;
-		ver.Pos.y += cos((float)(i + 1) * (360 / kDetail) * KdToRadians) * radius;
-		ver.Pos.z += sin((float)(i + 1) * (360 / kDetail) * KdToRadians) * radius;
-		m_debugLines.push_back(ver);
-	}
-}
-
-//デバッグ座標軸描画
-void Scene::AddDebugCoordinateAxisLine(const Math::Vector3& pos, float scale)
-{
-	KdEffectShader::Vertex ver;
-	ver.Color = { 1.0f,1.0f,1.0f,1.0f };
-	ver.UV = { 0.0f,0.0f };
-
-	//X軸・赤
-	ver.Color = { 1.0f,0.0f,0.0f,1.0f };
-	ver.Pos = pos;
-	m_debugLines.push_back(ver);
-
-	ver.Pos.x += 1.0f * scale;
-	m_debugLines.push_back(ver);
-
-	//Y軸・緑
-	ver.Color = { 0.0f,1.0f,0.0f,1.0f };
-	ver.Pos = pos;
-	m_debugLines.push_back(ver);
-
-	ver.Pos.y += 1.0f * scale;
-	m_debugLines.push_back(ver);
-
-	//Z軸・青
-	ver.Color = { 0.0f,0.0f,1.0f,1.0f };
-	ver.Pos = pos;
-	m_debugLines.push_back(ver);
-
-	ver.Pos.z += 1.0f * scale;
-	m_debugLines.push_back(ver);
 }
 
 void Scene::RequestChangeScene(const std::string& filename)

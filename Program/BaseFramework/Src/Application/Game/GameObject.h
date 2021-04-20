@@ -75,6 +75,8 @@ public:
 	float easeInOutBack(float progress);
 	float easeOutQuart(float progress);
 
+	bool m_base=false;
+
 protected:
 
 	virtual void Release();

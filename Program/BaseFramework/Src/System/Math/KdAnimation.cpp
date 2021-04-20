@@ -25,6 +25,14 @@ void KdAnimationData::Node::Interpolate(Matrix& rDst, float time)
 	{
 		rotate.CreateFromQuaternion(resultQuat);
 	}
+
+	Matrix scale;
+	Vec3 resultRot;
+	if (InterpolateScales(resultRot, time))
+	{
+		scale.CreateScalling(resultRot);
+	}
+
 	//ベクターによる座標補完
 	Matrix trans;
 	Vec3 resultVec;
@@ -32,7 +40,7 @@ void KdAnimationData::Node::Interpolate(Matrix& rDst, float time)
 	{
 		trans.CreateTranslation(resultVec);
 	}
-	rDst = rotate * trans;
+	rDst = scale * rotate * trans;
 }
 
 bool KdAnimationData::Node::InterpolateTranslations(Vec3& resurt, float time)
@@ -85,6 +93,34 @@ bool KdAnimationData::Node::InterpolateRotations(KdQuaternion& resurt, float tim
 		float f = (time - prev.m_time) / (next.m_time - prev.m_time);
 
 		resurt = DirectX::XMQuaternionSlerp(prev.m_quat, next.m_quat, f);
+	}
+	return true;
+}
+
+bool KdAnimationData::Node::InterpolateScales(Vec3& resurt, float time)
+{
+	if (m_scales.size() == 0) return false;
+
+	UINT keyIdx = BinarySearchNextAnimKey(m_scales, time);
+
+	if (keyIdx == 0)
+	{
+		resurt = m_scales.front().m_vec;
+		return true;
+	}
+	else if (keyIdx >= m_scales.size())
+	{
+		resurt = m_scales.back().m_vec;
+		return true;
+	}
+	else
+	{
+		auto& prev = m_scales[keyIdx - 1];
+		auto& next = m_scales[keyIdx];
+
+		float f = (time - prev.m_time) / (next.m_time - prev.m_time);
+
+		resurt = DirectX::XMVectorLerp(prev.m_vec, next.m_vec, f);
 	}
 	return true;
 }

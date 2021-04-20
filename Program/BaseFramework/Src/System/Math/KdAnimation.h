@@ -29,12 +29,15 @@ struct KdAnimationData
 		void Interpolate(Matrix& rDst, float time);
 		bool InterpolateTranslations(Vec3& resurt, float time);
 		bool InterpolateRotations(KdQuaternion& resurt, float time);
+		bool InterpolateScales(Vec3& resurt, float time);
 
 		int m_nodeOffset = -1;
 
 		//各チャンネル
-		std::vector<KdAnimKeyVector3> m_translations;
-		std::vector<KdAnimKeyQuaternion> m_rotations;
+		std::vector<KdAnimKeyVector3>		m_translations;
+		std::vector<KdAnimKeyQuaternion>	m_rotations;
+		std::vector<KdAnimKeyVector3>		m_scales;
+
 	};
 
 	std::vector<Node> m_nodes;

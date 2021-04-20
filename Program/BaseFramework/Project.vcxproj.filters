@@ -252,9 +252,6 @@
     <ClInclude Include="Src\System\Shader\KdPostProcessShader\KdPostProcessShader.h">
       <Filter>Src\System\Shader\KdPostProcessShader</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\Game\Bridge.h">
-      <Filter>Src\Application\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Application\Game\Action\Lamp.h">
       <Filter>Src\Application\Game\Action</Filter>
     </ClInclude>
@@ -268,6 +265,12 @@
       <Filter>Src\System\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Src\Application\Game\Action\Tank.h">
+      <Filter>Src\Application\Game\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Game\DebugLine.h">
+      <Filter>Src\Application\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Game\Action\CharacterUpdate.h">
       <Filter>Src\Application\Game\Action</Filter>
     </ClInclude>
   </ItemGroup>
@@ -422,9 +425,6 @@
     <ClCompile Include="Src\System\Shader\KdPostProcessShader\KdPostProcessShader.cpp">
       <Filter>Src\System\Shader\KdPostProcessShader</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\Game\Bridge.cpp">
-      <Filter>Src\Application\Game</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Application\Game\Action\Lamp.cpp">
       <Filter>Src\Application\Game\Action</Filter>
     </ClCompile>
@@ -438,6 +438,12 @@
       <Filter>Src\System\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Src\Application\Game\Action\Tank.cpp">
+      <Filter>Src\Application\Game\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Game\DebugLine.cpp">
+      <Filter>Src\Application\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Game\Action\CharacterUpdate.cpp">
       <Filter>Src\Application\Game\Action</Filter>
     </ClCompile>
   </ItemGroup>
@@ -504,9 +510,6 @@
     <FxCompile Include="Src\System\Shader\StandardShader\KdStandardShader_VS.hlsl">
       <Filter>Src\System\Shader\StandardShader</Filter>
     </FxCompile>
-    <FxCompile Include="Src\System\Shader\ModelShader\KdModelShader_PS.hlsl">
-      <Filter>Src\System\Shader\ModelShader</Filter>
-    </FxCompile>
     <FxCompile Include="Src\System\Shader\ModelShader\KdModelShader_VS.hlsl">
       <Filter>Src\System\Shader\ModelShader</Filter>
     </FxCompile>
@@ -530,6 +533,9 @@
     </FxCompile>
     <FxCompile Include="Src\System\Shader\GenerateShadowMapShader\KdGenerateShadowMapShader_VS.hlsl">
       <Filter>Src\System\Shader\GenerateShadowMapShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Src\System\Shader\ModelShader\ModelShader_PS.hlsl">
+      <Filter>Src\System\Shader\ModelShader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

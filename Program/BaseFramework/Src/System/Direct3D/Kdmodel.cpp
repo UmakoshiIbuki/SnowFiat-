@@ -117,6 +117,7 @@ bool KdModel::Load(const std::string& filename)
 			rDstAnimation.m_nodes[i].m_nodeOffset = rSrcAnimation.m_nodes[i]->m_nodeOffset;
 			rDstAnimation.m_nodes[i].m_translations = rSrcAnimation.m_nodes[i]->m_translations;
 			rDstAnimation.m_nodes[i].m_rotations= rSrcAnimation.m_nodes[i]->m_rotations;
+			rDstAnimation.m_nodes[i].m_scales = rSrcAnimation.m_nodes[i]->m_scales;
 		}
 	}
 

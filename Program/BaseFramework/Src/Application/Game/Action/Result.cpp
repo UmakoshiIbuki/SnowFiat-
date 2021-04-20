@@ -1,25 +1,26 @@
 ﻿#include "Result.h"
 #include"../Scene.h"
-#include"../Bridge.h"
 
 void Result::Deserialize(const json11::Json& jsonObj)
 {
-	m_spResultTex = ResFac.GetTexture("Data/Result/Result.png");
+	m_spResultTex = ResFac.GetTexture("Data/Texture/Result/Result.png");
 
 	m_CrystalCntOne =  Scene::GetInstance().GetCrystal();
 
-	m_HitCntOne =  Scene::GetInstance().GetHitCntOne();
+	m_HitCntOne =  Scene::GetInstance().GetPlayerHitCntOne();
 
-	m_AttackCnt =  Scene::GetInstance().GetAttackCnt();
+	m_AttackCnt = Scene::GetInstance().GetHitCnt();
+
+	m_HitCnt = Scene::GetInstance().GetShotCnt();
 
 	m_spCrystalCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_ONE_0.png");
 
-	m_spHitCntOneTex= ResFac.GetTexture("Data/Texture/UITexture/UI_ONE_0.png");
+	m_spDamageCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_ONE_0.png");
 
-	m_spCrystalCntTex = ResFac.GetTexture("Data/Result/Crystal.png");
+	m_spCrystalCntTex = ResFac.GetTexture("Data/Texture/Result/Crystal.png");
 
-	m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_ONE_0.png");
-	//Crystals =m_HitCntTen * 10+ m_HitCntOne;
+	m_spShotCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_ONE_0.png");
+	Crystals =m_HitCntTen * 10+ m_HitCntOne;
 	//Crystals = 20;
 }
 
@@ -43,9 +44,11 @@ void Result::Update()
 
 	CrystalCount(m_CrystalCntOne, m_CrystalCntTen);
 
-	HitCount(m_HitCntOne, m_HitCntTen);
+	DamageCount(m_HitCntOne, m_HitCntTen);
 
-	AttackCount(m_AttackCnt);
+	HitCount(m_HitCnt);
+
+	ShotCount(m_AttackCnt);
 }
 
 void Result::Draw()
@@ -64,20 +67,25 @@ void Result::Draw()
 	//SHADER.m_spriteShader.SetMatrix(m_spCrystalCntTenMat);
 	//SHADER.m_spriteShader.DrawTex(m_spCrystalCntTenTex.get(), 0, 0);
 
-	m_spHitCntOneMat.CreateScalling(0.23f, 0.15f, 1);
-	m_spHitCntOneMat.SetTranslation(Vec3(250, -120, 0));
-	SHADER.m_spriteShader.SetMatrix(m_spHitCntOneMat);
-	SHADER.m_spriteShader.DrawTex(m_spHitCntOneTex.get(), 0, 0);
+	m_spDamageCntOneMat.CreateScalling(0.23f, 0.15f, 1);
+	m_spDamageCntOneMat.SetTranslation(Vec3(250, -120, 0));
+	SHADER.m_spriteShader.SetMatrix(m_spDamageCntOneMat);
+	SHADER.m_spriteShader.DrawTex(m_spDamageCntOneTex.get(), 0, 0);
 
-	m_spHitCntTenMat.CreateScalling(0.23f, 0.15f, 1);
-	m_spHitCntTenMat.SetTranslation(Vec3(200, -120, 0));
-	SHADER.m_spriteShader.SetMatrix(m_spHitCntTenMat);
-	SHADER.m_spriteShader.DrawTex(m_spHitCntTenTex.get(), 0, 0);
+	m_spDamageCntTenMat.CreateScalling(0.23f, 0.15f, 1);
+	m_spDamageCntTenMat.SetTranslation(Vec3(200, -120, 0));
+	SHADER.m_spriteShader.SetMatrix(m_spDamageCntTenMat);
+	SHADER.m_spriteShader.DrawTex(m_spDamageCntTenTex.get(), 0, 0);
 
-	m_spAttackCntMat.CreateScalling(0.23f, 0.15f, 1);
-	m_spAttackCntMat.SetTranslation(Vec3(250, -20, 0));
-	SHADER.m_spriteShader.SetMatrix(m_spAttackCntMat);
-	SHADER.m_spriteShader.DrawTex(m_spAttackCntTex.get(), 0, 0);
+	m_spShotCntMat.CreateScalling(0.23f, 0.15f, 1);
+	m_spShotCntMat.SetTranslation(Vec3(250, -30, 0));
+	SHADER.m_spriteShader.SetMatrix(m_spShotCntMat);
+	SHADER.m_spriteShader.DrawTex(m_spShotCntTex.get(), 0, 0);
+
+	m_spHitCntMat.CreateScalling(0.23f, 0.15f, 1);
+	m_spHitCntMat.SetTranslation(Vec3(390, -30, 0));
+	SHADER.m_spriteShader.SetMatrix(m_spHitCntMat);
+	SHADER.m_spriteShader.DrawTex(m_spHitCntTex.get(), 0, 0);
 
 	if (i < m_CrystalCntOne)
 	{
@@ -207,96 +215,143 @@ void Result::CrystalCount(int one, int ten)
 	}
 }
 
-void Result::AttackCount(int one)
+void Result::ShotCount(int one)
 {
 	switch (one)
 	{
 	case 0:
 		s = "0";
-		m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spShotCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 1:
 		s = "1";
-		m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spShotCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 2:
 		s = "2";
-		m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spShotCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 3:
 		s = "3";
-		m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spShotCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 4:
 		s = "4";
-		m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spShotCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 5:
 		s = "5";
-		m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spShotCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 6:
 		s = "6";
-		m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spShotCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 7:
 		s = "7";
-		m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spShotCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 8:
 		s = "8";
-		m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spShotCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 9:
 		s = "9";
-		m_spAttackCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spShotCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	}
 }
 
-void Result::HitCount(int one, int ten)
+void Result::HitCount(int one)
 {
 	switch (one)
 	{
 	case 0:
 		s = "0";
-		m_spHitCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spHitCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 1:
 		s = "1";
-		m_spHitCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spHitCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 2:
 		s = "2";
-		m_spHitCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spHitCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 3:
 		s = "3";
-		m_spHitCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spHitCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 4:
 		s = "4";
-		m_spHitCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spHitCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 5:
 		s = "5";
-		m_spHitCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spHitCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 6:
 		s = "6";
-		m_spHitCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spHitCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 7:
 		s = "7";
-		m_spHitCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spHitCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 8:
 		s = "8";
-		m_spHitCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spHitCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 9:
 		s = "9";
-		m_spHitCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spHitCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	}
+}
+
+void Result::DamageCount(int one, int ten)
+{
+	switch (one)
+	{
+	case 0:
+		s = "0";
+		m_spDamageCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 1:
+		s = "1";
+		m_spDamageCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 2:
+		s = "2";
+		m_spDamageCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 3:
+		s = "3";
+		m_spDamageCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 4:
+		s = "4";
+		m_spDamageCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 5:
+		s = "5";
+		m_spDamageCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 6:
+		s = "6";
+		m_spDamageCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 7:
+		s = "7";
+		m_spDamageCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 8:
+		s = "8";
+		m_spDamageCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		break;
+	case 9:
+		s = "9";
+		m_spDamageCntOneTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	}
 
@@ -304,43 +359,43 @@ void Result::HitCount(int one, int ten)
 	{
 	case 0:
 		s = "0";
-		m_spHitCntTenTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spDamageCntTenTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 1:
 		s = "1";
-		m_spHitCntTenTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spDamageCntTenTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 2:
 		s = "2";
-		m_spHitCntTenTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spDamageCntTenTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 3:
 		s = "3";
-		m_spHitCntTenTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spDamageCntTenTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 4:
 		s = "4";
-		m_spHitCntTenTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spDamageCntTenTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 5:
 		s = "5";
-		m_spHitCntTenTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spDamageCntTenTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 6:
 		s = "6";
-		m_spHitCntTenTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spDamageCntTenTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 7:
 		s = "7";
-		m_spHitCntTenTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spDamageCntTenTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 8:
 		s = "8";
-		m_spHitCntTenTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spDamageCntTenTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	case 9:
 		s = "9";
-		m_spHitCntTenTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
+		m_spDamageCntTenTex = ResFac.GetTexture("Data/Texture/UITexture/UI_One_" + s + ".png");
 		break;
 	}
 }

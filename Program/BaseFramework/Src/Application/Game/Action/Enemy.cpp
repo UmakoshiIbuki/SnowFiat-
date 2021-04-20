@@ -38,13 +38,14 @@ void Enemy::Deserialize(const json11::Json& jsonObj)
 
 void Enemy::Update()
 {
-	SphereInfo sinfo;
+	/*SphereInfo sinfo;
 	sinfo.m_pos = m_sphuman->GetMatrix().GetTranslation();
 	sinfo.m_radius = 15;
-	if (!HitCheckBySphere(sinfo)) { return; }
+	if (!HitCheckBySphere(sinfo)) { return; }*/
 
 	if (m_RespawnTime >0)
 	{
+		this->GetModelComponent()->SetDissolveThreshold(m_RespawnTime);
 		m_RespawnTime--;
 		return;
 	}
@@ -81,8 +82,6 @@ void Enemy::Update()
 	m_prevPos = m_pos;
 
 	Reload();
-	MakeWall();
-	//SetTarget(m_sphuman->shared_from_this());
 
 	UpdateShoot();
 
@@ -110,21 +109,37 @@ void Enemy::Update()
 		m_pos.Move(m_force);
 		m_mWorld.Scale(m_scale.x, m_scale.y, m_scale.z);
 		m_mWorld.Move(m_pos);
-		if (frame %30==0){i = rand() % 9;}
+		if (frame %120==0){
+			i = rand() % 9; 
+			m_force.y += 0.1f;
+		}
 
-		if (i % 2 == 0)
+		if (m_scale.Length() < 1)
 		{
-			m_force.z = 0;
-			if (m_mWorld.GetTranslation().x < m_EnemyMat[i].GetTranslation().x) { m_force.x = 0.02f; }
-			if (m_mWorld.GetTranslation().x > m_EnemyMat[i].GetTranslation().x) { m_force.x = -0.02f; }
-			m_force.z = 0.0f;
+			SetAnimation("Walk");
+
+			m_hitRange = 5;
+			Shot = 0;
+			if (i % 2 == 0)
+			{
+				m_force.z = 0;
+				if (m_mWorld.GetTranslation().x < m_EnemyMat[i].GetTranslation().x) { m_force.x = m_Movespeed; }
+				if (m_mWorld.GetTranslation().x > m_EnemyMat[i].GetTranslation().x) { m_force.x = -m_Movespeed; }
+				m_force.z = 0.0f;
+			}
+			else
+			{
+				m_force.x = 0;
+				if (m_mWorld.GetTranslation().z > m_EnemyMat[i].GetTranslation().z) { m_force.z = -m_Movespeed; }
+				if (m_mWorld.GetTranslation().z < m_EnemyMat[i].GetTranslation().z) { m_force.z = m_Movespeed; }
+				m_force.x = 0.0f;
+			}
 		}
 		else
 		{
-			m_force.x = 0;
-			if (m_mWorld.GetTranslation().z > m_EnemyMat[i].GetTranslation().z) { m_force.z = -0.02f; }
-			if (m_mWorld.GetTranslation().z < m_EnemyMat[i].GetTranslation().z) { m_force.z = 0.02f; }
-			m_force.x = 0.0f;
+			m_hitRange = 9;
+			Shot = 360;
+			m_IsHitRange = true;
 		}
 	}
 
@@ -135,11 +150,11 @@ void Enemy::Update()
 
 void Enemy::SetAnimation(const char* pAnimName)
 {
-	/*if (m_spModelComponent)
+	if (m_spModelComponent)
 	{
 		std::shared_ptr<KdAnimationData> animData = m_spModelComponent->GetAnimation(pAnimName);
 		m_animator.SetAnimation(animData);
-	}*/
+	}
 }
 
 void Enemy::Damage(int damage)
@@ -154,34 +169,12 @@ bool Enemy::CanShoot()
 	return true;
 }
 
-bool Enemy::CanMakeWall()
-{
-	m_canWall -= 0.01f;
-	if (m_canWall <= 0) { return false; }
-	return true;
-}
-
 void Enemy::Trace()
 {
 	m_spBikkurieffect->SetAnimationInfo(ResFac.GetTexture("Data/Texture/Bikkuri.png"), 0.4f, 1, 1, 0, 0, 0);
 	m_BikkurieffectMat.SetTranslation(m_mWorld.GetTranslation().x, m_mWorld.GetTranslation().y + 1, m_mWorld.GetTranslation().z);
 	m_spBikkurieffect->SetMatrix(m_BikkurieffectMat);
 
-	//Vec3 Dir = m_sphuman->GetMatrix().GetTranslation() - m_mWorld.GetTranslation();
-
-	//Dir.Normalize();
-	//UpdateRotate(Dir);
-
-	//Matrix copyMat = m_mWorld;
-	//m_mWorld.CreateRotationX(m_rot.x);
-	//m_mWorld.RotateY(m_rot.y);
-	//m_mWorld.Scale(m_scale.x, m_scale.y, m_scale.z);
-	//m_mWorld.SetTranslation(copyMat.GetTranslation());
-	//m_pos = Dir * 0.02f;
-	//posY -= m_gravity;
-	//if (m_pos.y > 0.0f){return;}
-	//if (m_mWorld.GetTranslation().y < -0.67f) { posY = 0; }
-	//m_mWorld.Move(m_pos.x,posY, m_pos.z);
 	Vec3 Dir = m_sphuman->GetMatrix().GetTranslation() - m_mWorld.GetTranslation();
 
 	Dir.Normalize();
@@ -196,6 +189,8 @@ void Enemy::Trace()
 	m_pos = Dir * 0.02f;
 	m_pos.y -= m_gravity;
 	if (m_sphuman->GetMatrix().GetTranslation().y > m_mWorld.GetTranslation().y) { m_pos.y = 0; }
+
+	if (m_IsHitRange) { return; }
 
 	m_mWorld.Move(m_pos);
 }
@@ -217,10 +212,17 @@ void Enemy::UpdateShoot()
 
 				Matrix mLaunch;
 				mLaunch.CreateTranslation(0.0f, 5.0f, 5.0f);
-				mLaunch.RotateX((360 * KdToRadians) + Shot);
+
+				if (m_scale.Length() > 1)
+				{
+					spSnowBall->SetGravity(0);
+					mLaunch.CreateTranslation(0.0f, 3.0f, 5.0f);
+
+				}
+				mLaunch.RotateX(((360 - Shot) * KdToRadians) );
 				mLaunch.Scale(0.2f, 0.2f, 0.2f);
 				mLaunch *= m_mWorld;
-
+				
 				spSnowBall->SetMatrix(mLaunch);
 
 				spSnowBall->SetOwner(shared_from_this());
@@ -235,45 +237,6 @@ void Enemy::UpdateShoot()
 	else
 	{
 		m_canShoot = true;
-	}
-}
-
-void Enemy::MakeWall()
-{
-	if (m_spInputComponent->GetButton(Input::Buttons::B))
-	{
-		if (m_makeWall)
-		{
-			//m_gather += 2;
-			m_notMove = true;
-
-			std::shared_ptr<Wall> spWall = std::make_shared<Wall>();
-			if (spWall)
-			{
-				if (m_force.LengthSquared() > 0.0f) { return; }
-
-				spWall->Deserialize(ResFac.GetJSON("Data/Scene/Wall.json"));
-
-				Matrix mLaunch;
-				//Matrix mScale;
-				mLaunch.CreateTranslation(0.0f, -0.5f, 5.0f);
-				mLaunch.Scale(2.0f, 1.5, 0.5f);
-
-				mLaunch *= m_mWorld;
-
-				spWall->SetMatrix(mLaunch);
-
-				spWall->SetOwner(shared_from_this());
-
-				Scene::GetInstance().AddObject(spWall);
-
-				//m_snow -= 2;
-			}
-			m_makeWall = false;
-		}
-	}
-	else {
-		m_makeWall = true;
 	}
 }
 
@@ -322,7 +285,7 @@ void Enemy::UpdateCollision()
 
 	SphereInfo sInfo;
 	sInfo.m_pos = m_mWorld.GetTranslation();
-	sInfo.m_radius = 5.0f;
+	sInfo.m_radius = 15.0f; //索敵範囲
 
 	for (auto& obj : Scene::GetInstance().GetObjects())
 	{
@@ -330,17 +293,23 @@ void Enemy::UpdateCollision()
 
 		if (obj->GetTag() & TAG_Player)
 		{
-			if (obj->HitCheckBySphere(sInfo))
-			{
-				//if (m_cnt > 3) {  return; }
-				//m_cnt++;
-				//M = obj->GetMatrix();
+			if (obj->HitCheckBySphere(sInfo)) 
+			{				
 				m_canTrace =true;
-				//m_mWorld._42 += m_jumpPow;
+				if (m_scale.Length() > 1) { return; }
 			}
 			else {
 				m_canTrace = false;
-				//m_cnt = 0;
+			}
+
+			sInfo.m_radius = m_hitRange; //攻撃範囲
+			if (obj->HitCheckBySphere(sInfo))
+			{
+				m_IsHitRange = true;
+			}
+			else
+			{
+				m_IsHitRange = false;
 			}
 		}
 	}

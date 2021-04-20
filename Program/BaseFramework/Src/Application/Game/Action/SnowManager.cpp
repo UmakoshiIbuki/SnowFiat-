@@ -5,7 +5,6 @@
 
 void SnowManager::Deserialize(const json11::Json& jsonObj)
 {
-
 }
 
 void SnowManager::Draw2DTex(float f1,float f2)
@@ -20,7 +19,7 @@ void SnowManager::Draw2DTex(float f1,float f2)
 	m_spSnowGageTex = ResFac.GetTexture("Data/Texture/UITexture/UI_BER1.png");
 
 	m_SnowGageMat.CreateScalling(f1 / 3, 1.0f, 1.0f);
-	m_SnowGageMat.SetTranslation(Vec3(-400 - (40 * f2), -340, 0));
+	m_SnowGageMat.SetTranslation(Vec3(-400 + (40 * f2), -340, 0));
 	SHADER.m_spriteShader.SetMatrix(m_SnowGageMat);
 	SHADER.m_spriteShader.DrawTex(m_spSnowGageTex.get(), 0, 0);
 }
@@ -33,18 +32,17 @@ void SnowManager::Draw2DHP(float f1,int f2)
 	SHADER.m_spriteShader.SetMatrix(m_spBackMat);
 	SHADER.m_spriteShader.DrawTex(m_spBackTex.get(), 0, 0);
 
-	m_spHpTex = ResFac.GetTexture("Data/Texture/UITexture/UI_Hp_00.png");
 	m_spHpBerTex = ResFac.GetTexture("Data/Texture/UITexture/UI_HP_BER.png");
-
-	m_HpMat.CreateScalling(f1 / 100, 0.65f, 1.0f);
-	m_HpMat.SetTranslation(Vec3((float)-400 - f2, -285, 0));
-	SHADER.m_spriteShader.SetMatrix(m_HpMat);
-	SHADER.m_spriteShader.DrawTex(m_spHpTex.get(), 0, 0);
-
 	m_HpMat.CreateScalling(0.4f, 0.25f, 1.0f);
 	m_HpMat.SetTranslation(Vec3(-400, -280, 0));
 	SHADER.m_spriteShader.SetMatrix(m_HpMat);
 	SHADER.m_spriteShader.DrawTex(m_spHpBerTex.get(), 0, 0);
+
+	m_spHpTex = ResFac.GetTexture("Data/Texture/UITexture/UI_Hp_00.png");
+	m_HpMat.CreateScalling(f1 / 100, 0.65f, 1.0f);
+	m_HpMat.SetTranslation(Vec3((float)-400 - f2, -293, 0));
+	SHADER.m_spriteShader.SetMatrix(m_HpMat);
+	SHADER.m_spriteShader.DrawTex(m_spHpTex.get(), 0, 0);
 }
 
 void SnowManager::Draw2D()
@@ -52,13 +50,16 @@ void SnowManager::Draw2D()
 	
 }
 
-void SnowManager::Draw2DRemaining(float snow)
+void SnowManager::Draw2DRemaining(int snow)
 {
-	/*ChangeTex(snow);
-	m_SnowRemainingMat.CreateScalling(0.25f, 0.25f, 1.0f);
-	m_SnowRemainingMat.SetTranslation(Vec3(-170, -315, 0));
-	SHADER.m_spriteShader.SetMatrix(m_SnowRemainingMat);
-	SHADER.m_spriteShader.DrawTex(m_spSnowRemainingTex.get(), 0, 0);*/
+	for (int i = 0; snow >= i; i++)
+	{	
+	m_spSnowRemainingTex = ResFac.GetTexture("Data/Texture/UITexture/UI_SNOWBALL000.png");
+
+		m_SnowRemainingMat.SetTranslation(100 * snow, 0, 0);
+		SHADER.m_spriteShader.SetMatrix(m_SnowRemainingMat);
+		SHADER.m_spriteShader.DrawTex(m_spSnowRemainingTex.get(), 0, 0);
+	}
 }
 
 void SnowManager::DrawTex(std::shared_ptr<KdTexture> TexFile, Vec3 Pos)

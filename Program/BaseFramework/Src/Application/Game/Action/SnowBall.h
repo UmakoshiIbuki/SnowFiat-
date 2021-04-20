@@ -20,14 +20,21 @@ public:
 
 	void UpdateTrail();			//軌跡の更新
 	void DrawEffect()override;	//透明物の描画
+	void SetSpeed(float speed) { m_speed = speed; }
+	void SetGravity(float gravity) { m_gravity = gravity; }
+	void SetPower(float power) { m_power = power; }
 private:
 
 	Vec3  m_prevPos;		//1フレーム前の座標
 
 	std::weak_ptr<GameObject>m_wpOwner;		//発射したオーナーオブジェクト
+	int   m_shotCnt = 0;
+	int   m_hitCnt = 0;
+
 	float m_speed = 0.0f;
+	float m_power = 0.0f;
 	//float gravity = 0.0f;
-	int	  m_lifeSpan = 50;
+	int	  m_lifeSpan = 100;
 	std::weak_ptr<GameObject>m_wpTarget;
 
 	float m_trailRotate = 0.0f;

@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include"../GameObject.h"
 
+class CharacterUpdate;
+
 class Title :public GameObject
 {
 public:
@@ -11,6 +13,8 @@ public:
 	void Draw2D()override;
 
 	virtual void ImguiUpdate()override;
+
+	bool							 m_isTitleScene = true;
 
 private:
 
@@ -53,7 +57,7 @@ private:
 	Matrix					   m_ArrowMat;
 	Vec3					   m_ArrowPos;
 	float					   m_Arrowscale = 0.7f;
-	float                      m_ScrollSpeed = 0.01f;
+	float                      m_ScrollSpeed = 0.00f;
 	bool                       m_CanScroll=false;
 
 	std::shared_ptr<KdTexture> m_spArrow001Tex;
@@ -67,4 +71,11 @@ private:
 	Matrix					   m_ClickToStartMat;
 	float                      m_CposY=0;
 	float                      m_CspeedY;
+
+	int						   m_stageclearcnt=0;
+
+	std::string				   m_stagename;
+
+	std::shared_ptr<CharacterUpdate> m_spPoworUp;
+
 };

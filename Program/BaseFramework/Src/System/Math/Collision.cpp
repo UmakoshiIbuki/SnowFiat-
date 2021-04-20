@@ -41,7 +41,7 @@ bool RayToMesh(const XMVECTOR& rRayPos, const XMVECTOR& rRayDir, float maxDistan
 	///////////////////////////////////////////////////////////////////////////////
 	{
 		//AABBvsレイ
-		float AABBbist = FLT_MAX;
+		float AABBbist = 16;
 		if (rMash.GetBoundingBox().Intersects(rayPos, rayDir, AABBbist) == false) { return false; }
 
 		//最大距離以降なら範囲外なので中止
@@ -188,6 +188,16 @@ bool KdSphereToMesh(const Math::Vector3& rSpherePos, float radius, const KdMesh&
 		rPushedPos = XMVector3TransformCoord(QPos, matrix);
 	}
 	return bHit;
+}
+
+bool Collision2D(Vec3 pos1, Vec3 pos2, float width, float height)
+{
+	if (pos1.x< pos2.x + width && pos1.x>pos2.x - width && pos1.y > (pos2.y + height) * -1 && pos1.y < (pos2.y - height) * -1)
+	{
+		return true;
+	}
+
+	return false;
 }
 
 void KdPointToTriangle(const DirectX::XMVECTOR& p, const DirectX::XMVECTOR& a, const DirectX::XMVECTOR& b, const DirectX::XMVECTOR& c, DirectX::XMVECTOR& outPt)

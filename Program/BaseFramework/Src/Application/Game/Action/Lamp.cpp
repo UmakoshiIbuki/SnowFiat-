@@ -16,7 +16,7 @@ void Lamp::Update()
 	Vec3 pos = m_mWorld.GetTranslation();
 	pos.y += m_light;
 	SHADER.AddPointLight(pos, m_lightPower, m_color);
-	ImGuiUpdate();
+	//ImGuiUpdate();
 }
 
 void Lamp::ImGuiUpdate()

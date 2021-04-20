@@ -21,7 +21,7 @@
       "ClassName": "Human",
       "Name": "PlayerHuman",
       "Tag": 3,
-      "ModelFileName": "Data/Human/SnowMan.gltf",
+      "ModelFileName": "Data/Character/SnowMan.gltf",
       "Pos": [ 35, 9, -12 ],
       "Scale": [ 0.5, 0.5, 0.5 ],
       "Rot": [ 0, 0, 0 ]
@@ -51,7 +51,7 @@
       "ClassName": "Enemy",
       "Name": "Enemy00",
       "Tag": 17,
-      "ModelFileName": "Data/Human/SnowMan.gltf",
+      "ModelFileName": "Data/Character/SnowMan.gltf",
       "Pos": [ -9, 31, 12 ],
       "Scale": [ 0.5, 0.5, 0.5 ],
       "Rot": [ 0, 180, 0 ]
@@ -60,7 +60,7 @@
       "ClassName": "Enemy",
       "Name": "Enemy01",
       "Tag": 17,
-      "ModelFileName": "Data/Human/SnowMan.gltf",
+      "ModelFileName": "Data/Character/SnowMan.gltf",
       "Pos": [ 0, 31, -15 ],
       "Scale": [ 0.5, 0.5, 0.5 ],
       "Rot": [ 0, 180, 0 ]

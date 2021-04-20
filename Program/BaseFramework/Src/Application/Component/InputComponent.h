@@ -18,6 +18,7 @@ namespace Input
 		Y,
 		L1,
 		R1,
+		SHIFT,
 		BTN_MAX
 	};
 }
@@ -59,7 +60,9 @@ public:
 	//ボタン離す
 	void ReleaseButton(Input::Buttons no);
 
-	bool m_base = true;
+	void SetBase(bool base) { m_base=base; }
+
+	bool m_base = false;
 
 protected:
 
@@ -102,7 +105,11 @@ private:
 class ActionPlayerInputComponent:public InputComponent
 {
 public:
-	ActionPlayerInputComponent(GameObject& rOwner) :InputComponent(rOwner) {}
+	ActionPlayerInputComponent(GameObject& rOwner) :InputComponent(rOwner)
+	{
+		m_baseMousePos.x = 100;
+		m_baseMousePos.y = 100;
+	}
 	virtual void Update()override;
 
 	POINT m_prevMousePos;

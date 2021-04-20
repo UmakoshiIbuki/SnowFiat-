@@ -1,0 +1,8 @@
+{
+  "ClassName": "Human",
+  "ModelFileName": "Data/Character/SnowManaAnimation.gltf",
+  "Name": "PlayerHuman",
+  "Pos": [-5,-0.90000000000000002,1],
+  "Scale": [0.5,0.5,0.5],
+  "Tag": 3
+}

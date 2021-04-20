@@ -22,7 +22,6 @@ void Tank::Update()
 	//this->GetModelComponent()->
 
 	m_hit = false;
-	m_scale.x += 0.01;
 	m_rot += 0.5;
 	m_mWorld.CreateRotationY(m_rot * KdToRadians);
 	m_mWorld.Scale(m_scale.x, m_scale.y, m_scale.z);
@@ -48,6 +47,8 @@ void Tank::Update()
 		m_frame++;
 		if (m_dissolveThreshold > 0) { return; }
 		Scene::GetInstance().SetCrystal(m_crystal);
+		KD_AUDIO.StopBGM();
+		ShowCursor(true);
 		Scene::GetInstance().RequestChangeScene("Data/Scene/Result.json");
 	}
 
@@ -70,7 +71,6 @@ void Tank::UpdateCollision()
 			//当たり判定
 			if (obj->HitCheckBySphere(sInfo))
 			{
-				Scene::GetInstance().AddDebugSphereLine(sInfo.m_pos, sInfo.m_radius, { 1,0,0,1 });
 				m_hit = true;
 			}
 		}

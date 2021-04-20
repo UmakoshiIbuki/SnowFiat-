@@ -160,6 +160,7 @@
     <ClInclude Include="Src\Application\Component\ModelComponent.h" />
     <ClInclude Include="Src\Application\Game\Action\ActionGameProcess.h" />
     <ClInclude Include="Src\Application\Game\Action\Bench.h" />
+    <ClInclude Include="Src\Application\Game\Action\CharacterUpdate.h" />
     <ClInclude Include="Src\Application\Game\Action\Crystal.h" />
     <ClInclude Include="Src\Application\Game\Action\Enemy.h" />
     <ClInclude Include="Src\Application\Game\Action\Human.h" />
@@ -175,7 +176,7 @@
     <ClInclude Include="Src\Application\Game\Action\Title.h" />
     <ClInclude Include="Src\Application\Game\Action\Wall.h" />
     <ClInclude Include="Src\Application\Game\AnimationEffect.h" />
-    <ClInclude Include="Src\Application\Game\Bridge.h" />
+    <ClInclude Include="Src\Application\Game\DebugLine.h" />
     <ClInclude Include="Src\Application\Game\EditorCamera.h" />
     <ClInclude Include="Src\Application\Game\GameObject.h" />
     <ClInclude Include="Src\Application\Game\GameProcess.h" />
@@ -221,6 +222,7 @@
     <ClCompile Include="Src\Application\Component\ModelComponent.cpp" />
     <ClCompile Include="Src\Application\Game\Action\ActionGameProcess.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Bench.cpp" />
+    <ClCompile Include="Src\Application\Game\Action\CharacterUpdate.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Crystal.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Enemy.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Human.cpp" />
@@ -236,7 +238,7 @@
     <ClCompile Include="Src\Application\Game\Action\Title.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Wall.cpp" />
     <ClCompile Include="Src\Application\Game\AnimationEffect.cpp" />
-    <ClCompile Include="Src\Application\Game\Bridge.cpp" />
+    <ClCompile Include="Src\Application\Game\DebugLine.cpp" />
     <ClCompile Include="Src\Application\Game\EditorCamera.cpp" />
     <ClCompile Include="Src\Application\Game\GameObject.cpp" />
     <ClCompile Include="Src\Application\Game\Particle.cpp" />
@@ -321,7 +323,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
     </FxCompile>
-    <FxCompile Include="Src\System\Shader\ModelShader\KdModelShader_PS.hlsl">
+    <FxCompile Include="Src\System\Shader\ModelShader\ModelShader_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
     </FxCompile>

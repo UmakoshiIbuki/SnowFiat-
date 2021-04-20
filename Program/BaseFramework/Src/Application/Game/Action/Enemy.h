@@ -14,8 +14,6 @@ public:
 	void UpdateShoot();							//発射関数
 	void Reload();
 
-	void MakeWall();
-
 	void CheckBump();
 
 	bool IsGround() { return m_isGround; }
@@ -56,21 +54,15 @@ private:
 	UINT		m_tag = OBJECT_TAG::TAG_None;
 	float		Shot = 0;
 
-	float		m_speed = 0.2f;			//移動スピード
+	float		m_Movespeed = 0.02f;			//移動スピード
 
 	float		m_charge = 10.0f;		//雪玉のリロード
 	bool        m_canShoot;				//発射可能かどうか
 	bool		m_makeWall;
 	bool CanShoot();
-	bool CanMakeWall();
-	float m_canWall = 3;
 
 	float m_length;
 	Vec3 m_hitVec;
-
-	std::shared_ptr<KdTexture> m_spWallUiTex;
-	Matrix	m_WallUi;
-	Matrix M;
 
 	std::shared_ptr<GameObject> m_sphuman ;
 	std::vector<Matrix> m_EnemyMat;
@@ -98,6 +90,8 @@ private:
 
 	void Trace();
 	bool m_canTrace = false;
+	bool m_IsHitRange = false;
+	int  m_hitRange = 9;
 
 	//基本アクションステート
 	class BaseAction

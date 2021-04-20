@@ -25,6 +25,7 @@ public:
 
 	void SetAttackCnt(int attackCnt) { AttackCnt = attackCnt; }
 	int GetAttackCntTen(){ return AttackCnt; }
+
 private:
 	int AttackCnt = 0;
 
@@ -32,13 +33,18 @@ private:
 
 	//キャラクターの移動関係//////////////////////////////////////////////////////////////////
 	void UpdateMove();							//移動更新処理
+	void Crouch();
 	float		m_movespeed = 0.02f;				//移動スピード
 	Vec3		m_pos;
 	Vec3		m_force;						//キャラクターにかかる力
 	Vec3		m_rot;						    //ワールド行列の回転角度 
 	float		m_rotateAngle = 10.0f;			//キャラクターの回転速度
 	Vec3		m_prevPos;						//1フレーム前のキャラクターのPos
-	bool        m_hit = false;					//球に当たったか？
+	float       m_jumpPow = 0.1f;
+	Vec3        m_memoryPos;
+	float       m_crouch;
+	float       m_crouchSpeed;
+
 
 	//カメラ/////////////////////////////////////////////////////////////////////////////////
 	void UpdaetCamera();
@@ -49,15 +55,17 @@ private:
 	void UpdateCollision();
 	void CheckBump();
 	bool CheckGround(float& rDistance, UINT m_tag, Vec3 Pos);
-
+	bool        m_hit = false;					//球に当たったか？
 	UINT		m_tag = OBJECT_TAG::TAG_None;
 
 	//雪玉////////////////////////////////////////////////////////////////////////////////////
 	void UpdateShoot();							//発射関数
 	void ChargeSnow();
-	float		m_snow = 3.0f;		//雪玉のリロード
+	float		m_snow = 0.0f;		//雪玉のリロード
 	bool        m_canShoot;				//発射可能かどうか
-	float		m_gather = 0;
+	float		m_gather = -3.0f;
+	float		m_power = 0.0f;
+	int			m_SnowBallNum = 0;
 
 	std::shared_ptr<KdTexture> m_spReLoadTex;
 	Matrix					   m_ReLoadMat;
@@ -74,13 +82,18 @@ private:
 	int         m_hitCntTen = 0;
 
 	void Draw2D();
-	std::shared_ptr<KdTexture> m_spHpTex;			//HPの内側テクスチャ(増減するもの)
-	std::shared_ptr<KdTexture> m_spHpBerTex;		//HPの外側のテクスチャ
+	std::shared_ptr<KdTexture> m_spHpTex;		//HPの内側テクスチャ(増減するもの)
+	std::shared_ptr<KdTexture> m_spHpBerTex;	//HPの外側のテクスチャ
 	Matrix					   m_HpMat;			//描画位置
 	int						   m_hpScroll = 0;	//描画位置を合わせる用(位置の調整)	
+
+	std::shared_ptr<KdTexture> m_spReticleTex;		//十字のレティクル
+	Matrix					   m_ReticleMat;		//描画位置
+	float					   m_Scale = 0.6;
+	
 	
 	bool m_notMove = false;
-	int  m_canMove = 0;//壁を作った時やリロードの間動かなくする用
+	bool m_canmGather =false;//壁を作った時やリロードの間動かなくする用
 
 	KdAnimator m_animator;
 
@@ -88,9 +101,8 @@ private:
 	static const float s_landingHeight;			//地面から足が離れていても着地しているとする高さ(坂道などを下るときに宙に浮くのを避ける)
 	
 	int frame = 0;
-	float       m_jumpPow = 0.1f;
 
-	int m_crystal = 1;
+	int m_crystal = 2;
 
 	bool IsChangeMove();  // 移動状態に遷移するかどうか
 	bool IsChangeJump();  // ジャンプ状態に遷移するかどうか
@@ -99,7 +111,7 @@ private:
 	void ChangeMove();// 移動に変更
 	void ChangeJump();// ジャンプに変更
 
-		//基本アクションステート
+	//基本アクションステート
 	class BaseAction
 	{
 	public:

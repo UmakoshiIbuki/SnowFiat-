@@ -19,6 +19,7 @@ void SnowBall::Deserialize(const json11::Json& jsonObj)
 	{
 		particleSnow[i] = std::make_shared< Particle>();
 	}
+
 }
 
 void SnowBall::Update()
@@ -32,7 +33,7 @@ void SnowBall::Update()
 
 	frame++;
 	 {
-		static const std::string filename = "Data/SnowCrystal.png";
+		static const std::string filename = "Data/Texture/SnowCrystal.png";
 		particleSnow[count]->SetTextureFile(filename);
 		particleSnow[count]->SetShowTime(20);
 		particleSnow[count]->SetSize(0.1f);
@@ -48,7 +49,10 @@ void SnowBall::Update()
 	move.Normalize();
 	m_speed *= 0.98;
 	move *= m_speed;
-	m_gravity += 0.005f;
+	if (m_gravity != 0)
+	{
+		m_gravity += 0.002f;
+	}
 	move.y -= m_gravity;
 	// 移動前の座標を覚える
 	m_prevPos = m_mWorld.GetTranslation();
@@ -108,9 +112,8 @@ void SnowBall::UpdateCollision()
 			std::shared_ptr<Enemy> enemy = std::dynamic_pointer_cast<Enemy>(obj);
 			if (enemy)
 			{
-				enemy->Damage(10);
-				Scene::GetInstance().SetAttackCnt(1);
-
+				enemy->Damage(m_power);
+				Scene::GetInstance().SetHitCnt(1);
 			}
 		}
 
@@ -122,8 +125,7 @@ void SnowBall::UpdateCollision()
 		}
 
 		if (hit)
-		{
-			
+		{			
 			ParticleEffect();
 			Destroy();
 		}
@@ -133,7 +135,7 @@ void SnowBall::UpdateCollision()
 #include"../../Game/AnimationEffect.h"
 void SnowBall::ParticleEffect()
 {
-	static const std::string filename = "Data/White.png";
+	static const std::string filename = "Data/Texture/White.png";
 	std::shared_ptr<Particle> particle = std::make_shared< Particle>();
 	particle->SetTextureFile(filename);
 	particle->SetShowTime(30);

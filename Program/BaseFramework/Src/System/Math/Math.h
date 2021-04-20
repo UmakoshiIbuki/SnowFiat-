@@ -130,6 +130,22 @@ public:
 		this->z += z;
 		return *this;
 	}
+
+	Vec3 SetPos(Vec3 v1)
+	{
+		this->x = v1.x;
+		this->y = v1.y;
+		this->z = v1.z;
+		return *this;
+	}
+
+	Vec3 SetPos(float x, float y, float z)
+	{
+		this->x = x;
+		this->y = y;
+		this->z = z;
+		return *this;
+	}
 };
 
 //4*4の行列
@@ -193,10 +209,20 @@ public:
 	{
 		*this = DirectX::XMMatrixRotationY(angle);
 	}
+
+	void CreateRotationZ(float angle)
+	{
+		*this = DirectX::XMMatrixRotationZ(angle);
+	}
 	//拡縮行列作成
 	void CreateScalling(float x, float y, float z)
 	{
 		*this = DirectX::XMMatrixScaling(x, y, z);
+	}
+
+	void CreateScalling(const Vec3& v)
+	{
+		*this = DirectX::XMMatrixScaling(v.x, v.y, v.z);
 	}
 
 	void CreateFromQuaternion(const Math::Quaternion& quat)

@@ -16,6 +16,19 @@ void KdAudioManager::Relese()
 	m_audioEng = nullptr;
 }
 
+void KdAudioManager::StopBGM()
+{
+	for (auto itr = m_playList.begin(); itr != m_playList.end();)
+	{
+		if (!itr->second->IsPlaying())
+		{
+			itr = m_playList.erase(itr);
+			continue;
+		}
+		++itr;
+	}
+}
+
 void KdAudioManager::Update()
 {
 	//サウンドエンジンの更新

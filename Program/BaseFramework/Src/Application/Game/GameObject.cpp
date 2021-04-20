@@ -281,6 +281,8 @@ void GameObject::Release()
 #include"Particle.h"
 #include"Action/Crystal.h"
 #include"Action/Tank.h"
+#include"Action/Wall.h"
+#include"Action/RollingBall.h"
 std::shared_ptr<GameObject>CreateGameObject(const std::string& name)
 {
 	if (name == "GameObject") {
@@ -289,6 +291,14 @@ std::shared_ptr<GameObject>CreateGameObject(const std::string& name)
 
 	if (name == "HumanMini") {
 		return std::make_shared<HumanMini>();
+	}
+
+	if (name == "Wall") {
+		return std::make_shared<Wall>();
+	}
+
+	if (name == "RollingBall") {
+		return std::make_shared<RollingBall>();
 	}
 
 	if (name == "Human") {

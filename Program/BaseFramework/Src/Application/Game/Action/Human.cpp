@@ -8,12 +8,16 @@
 #include"../../Component//InputComponent.h"
 #include"../../Component//ModelComponent.h"
 #include"SnowManager.h"
+#include"../DebugLine.h"
 
 const float Human::s_allowToStepHeight=0.8f;
 const float Human::s_landingHeight=0.1f;
 
 void Human::Deserialize(const json11::Json& jsonObj)
 {
+
+	ShowCursor(false);
+
 	GameObject::Deserialize(jsonObj);
 	
 	if (m_spCameraComponent)
@@ -29,21 +33,27 @@ void Human::Deserialize(const json11::Json& jsonObj)
 		m_spInputComponent = std::make_shared<ActionPlayerInputComponent>(*this);
 	}
 
-	SetAnimation("Stand");
-	
+	SetAnimation("Walk");
+	const std::vector<json11::Json>& rRot = jsonObj["Rot"].array_items();
+	m_power = jsonObj["Power"].int_value();
+
+	m_CamMat.RotateZ((-5 * KdToRadians));
+	m_CamMat.RotateY((-140 * KdToRadians));
+	m_spCameraComponent->SetCameraMatrix(m_CamMat);
+
 	m_spActionState = std::make_shared<ActionWait>();
 	m_pos = m_mWorld.GetTranslation();
-	m_gravity = 0.008;
+	m_gravity = 0.008f;
+
+	m_spReticleTex = ResFac.GetInstance().GetTexture("Data/Texture/UITexture/UI_Reticle.png");
 }
 
 void Human::Update()
 {
 
-	if(m_spInputComponent){m_spInputComponent->Update();}
+	if (m_spInputComponent) { m_spInputComponent->Update(); }
 
-	//カーソル固定解除
-	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000){m_spInputComponent->m_base=false;}
-	
+	m_spInputComponent->SetBase(m_base);
 	frame++;
 
 	//移動前の座標を覚える
@@ -61,11 +71,10 @@ void Human::Update()
 
 	ChargeSnow();
 
+	Crouch();
+
 	//移動力をキャラクターの座標に足しこむ
 	m_pos.Move(m_force);
-
-	//m_mWorld.CreateRotationX(m_rot.x);
-	//m_mWorld.RotateX(350 * KdToRadians);
 		
 	m_mWorld.CreateScalling(m_scale.x, m_scale.y, m_scale.z);
 
@@ -89,19 +98,17 @@ void Human::Update()
 		m_hit = false;
 	}
 
-	
-
 	m_animator.AdvanceTime(m_spModelComponent->GetChangeableNodes());
 
 }
 
 void Human::SetAnimation(const char* pAnimName)
 {
-	/*if (m_spModelComponent)
+	if (m_spModelComponent)
 	{
 		std::shared_ptr<KdAnimationData> animData = m_spModelComponent->GetAnimation(pAnimName);
 		m_animator.SetAnimation(animData);
-	}*/
+	}
 }
 
 
@@ -124,13 +131,17 @@ void Human::Damage(float damage)
 
 	if (m_hp <= 0)
 	{
-		m_spActionState = std::make_shared<ActionDie>();
+		m_spInputComponent->m_base = false;
+		ShowCursor(true);
+		Scene::GetInstance().RequestChangeScene("Data/Scene/Result.json");
+		//m_spActionState = std::make_shared<ActionDie>();
 	}
 }
 
 bool Human::CanAction()
 {
-	if (m_snow <= 0) { return false; }
+	if(!m_canmGather) { return false; }		//雪溜め中それしかできない
+	
 	return true;
 }
 
@@ -138,16 +149,21 @@ void Human::ChargeSnow()
 {
 	if (m_spInputComponent->GetButton(Input::Buttons::X))
 	{
-		//m_notMove = true;
-		m_snow   += 0.1f;
-		m_gather -= 0.1f;
-
-		
+		if (m_SnowBallNum >= 5) { return; }
+		m_snow += 0.1f;
+		m_gather += 0.1f;
+		m_canShoot = false;
+		m_canmGather = false;
+	
 		if (m_snow >= 3)
 		{ 
-			m_snow   = 3; 
-			m_gather = 0.0f;
+			m_SnowBallNum++;
+			m_snow   = 0; 
+			m_gather = -3.0f;
 		}
+	}
+	else {
+		m_canmGather = true;
 	}
 }
 
@@ -155,8 +171,8 @@ void Human::UpdateShoot()
 {
 	if (m_spInputComponent == nullptr) { return; }
 
-	if (!CanAction()) { return; }
-
+	if (!CanAction()) { return; }		//溜めているとき
+	
 	if (m_spInputComponent->GetButton(Input::Buttons::A))
 	{
 		m_canShoot = true;
@@ -165,8 +181,9 @@ void Human::UpdateShoot()
 	{
 		if (m_canShoot)
 		{
-			m_gather++;
-			m_snow--;
+
+			if (m_SnowBallNum <= 0.0f) { return; }
+			m_SnowBallNum--;
 			std::shared_ptr<SnowBall> spSnowBall = std::make_shared< SnowBall>();
 			if (spSnowBall)
 			{
@@ -174,15 +191,17 @@ void Human::UpdateShoot()
 
 				Matrix mLaunch;
 				mLaunch.CreateTranslation(0.0f, 7.0f, 3.0f);
-				mLaunch.RotateX(340 * KdToRadians);
+				mLaunch.RotateX(350 * KdToRadians);
 				mLaunch.Scale(0.2f, 0.2f, 0.2f);
 				mLaunch *= m_mWorld;
 
 				spSnowBall->SetMatrix(mLaunch);
+				spSnowBall->SetPower(m_power);
 
 				spSnowBall->SetOwner(shared_from_this());
 
 				Scene::GetInstance().AddObject(spSnowBall);
+				Scene::GetInstance().SetShotCnt(1);
 
 				float minDistance = FLT_MAX;
 			}
@@ -193,14 +212,14 @@ void Human::UpdateShoot()
 
 void Human::MakeWall()
 {
-	if (!CanAction()) { return; }
+	if (!CanAction()) { return; }		//溜めているとき
+	if (m_snow <= 2) { return; }		//雪が足りなかったら帰る
 
 	if (m_spInputComponent->GetButton(Input::Buttons::B))
 	{
 		if (m_makeWall)
 		{
-			m_gather += 2;
-			m_notMove = true;
+			m_gather -= 2;
 
 			std::shared_ptr<Wall> spWall = std::make_shared<Wall>();
 			if (spWall)
@@ -210,8 +229,8 @@ void Human::MakeWall()
 				spWall->Deserialize(ResFac.GetJSON("Data/Scene/Wall.json"));
 
 				Matrix mLaunch;
-				mLaunch.CreateScalling(0.3f, 0.3f, 0.3f);
-				mLaunch.SetTranslation(0.0f, -0.5f, 10.0f);
+				mLaunch.Scale(2.0f, 1.5, 0.5f);
+				mLaunch.CreateTranslation(0.0f, -0.5f, 2.0f);
 
 				mLaunch *= m_mWorld;
 
@@ -233,8 +252,8 @@ void Human::MakeWall()
 
 void Human::UpdateMove()
 {
+
 	if (!m_spCameraComponent) { return; }
-	if (m_notMove) { return; }
 
 	const Math::Vector2& inputMove = m_spInputComponent->GetAxis(Input::Axes::L);
 	Vec3 moveSide = m_spCameraComponent->GetCameraMatrix().GetAxisX() * inputMove.x;
@@ -249,14 +268,33 @@ void Human::UpdateMove()
 
 	//移動速度補正
 	moveVec *= m_movespeed;
-
+	
 	m_force.x = moveVec.x;
 	m_force.z = moveVec.z;
+}
+
+void Human::Crouch()
+{
 	if (GetAsyncKeyState(VK_SHIFT) & 0x8000)
 	{
 		m_force.z *= 2.5f;
 		m_force.x *= 2.5f;
 	}
+	if (m_spInputComponent->GetButton(Input::Buttons::SHIFT))
+	{
+		if (m_crouch < -0.5f) { m_crouchSpeed = 0; return; }
+		m_crouchSpeed -= 0.01f;
+		m_crouch += m_crouchSpeed;
+	}
+	else
+	{
+		if (m_crouch > 0.0f) { m_crouchSpeed = 0; return; }
+		m_crouchSpeed += 0.01f;
+			m_crouch += m_crouchSpeed;
+	
+
+	}
+
 }
 
 void Human::UpdaetCamera()
@@ -266,9 +304,7 @@ void Human::UpdaetCamera()
 
 	const Math::Vector2& inputRotate = m_spInputComponent->GetAxis(Input::R);
 
-	//m_spCameraComponent->OffsetMatrix().RotateY(inputRotate.x * m_camRotSpeed * KdToRadians);
-
-	Vec3 moveVec = { inputRotate.x,0.0f,inputRotate.y };
+	Vec3 moveVec = { -inputRotate.x,0.0f,-inputRotate.y };
 	moveVec *= m_movespeed;
 
 	float DeltaX = moveVec.x;
@@ -283,15 +319,8 @@ void Human::UpdaetCamera()
 	mRotX = DirectX::XMMatrixRotationAxis(AxisX, DeltaY * KdToRadians);
 	m_CamMat *= mRotX;
 
-	m_CamMat.SetTranslation(m_pos);
+	m_CamMat.SetTranslation(m_pos.x, m_pos.y + m_crouch, m_pos.z);
 	m_spCameraComponent->SetCameraMatrix(m_CamMat);
-
-	/*Matrix m_CamMat=m_spCameraComponent->GetCameraMatrix();
-	if (!m_spCameraComponent) { return; }
-	if (m_notMove) { return; }
-
-	const Math::Vector2& inputRotate = m_spInputComponent->GetAxis(Input::R);
-	*/
 }
 
 void Human::UpdateCollision()
@@ -303,6 +332,7 @@ void Human::UpdateCollision()
 	//下方向への判定を行い、着地した
 	if (CheckGround(distanceFromGround, TAG_StageObject, m_pos))
 	{
+		m_force *= 0.99;
 		//地面の上にy座標を移動
 		m_pos.y += s_allowToStepHeight - distanceFromGround;
 		//地面があるので、y方向への移動量は0に
@@ -312,16 +342,15 @@ void Human::UpdateCollision()
 	}
 
 }
-
 void Human::CheckBump()
 {
 	SphereInfo info;
+	
+	DebugLine::GetInstance().AddDebugSphereLine(info.m_pos, info.m_radius, { 1,1,1,1 });
 
 	info.m_pos = m_pos;		//中心点キャラクターの位置
 	info.m_pos.y += 0.4f;	//キャラクターのぶつかり判定をするので、ちょっと上に持ち上げる
-	info.m_radius = 0.4f;	//キャラクターの大きさに合わせて半径サイズもいい感じに設定する
-
-	Scene::GetInstance().AddDebugSphereLine(info.m_pos, info.m_radius, { 1,1,1,1 });
+	info.m_radius = 0.2f;	//キャラクターの大きさに合わせて半径サイズもいい感じに設定する
 
 	for (auto& obj : Scene::GetInstance().GetObjects())
 	{
@@ -341,6 +370,7 @@ void Human::CheckBump()
 		}
 	}
 
+
 }
 
 bool Human::CheckGround(float& rDstDistance, UINT m_tag, Vec3 Pos)
@@ -357,7 +387,7 @@ bool Human::CheckGround(float& rDstDistance, UINT m_tag, Vec3 Pos)
 
 	//地面方向へのレイ
 	rayInfo.m_dir = { 0.0f,-1.0f,0.0f };
-	rayInfo.m_maxRange = FLT_MAX;
+	rayInfo.m_maxRange = 15;
 
 	KdRayResult finalRayResult;
 
@@ -416,6 +446,11 @@ void Human::Draw2D()
 	SnowManager snow;
 	snow.Draw2DHP(m_hp, m_hpScroll);
 	snow.Draw2DTex(m_snow, m_gather);
+	snow.Draw2DRemaining(m_SnowBallNum);
+
+	m_ReticleMat.CreateScalling(m_Scale, m_Scale, m_Scale);
+	SHADER.m_spriteShader.SetMatrix(m_ReticleMat);
+	SHADER.m_spriteShader.DrawTex(m_spReticleTex.get(), 0, 0);
 }
 
 bool Human::IsChangeMove()
@@ -444,8 +479,8 @@ bool Human::IsChangeJump()
 
 void Human::ChangeWait()
 {
-	m_force.x = 0.0f;
-	m_force.z = 0.0f;
+	/*m_force.x = 0.0f;
+	m_force.z = 0.0f;*/
 	// 待機アクションへ遷移
 	m_spActionState = std::make_shared<ActionWait>();
 }

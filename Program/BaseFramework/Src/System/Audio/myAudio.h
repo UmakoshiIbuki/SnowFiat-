@@ -45,6 +45,7 @@ public:
 	bool Play(const std::string& rName, bool loop=false);
 	bool Init();
 	void Relese();
+	void StopBGM();
 
 	void Update();
 	void AddPlayList(const std::shared_ptr<KdSoundInstance>& rSound)

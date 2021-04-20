@@ -9,7 +9,7 @@ public:
 	void Draw2DTex(float f1,float f2);
 	void Draw2DHP(float f1,int f2);
 	void Draw2D();
-	void Draw2DRemaining(float snow);
+	void Draw2DRemaining(int snow);
 	void DrawTex(std::shared_ptr<KdTexture> TexFile, Vec3	Pos);
 	void Update()override;
 	

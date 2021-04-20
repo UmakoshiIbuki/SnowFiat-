@@ -1,0 +1,124 @@
+{
+  "GameObjects": [
+
+    {
+      "ClassName": "GameObject",
+      "Name": "StageMap",
+      "Tag": 4,
+      "ModelFileName": "Data/StageMap/StageMap.gltf",
+      "Pos": [ 1, -1, 1 ],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
+      "ClassName": "Human",
+      "Name": "PlayerHuman",
+      "Tag": 3,
+      "Prefab": "Data/Scene/Human.json"
+    },
+    {
+      "ClassName": "Enemy",
+      "Name": "Enemy00",
+      "Tag": 17,
+      "ModelFileName": "Data/Character/SnowManaAnimation.gltf",
+      "Pos": [ 0, 0, 6 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 180, 0 ]
+    },
+    {
+      "ClassName": "Enemy",
+      "Name": "Enemy01",
+      "Tag": 17,
+      "ModelFileName": "Data/Character/SnowManaAnimation.gltf",
+      "Pos": [ 0, -0.9, -15 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 100, 0 ]
+    },
+    {
+      "ClassName": "Lamp",
+      "Name": "Lamp01",
+      "ModelFileName": "Data/StageMap/Lamp.gltf",
+      "Pos": [ -15, -0.9, 5 ],
+      "Color": [ 50, 50, 50 ],
+      "LightPower": 6,
+      "LightPosY": 4.7
+    },
+    {
+      "ClassName": "Lamp",
+      "Name": "Lamp02",
+      "ModelFileName": "Data/StageMap/Lamp.gltf",
+      "Pos": [ 0, -0.9, 15 ],
+      "Color": [ 50, 50, 50 ],
+      "LightPower": 6,
+      "LightPosY": 4.7
+    },
+    {
+      "ClassName": "Lamp",
+      "Name": "Lamp03",
+      "ModelFileName": "Data/StageMap/Lamp.gltf",
+      "Pos": [ 15, -0.9, 5 ],
+      "Color": [ 50, 50, 50 ],
+      "LightPower": 6,
+      "LightPosY": 4.7
+    },
+    {
+      "ClassName": "Lamp",
+      "Name": "Lamp04",
+      "ModelFileName": "Data/StageMap/Lamp.gltf",
+      "Pos": [ 0, -0.9, -15 ],
+      "Color": [ 50, 50, 50 ],
+      "LightPower": 6,
+      "LightPosY": 4.7
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Bench01",
+      "Tag": 0,
+      "ModelFileName": "Data/StageMap/Bench.gltf",
+      "Scale": [ 0.3, 0.3, 0.3 ],
+      "Rot": [ 0, 240, 0 ],
+      "Pos": [ 10, -0.9, -10 ]
+    },
+    {
+      "ClassName": "ActionGameProcess",
+      "Name": "GameProcess",
+      "Time": 0,
+      "TimeShow": [ 0, 3, 0 ]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Kannban",
+      "Tag": 0,
+      "ModelFileName": "Data/StageMap/Walk.gltf",
+      "Pos": [ -7, -1, 9 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 220, 0 ]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Kannban",
+      "Tag": 0,
+      "ModelFileName": "Data/StageMap/Mouse.gltf",
+      "Pos": [ -6.5, -1, 10.5 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 180, 0 ]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Kannban",
+      "Tag": 0,
+      "ModelFileName": "Data/StageMap/Atack.gltf",
+      "Pos": [ 11, -1, 13 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 270, 0 ]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Kannban",
+      "Tag": 0,
+      "ModelFileName": "Data/StageMap/Barrier.gltf",
+      "Pos": [ 16, -1, 3 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 270, 0 ]
+    }
+  ]
+}

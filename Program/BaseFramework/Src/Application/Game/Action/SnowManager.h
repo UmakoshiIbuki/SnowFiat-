@@ -10,11 +10,10 @@ public:
 	void Draw2DHP(float f1,int f2);
 	void Draw2D();
 	void Draw2DRemaining(int snow);
-	void DrawTex(std::shared_ptr<KdTexture> TexFile, Vec3	Pos);
+	void DrawTex(std::string TexFile, Vec3	Pos);
 	void Update()override;
 	
 private:
-	void ChangeTex(float m_snow);
 	std::shared_ptr<KdTexture> m_spSnowRemainingTex;	//雪玉の残弾数
 	Matrix					   m_SnowRemainingMat;		//描画位置
 
@@ -32,6 +31,8 @@ private:
 	std::shared_ptr<KdTexture> m_spHpBerTex;
 
 	std::shared_ptr<KdTexture> m_spParticleTex;
+
+	std::shared_ptr<KdTexture> m_spTex;
 
 };
 

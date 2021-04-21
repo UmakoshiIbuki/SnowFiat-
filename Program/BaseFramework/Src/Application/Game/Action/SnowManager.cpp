@@ -52,44 +52,24 @@ void SnowManager::Draw2D()
 
 void SnowManager::Draw2DRemaining(int snow)
 {
-	for (int i = 0; snow >= i; i++)
-	{	
 	m_spSnowRemainingTex = ResFac.GetTexture("Data/Texture/UITexture/UI_SNOWBALL000.png");
 
-		m_SnowRemainingMat.SetTranslation(100 * snow, 0, 0);
-		SHADER.m_spriteShader.SetMatrix(m_SnowRemainingMat);
-		SHADER.m_spriteShader.DrawTex(m_spSnowRemainingTex.get(), 0, 0);
-	}
+	m_SnowRemainingMat.CreateScalling(0.25f, 0.25f, 1.0f);
+	m_SnowRemainingMat.SetTranslation(50 * snow, -330, 0);
+	SHADER.m_spriteShader.SetMatrix(m_SnowRemainingMat);
+	SHADER.m_spriteShader.DrawTex(m_spSnowRemainingTex.get(), 0, 0);
 }
 
-void SnowManager::DrawTex(std::shared_ptr<KdTexture> TexFile, Vec3 Pos)
+void SnowManager::DrawTex(std::string TexFile, Vec3 Pos)
 {
+	m_spTex = ResFac.GetTexture("Data/Texture/UITexture/"+TexFile+".png");
 	Matrix mat;
 	mat.SetTranslation(Pos.x-1, Pos.y+2, Pos.z);
 	SHADER.m_spriteShader.SetMatrix(mat);
-	SHADER.m_spriteShader.DrawTex(TexFile.get(), 0, 0);
+	SHADER.m_spriteShader.DrawTex(m_spTex.get(), 0, 0);
 }
 
 void SnowManager::Update()
 {
 	
-}
-
-void SnowManager::ChangeTex(float m_snow)
-{
-	switch ((int)m_snow)
-	{
-	case 3:
-		m_spSnowRemainingTex = ResFac.GetTexture("Data/Texture/UITexture/UI_BUCKET.png");
-		break;
-	case 2:
-		m_spSnowRemainingTex = ResFac.GetTexture("Data/Texture/UITexture/UI_BUCKET.png");
-		break;
-	case 1:
-		m_spSnowRemainingTex = ResFac.GetTexture("Data/Texture/UITexture/UI_BUCKET.png");
-		break;
-	case 0:
-		m_spSnowRemainingTex = ResFac.GetTexture("Data/Texture/UITexture/UI_BUCKET.png");
-		break;
-	}
 }

@@ -446,7 +446,15 @@ void Human::Draw2D()
 	SnowManager snow;
 	snow.Draw2DHP(m_hp, m_hpScroll);
 	snow.Draw2DTex(m_snow, m_gather);
-	snow.Draw2DRemaining(m_SnowBallNum);
+
+	Vec3 pos;
+	pos.SetPos(110, -330, 0);
+	snow.DrawTex("UI_SnowBallGage", pos);
+
+	for (int i = 0; m_SnowBallNum > i; i++)
+	{
+		snow.Draw2DRemaining(i);
+	}
 
 	m_ReticleMat.CreateScalling(m_Scale, m_Scale, m_Scale);
 	SHADER.m_spriteShader.SetMatrix(m_ReticleMat);

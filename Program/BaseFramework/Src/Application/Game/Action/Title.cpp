@@ -281,7 +281,7 @@ void Title::Draw2D()
 
 		m_spTitleTex = ResFac.GetTexture("Data/Texture/Title/arrow.png");
 		m_Arrow001Mat.CreateScalling(m_Arrow001scale, m_Arrow001scale, 0);
-		m_Arrow001Mat.RotateY(180 * KdToRadians);
+		m_Arrow001Mat.RotateY(180 * ToRadians);
 		m_Arrow001Mat.SetTranslation(m_Arrow001Pos);
 		SHADER.m_spriteShader.SetMatrix(m_Arrow001Mat);
 		SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 0);

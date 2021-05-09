@@ -101,7 +101,6 @@ void SnowBall::UpdateCollision()
 
 		if (hit)
 		{
-			//std::dinamic_pointer_cast=基底クラス型をダウンキャストするときに使う。失敗するとnullptrが帰る
 			std::shared_ptr<Human> human = std::dynamic_pointer_cast<Human>(obj);
 			if (human)
 			{
@@ -112,7 +111,8 @@ void SnowBall::UpdateCollision()
 			std::shared_ptr<Enemy> enemy = std::dynamic_pointer_cast<Enemy>(obj);
 			if (enemy)
 			{
-				enemy->Damage(m_power);
+				enemy->Damage(m_power); 
+				//enemy->SetTargetMat(spOwner->GetMatrix());
 				Scene::GetInstance().SetHitCnt(1);
 			}
 		}

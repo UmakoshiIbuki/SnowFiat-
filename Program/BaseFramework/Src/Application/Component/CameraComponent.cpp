@@ -3,7 +3,7 @@
 //コンストラクター
 CameraComponent::CameraComponent(GameObject& owner): m_owner(owner)
 {
-	m_mProj.CreateProjectionPerspacetiveFov(60 * KdToRadians,
+	m_mProj.CreateProjectionPerspacetiveFov(60 * ToRadians,
 		D3D.GetBackBuffer()->GetAspectRatio(), 0.01f, 5000.0f);
 }
 

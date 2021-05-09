@@ -53,10 +53,18 @@ public:
 		m_time = 0.0f;
 	}
 
+	bool IsAnimationEnd()const
+	{
+		if (m_spAnimation == nullptr) { return true; }
+		if (m_time >= m_spAnimation->m_maxLength) { return true; }
+		return false;
+	}
+
 	//アニメーションの更新
 	void AdvanceTime(std::vector<KdModel::Node>& rNodes, float speed = 1.0f);
 
 private:
 	std::shared_ptr<KdAnimationData> m_spAnimation = nullptr;	//再生するアニメーションデータ
 	float m_time = 0.0f;
+	bool  m_isLoop = true;
 };

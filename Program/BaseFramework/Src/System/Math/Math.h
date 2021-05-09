@@ -27,7 +27,7 @@ public:
 			//自分の前方向ベクトルと自身からターゲットへ向かうベクトル間の角度(radian)
 			float radian = acos(d);
 
-			radian = std::min(radian, rot * KdToRadians);
+			radian = std::min(radian, rot * ToRadians);
 
 			*this=TransformNormal(DirectX::XMMatrixRotationAxis(vRotAxis, radian));
 		}
@@ -67,10 +67,6 @@ public:
 	{
 		//変換して代入
 		DirectX::XMStoreFloat3(this, v);
-		//下記と同意だが、上記のSIMD命令を使用した方が高速
-		//x = v.m128_f32[0];
-		//y = v.m128_f32[1];
-		//z = v.m128_f32[2];
 	}
 	//XMVECTORへ変換
 	operator DirectX::XMVECTOR() const { return DirectX::XMLoadFloat3(this); }

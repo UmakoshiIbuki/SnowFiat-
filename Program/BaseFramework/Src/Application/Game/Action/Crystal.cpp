@@ -11,42 +11,46 @@ void Crystal::Deserialize(const json11::Json& jsonObj)
 	pos = m_mWorld.GetTranslation();
 	pos.y += 1;
 
-	m_dissolveThreshold = 0.5f;
-
+	m_colRadius = 3;
+	m_dissolveThreshold = 0;
 }
 
 void Crystal::UpdateCollision()
 {
 	SphereInfo Info;
-	Info.m_pos = m_mWorld.GetTranslation();				//ひとつ前の場所から
+	Info.m_pos = m_mWorld.GetTranslation();		
 	Info.m_radius = m_colRadius;				//動いた方向に向かって
 
 	for (auto& obj : Scene::GetInstance().GetObjects())
 	{
 		//自分自身は無視
 		if (obj.get() == this) { continue; }
-		if (!obj->m_LetsMove) { continue; }
 
 		bool hit = false;
 
 		//球判定
-		if (obj->GetTag() & TAG_Character)
+		if (obj->Getname()=="PlayerHuman")
 		{
 			if (obj->HitCheckBySphere(Info))
 			{
 				hit = true;
+				m_CanDrain = true;
 			}
 		}
 
 		if (hit)
 		{
-			//std::dinamic_pointer_cast=基底クラス型をダウンキャストするときに使う。失敗するとnullptrが帰る
 			std::shared_ptr<Human> human = std::dynamic_pointer_cast<Human>(obj);
 			if (human)
 			{
-				human->SetCrystal(1);
+				human->CanDrain(true);
+				m_dissolveThreshold=human->m_CrystalDrain;
+			}			
+			std::shared_ptr<Enemy> enemy = std::dynamic_pointer_cast<Enemy>(obj);
+			if (enemy)
+			{
+				enemy->CanTrace(true);
 			}
-			Destroy();
 		}
 	}
 }
@@ -64,8 +68,11 @@ void Crystal::Update()
 
 	//Scene::GetInstance().AddObject(particle);
 	
+	this->GetModelComponent()->SetDissolveThreshold(m_dissolveThreshold);
+	
+
 	m_rot += 0.5;
-	m_mWorld.CreateRotationY(m_rot*KdToRadians);
+	m_mWorld.CreateRotationY(m_rot*ToRadians);
 	m_mWorld.Move(pos);
 
 	UpdateCollision();

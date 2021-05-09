@@ -43,22 +43,39 @@
       "Scale": [ 0.35, 0.35, 0.35 ]
     },
     {
-      "ClassName": "Enemy",
-      "Name": "Enemy01",
-      "Tag": 17,
-      "ModelFileName": "Data/Character/SnowManaAnimation.gltf",
-      "Pos": [ 0, -0.9, -15 ],
-      "Scale": [ 0.5, 0.5, 0.5 ],
-      "Rot": [ 0, 100, 0 ]
+      "ClassName": "Crystal",
+      "Name": "Crystal",
+      "ModelFileName": "Data/Crystal/Crystal.gltf",
+      "Pos": [ -1, -0.9, -10 ]
     },
     {
       "ClassName": "Enemy",
-      "Name": "EnemyBig!",
+      "Name": "Enemy1",
       "Tag": 17,
       "ModelFileName": "Data/Character/SnowManaAnimation.gltf",
       "Pos": [ 11, 0, 6 ],
       "Scale": [ 1, 1, 1 ],
       "Rot": [ 0, 180, 0 ]
+    },
+    {
+      "ClassName": "Enemy",
+      "Name": "Enemy1",
+      "Tag": 17,
+      "ModelFileName": "Data/Character/SnowManWalk.gltf",
+      "Pos": [ 10, -0.9, -15 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 0, 0 ],
+      "Speed": 0.02
+    },
+    {
+      "ClassName": "Enemy",
+      "Name": "Enemy",
+      "Tag": 17,
+      "ModelFileName": "Data/Character/SnowManWalk.gltf",
+      "Pos": [ 9, -0.9, -15 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 0, 0 ],
+      "Speed": 0.04
     },
     {
       "ClassName": "Lamp",
@@ -164,39 +181,10 @@
     },
     {
       "ClassName": "Crystal",
-      "Name": "C1",
-      "ModelFileName": "Data/Crystal/Crystal.gltf",
-      "Pos": [ -31, 0.5, 25 ]
-    },
-    {
-      "ClassName": "Crystal",
-      "Name": "C2",
-      "ModelFileName": "Data/Crystal/Crystal.gltf",
-      "Pos": [ -21, -0.9, -37 ]
-    },
-    {
-      "ClassName": "Crystal",
-      "Name": "C3",
-      "ModelFileName": "Data/Crystal/Crystal.gltf",
-      "Pos": [ -10, -0.9, 2 ]
-    },
-    {
-      "ClassName": "Crystal",
-      "Name": "C4",
-      "ModelFileName": "Data/Crystal/Crystal.gltf",
-      "Pos": [ -11, -0.9, 2 ]
-    },
-    {
-      "ClassName": "Crystal",
-      "Name": "C4",
-      "ModelFileName": "Data/Crystal/Crystal.gltf",
-      "Pos": [ -1, -0.9, -10 ]
-    },
-    {
-      "ClassName": "Crystal",
       "Name": "C5",
       "ModelFileName": "Data/Crystal/Crystal.gltf",
-      "Pos": [ -4, -0.9, 5 ]
+      "Pos": [ -31, 0.5, 25 ]
+
     }
   ]
 }

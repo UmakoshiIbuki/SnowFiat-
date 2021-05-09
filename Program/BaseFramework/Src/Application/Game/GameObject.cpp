@@ -26,7 +26,7 @@ void GameObject::Deserialize(const json11::Json& jsonObj)
 {
 	if (jsonObj.is_null()) { return; }
 
-	if (jsonObj["ClassName"].is_null() == false)
+	if (jsonObj["Name"].is_null() == false)
 	{
 		m_name = jsonObj["Name"].string_value();
 	}
@@ -34,6 +34,11 @@ void GameObject::Deserialize(const json11::Json& jsonObj)
 	if (jsonObj["Tag"].is_null() == false)
 	{
 		m_tag=jsonObj["Tag"].int_value();
+	}
+
+	if (jsonObj["Speed"].is_null() == false)
+	{
+		m_Movespeed = jsonObj["Speed"].number_value();
 	}
 
 	//モデル////////////////////////////////////////////////////////
@@ -59,9 +64,9 @@ void GameObject::Deserialize(const json11::Json& jsonObj)
 	const std::vector<json11::Json>& rRot = jsonObj["Rot"].array_items();
 	if (rRot.size() == 3)
 	{
-		mRotate.CreateRotationX((float)rRot[0].number_value()*KdToRadians);
-		mRotate.RotateY((float)rRot[1].number_value()*KdToRadians);
-		mRotate.RotateZ((float)rRot[2].number_value()*KdToRadians);
+		mRotate.CreateRotationX((float)rRot[0].number_value()*ToRadians);
+		mRotate.RotateY((float)rRot[1].number_value()*ToRadians);
+		mRotate.RotateZ((float)rRot[2].number_value()*ToRadians);
 	}
 
 	//拡大
@@ -113,7 +118,7 @@ void GameObject::ImguiUpdate()
 	if (ImGui::TreeNodeEx("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		Vec3 pos = m_mWorld.GetTranslation();
-		Vec3 rot = m_mWorld.GetAngles() * KdToDegrees;
+		Vec3 rot = m_mWorld.GetAngles() * ToDegrees;
 		float scale = m_mWorld.GetAxisX().Length();
 
 		bool isChange = false;
@@ -125,7 +130,7 @@ void GameObject::ImguiUpdate()
 		if (isChange)
 		{
 			//計算する時はradianに戻す
-			rot *= KdToRadians;
+			rot *= ToRadians;
 
 			Matrix mR;
 			mR.RotateX(rot.x);

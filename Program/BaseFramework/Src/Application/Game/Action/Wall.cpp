@@ -40,7 +40,7 @@ void Wall::Draw2D()
 
 	if (!m_spCollTimeTex) { return; }
 	//2D描画
-	m_ui.RotateZ(10 * KdToRadians);
+	m_ui.RotateZ(10 * ToRadians);
 	SHADER.m_spriteShader.SetMatrix(m_ui);
 	SHADER.m_spriteShader.DrawTex(m_spCollTimeTex.get(), 0, 0);
 	m_ShowUiTime++;

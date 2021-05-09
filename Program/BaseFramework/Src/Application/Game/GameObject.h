@@ -36,7 +36,8 @@ public:
 	virtual void DrawEffect() {};
 
 	virtual void Draw2D() { }
-
+	virtual void DebugDraw2D() { }
+	
 	virtual void ImguiUpdate();
 
 	inline const Matrix& GetMatrix()const { return m_mWorld; };
@@ -96,6 +97,7 @@ protected:
 	float   m_gravity = 0.01f;
 	bool	m_alive = true;
 	UINT	m_tag = OBJECT_TAG::TAG_None;
+	float	m_Movespeed = 0.0f;
 
 	float m_angleZ = 0;
 

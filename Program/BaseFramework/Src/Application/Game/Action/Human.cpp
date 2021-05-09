@@ -23,8 +23,8 @@ void Human::Deserialize(const json11::Json& jsonObj)
 	if (m_spCameraComponent)
 	{
 		m_spCameraComponent->OffsetMatrix().CreateTranslation(0.0f, 0.8f, 0.2f);
-		m_spCameraComponent->OffsetMatrix().RotateX(5.0f * KdToRadians);
-		m_spCameraComponent->OffsetMatrix().RotateY(270.0f * KdToRadians);
+		m_spCameraComponent->OffsetMatrix().RotateX(5.0f * ToRadians);
+		m_spCameraComponent->OffsetMatrix().RotateY(270.0f * ToRadians);
 	}
 
 	if ((GetTag() & TAG_Player) != 0)
@@ -37,11 +37,10 @@ void Human::Deserialize(const json11::Json& jsonObj)
 	const std::vector<json11::Json>& rRot = jsonObj["Rot"].array_items();
 	m_power = jsonObj["Power"].int_value();
 
-	m_CamMat.RotateZ((-5 * KdToRadians));
-	m_CamMat.RotateY((-140 * KdToRadians));
+	m_CamMat.RotateZ((-5 * ToRadians));
+	m_CamMat.RotateY((-140 * ToRadians));
 	m_spCameraComponent->SetCameraMatrix(m_CamMat);
 
-	m_spActionState = std::make_shared<ActionWait>();
 	m_pos = m_mWorld.GetTranslation();
 	m_gravity = 0.008f;
 
@@ -69,8 +68,8 @@ void Human::Update()
 	
 	UpdateCollision();
 
-	ChargeSnow();
-
+	DrainSnow();
+	UpdateMove();
 	Crouch();
 
 	//移動力をキャラクターの座標に足しこむ
@@ -79,11 +78,6 @@ void Human::Update()
 	m_mWorld.CreateScalling(m_scale.x, m_scale.y, m_scale.z);
 
 	m_mWorld.Move(m_pos);
-		
-	if (m_spActionState)
-	{
-		m_spActionState->Update(*this);
-	}
 
 	Matrix drawMat;
 	drawMat = m_mWorld;
@@ -145,14 +139,16 @@ bool Human::CanAction()
 	return true;
 }
 
-void Human::ChargeSnow()
+void Human::DrainSnow()
 {
 	if (m_spInputComponent->GetButton(Input::Buttons::X))
 	{
+		if (!m_CanDrain) { return; }
+		m_CrystalDrain += 0.001f;
 		if (m_SnowBallNum >= 5) { return; }
 		m_snow += 0.1f;
 		m_gather += 0.1f;
-		m_canShoot = false;
+		m_CanShoot = false;
 		m_canmGather = false;
 	
 		if (m_snow >= 3)
@@ -163,6 +159,7 @@ void Human::ChargeSnow()
 		}
 	}
 	else {
+		m_CrystalDrain = 0.0f;
 		m_canmGather = true;
 	}
 }
@@ -175,11 +172,11 @@ void Human::UpdateShoot()
 	
 	if (m_spInputComponent->GetButton(Input::Buttons::A))
 	{
-		m_canShoot = true;
+		m_CanShoot = true;
 	}
 	else
 	{
-		if (m_canShoot)
+		if (m_CanShoot)
 		{
 
 			if (m_SnowBallNum <= 0.0f) { return; }
@@ -191,12 +188,12 @@ void Human::UpdateShoot()
 
 				Matrix mLaunch;
 				mLaunch.CreateTranslation(0.0f, 7.0f, 3.0f);
-				mLaunch.RotateX(350 * KdToRadians);
+				mLaunch.RotateX(350 * ToRadians);
 				mLaunch.Scale(0.2f, 0.2f, 0.2f);
 				mLaunch *= m_mWorld;
 
 				spSnowBall->SetMatrix(mLaunch);
-				spSnowBall->SetPower(m_power);
+				spSnowBall->SetPower(3);
 
 				spSnowBall->SetOwner(shared_from_this());
 
@@ -206,7 +203,7 @@ void Human::UpdateShoot()
 				float minDistance = FLT_MAX;
 			}
 		}
-		m_canShoot = false;
+		m_CanShoot = false;
 	}
 }
 
@@ -268,17 +265,29 @@ void Human::UpdateMove()
 
 	//移動速度補正
 	moveVec *= m_movespeed;
-	
+
 	m_force.x = moveVec.x;
 	m_force.z = moveVec.z;
+
+	m_crouch = 0.05f+sin((float)frame*0.3f) * 0.03f;
+	if (m_spInputComponent->GetButton(Input::Buttons::Y))
+	{
+		if (!m_jumpflg||!m_isGround) { return; }
+		m_force.y=m_jumpPow;
+		m_jumpflg = false;
+	}
+	else
+	{
+		m_jumpflg = true;
+	}
 }
 
 void Human::Crouch()
 {
 	if (GetAsyncKeyState(VK_SHIFT) & 0x8000)
 	{
-		m_force.z *= 2.5f;
-		m_force.x *= 2.5f;
+		m_force.z *= 0.5f;
+		m_force.x *= 0.5f;
 	}
 	if (m_spInputComponent->GetButton(Input::Buttons::SHIFT))
 	{
@@ -290,9 +299,7 @@ void Human::Crouch()
 	{
 		if (m_crouch > 0.0f) { m_crouchSpeed = 0; return; }
 		m_crouchSpeed += 0.01f;
-			m_crouch += m_crouchSpeed;
-	
-
+		m_crouch += m_crouchSpeed;
 	}
 
 }
@@ -311,12 +318,12 @@ void Human::UpdaetCamera()
 	float DeltaY = moveVec.z;
 
 	Matrix mRotY, mRotX;
-	mRotY.RotateY(DeltaX * KdToRadians);
+	mRotY.RotateY(DeltaX * ToRadians);
 	m_CamMat *= mRotY;
 
 	Vec3 AxisX = m_CamMat.GetAxisZ();
 	AxisX.Normalize();
-	mRotX = DirectX::XMMatrixRotationAxis(AxisX, DeltaY * KdToRadians);
+	mRotX = DirectX::XMMatrixRotationAxis(AxisX, DeltaY * ToRadians);
 	m_CamMat *= mRotX;
 
 	m_CamMat.SetTranslation(m_pos.x, m_pos.y + m_crouch, m_pos.z);
@@ -346,8 +353,6 @@ void Human::CheckBump()
 {
 	SphereInfo info;
 	
-	DebugLine::GetInstance().AddDebugSphereLine(info.m_pos, info.m_radius, { 1,1,1,1 });
-
 	info.m_pos = m_pos;		//中心点キャラクターの位置
 	info.m_pos.y += 0.4f;	//キャラクターのぶつかり判定をするので、ちょっと上に持ち上げる
 	info.m_radius = 0.2f;	//キャラクターの大きさに合わせて半径サイズもいい感じに設定する
@@ -459,116 +464,5 @@ void Human::Draw2D()
 	m_ReticleMat.CreateScalling(m_Scale, m_Scale, m_Scale);
 	SHADER.m_spriteShader.SetMatrix(m_ReticleMat);
 	SHADER.m_spriteShader.DrawTex(m_spReticleTex.get(), 0, 0);
-}
 
-bool Human::IsChangeMove()
-{
-	if (!m_spInputComponent) { return false; }
-	const Math::Vector2& inputMove = m_spInputComponent->GetAxis(Input::Axes::L);
-	// 移動していたら
-	if (inputMove.LengthSquared() != 0.0f) { return true; }
-	return false;
-}
-
-bool Human::IsChangeJump()
-{
-	if (!m_spInputComponent) { return false; }
-	// ジャンプできる？
-	//if(CanJump())
-	//{ 
-		// ジャンプボタン押された？
-	if (m_spInputComponent->GetButton(Input::Buttons::Y) & m_spInputComponent->ENTER && m_isGround)
-	{
-		return true;
-	}
-	//} 
-	return false;
-}
-
-void Human::ChangeWait()
-{
-	/*m_force.x = 0.0f;
-	m_force.z = 0.0f;*/
-	// 待機アクションへ遷移
-	m_spActionState = std::make_shared<ActionWait>();
-}
-
-void Human::ChangeMove()
-{
-	// 移動アクションへ遷移
-	m_spActionState = std::make_shared<ActionWalk>();
-}
-
-void Human::ChangeJump()
-{
-	m_force.y = m_jumpPow;
-
-	//ジャンプアクションへ遷移
-	m_spActionState = std::make_shared<ActionJump>();
-}
-
-void Human::ActionJump::Update(Human& rOwner)
-{
-	rOwner.UpdateMove();
-
-	if (rOwner.IsGround())
-	{
-		rOwner.ChangeWait();// 停止していたら
-
-		return;
-	}
-
-}
-
-void Human::ActionWalk::Update(Human& rOwner)
-{
-	rOwner.UpdateMove();
-
-	// 待機する？
-	if (!rOwner.IsChangeMove())
-	{
-		rOwner.ChangeWait();
-
-		//待機アニメに変更
-		rOwner.SetAnimation("Stand");
-
-		return;
-	}
-	// ジャンプする？
-	if (rOwner.IsChangeJump())
-	{
-		rOwner.ChangeJump();
-		return;
-	}
-}
-
-void Human::ActionWait::Update(Human& rOwner)
-{
-
-	// 移動する？
-	if (rOwner.IsChangeMove())
-	{
-		rOwner.ChangeMove();
-
-		//歩きアニメに変更
-		rOwner.SetAnimation("Walk");
-
-		return;
-	}
-	// ジャンプする？
-	if (rOwner.IsChangeJump())
-	{
-		rOwner.ChangeJump();
-		return;
-	}
-}
-#include"Enemy.h"
-void Human::ActionDie::Update(Human& owner)
-{
-	std::shared_ptr<Lift> spLift = std::make_shared<Lift>();
-
-	spLift->Deserialize(ResFac.GetJSON("Data/Scene/Lift.json"));
-	Scene::GetInstance().AddObject(spLift);
-
-	owner.Destroy();
 }

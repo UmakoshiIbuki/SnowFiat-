@@ -43,6 +43,7 @@ void CharacterUpdate::Update()
 		serial["ClassName"] = "Human";
 		serial["Name"] = "PlayerHuman";
 		serial["Tag"] = 3;
+		serial["Powor"] = 3;
 		serial["ModelFileName"] = "Data/Character/SnowManaAnimation.gltf";
 	}
 

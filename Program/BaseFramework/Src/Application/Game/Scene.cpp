@@ -133,10 +133,18 @@ void Scene::Update()
 		m_canPlaySE = true;
 	}
 
-	if (GetAsyncKeyState('M') & 0x8000)
+	if (GetAsyncKeyState('M') & 0x8000){ShowImGui = true;}
+
+	if (GetAsyncKeyState('Y'))
 	{
-		ShowImGui = true;
-		DebugLine::GetInstance().DebugDraw();
+		KD_AUDIO.StopBGM();
+		ShowCursor(true);
+		Scene::GetInstance().RequestChangeScene("Data/Scene/Result.json");
+	}
+
+	if (GetAsyncKeyState('U'))
+	{
+		Scene::GetInstance().RequestChangeScene("Data/Scene/Title.json");
 	}
 
 }
@@ -240,6 +248,14 @@ void Scene::Draw()
 		//シェーダの終了
 		SHADER.m_spriteShader.End();
 
+		if (ShowImGui)
+		{
+			DebugLine::GetInstance().DebugDraw();
+			for (auto obj : m_spobjects)
+			{
+				obj->DebugDraw2D();
+			}
+		}
 	}
 
 	// ぼかしていない状況をそのまま表示
@@ -277,7 +293,6 @@ void Scene::Draw()
 		SHADER.m_postProcessShader.ColorDraw(m_spScreenRT.get(), DirectX::SimpleMath::Vector4(1, 1, 1, 1));
 	}
 
-	
 }
 
 void Scene::AddObject(std::shared_ptr<GameObject> spObject)

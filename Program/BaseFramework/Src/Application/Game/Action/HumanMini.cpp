@@ -11,8 +11,8 @@ void HumanMini::Deserialize(const json11::Json& jsonObj)
 	if (m_spCameraComponent)
 	{
 		m_spCameraComponent->OffsetMatrix().CreateTranslation(0.3f, 2.0f, 0.0f);
-		m_spCameraComponent->OffsetMatrix().RotateX(10.0f * KdToRadians);
-		m_spCameraComponent->OffsetMatrix().RotateY(250.0f * KdToRadians);
+		m_spCameraComponent->OffsetMatrix().RotateX(10.0f * ToRadians);
+		m_spCameraComponent->OffsetMatrix().RotateY(250.0f * ToRadians);
 	}
 
 	if ((GetTag() & TAG_Mini) != 0)
@@ -79,7 +79,7 @@ void HumanMini::UpdaetCamera()
 
 	const Math::Vector2& inputRotate = m_spInputComponent->GetAxis(Input::R);
 
-	m_spCameraComponent->OffsetMatrix().RotateY(inputRotate.x * m_camRotSpeed * KdToRadians);
+	m_spCameraComponent->OffsetMatrix().RotateY(inputRotate.x * m_camRotSpeed * ToRadians);
 }
 
 //rMoveDir:移動方向
@@ -109,7 +109,7 @@ void HumanMini::UpdateRotate(const Vec3& rMoveDir)
 	}
 
 	//1回の回転速度をm_m_rotateAngle度内に収める(クランプ)
-	rotateRadian = std::clamp(rotateRadian, -m_rotateAngle * KdToRadians, m_rotateAngle * KdToRadians);
+	rotateRadian = std::clamp(rotateRadian, -m_rotateAngle * ToRadians, m_rotateAngle * ToRadians);
 
 	m_rot.y += rotateRadian;
 }

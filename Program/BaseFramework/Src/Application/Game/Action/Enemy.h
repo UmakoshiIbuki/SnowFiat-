@@ -10,6 +10,7 @@ public:
 
 	virtual void Deserialize(const json11::Json& jsonObj) override;
 	virtual void Update()override;
+	void DebugDraw2D();
 
 	void UpdateShoot();							//発射関数
 	void Reload();
@@ -21,11 +22,12 @@ public:
 	void Damage(int damage);
 
 	void SetAnimation(const char* pAnimName);
-
+	void SetTargetMat(Matrix targetMat) { m_TraceMat = targetMat; }
 	inline void SetTarget(const std::shared_ptr<GameObject>& spTarget) { m_wpTarget = spTarget; }
 
 	inline void SetRespawnTime(int time) { m_RespawnTime = time; }
 	inline void SetHp(int hp) { m_hp = hp; }
+	void CanTrace(bool flg) { m_canTrace = flg; }
 
 	inline int GetHp() { return m_hp; }
 
@@ -34,45 +36,42 @@ private:
 	float m_animationTime = 0.0f;
 
 	Vec3		m_pos;
+	Vec3		m_prevPos;
+	Vec3		m_force;						
 	bool		m_notMove = false;
+
+	bool CanShoot();
 
 	void UpdateRotate(const Vec3& rMoveDir);    //操作やキャラクターの行動による回転計算
 	float		m_rotateAngle = 10.0f;			//キャラクターの回転速度
 	Vec3		m_rot;						    //ワールド行列の回転角度 
 
-	Vec3		m_force;						//キャラクターにかかる力
-
-	static const float s_allowToStepHeight;		//歩いて乗り越えられる段差の高さ
-	static const float s_landingHeight;			//地面から足が離れていても着地しているとする高さ(坂道などを下るときに宙に浮くのを避ける)
 
 	void UpdateCollision();
 	bool CheckGround(float& rDistance,UINT m_tag,Vec3 Pos);
 
-	Vec3		m_prevPos;
+	static const float s_allowToStepHeight;		//歩いて乗り越えられる段差の高さ
+	static const float s_landingHeight;			//地面から足が離れていても着地しているとする高さ(坂道などを下るときに宙に浮くのを避ける)
+
 	bool		m_isGround;
 	
 	UINT		m_tag = OBJECT_TAG::TAG_None;
 	float		Shot = 0;
 
-	float		m_Movespeed = 0.02f;			//移動スピード
-
 	float		m_charge = 10.0f;		//雪玉のリロード
 	bool        m_canShoot;				//発射可能かどうか
 	bool		m_makeWall;
-	bool CanShoot();
 
 	float m_length;
 	Vec3 m_hitVec;
 
 	std::shared_ptr<GameObject> m_sphuman ;
+	std::shared_ptr<GameObject> m_spCrystal;
 	std::vector<Matrix> m_EnemyMat;
 	bool locate;
 	//bool SearchPlayer(float& rDstDistance, UINT m_tag, Vec3 Pos);
-	int pX;
-	int pY;
-	Vec3 m_EnemyPos;
 	int i = 1;//ランダム用
-	int m_hp = 20;
+	int m_hp = 9;
 
 	int frame = 0;
 	bool canMove=false;
@@ -89,34 +88,17 @@ private:
 	std::weak_ptr<GameObject>m_wpTarget;
 
 	void Trace();
-	bool m_canTrace = false;
+	Matrix	m_TraceMat;
+	void Escape();
+	int m_canTrace=0;
 	bool m_IsHitRange = false;
 	int  m_hitRange = 9;
 
-	//基本アクションステート
-	class BaseAction
-	{
-	public:
-		virtual void Update(Enemy& rOwner) = 0;
-	};
-
-	//やられた
-	class ActionCrash :public BaseAction
-	{
-	public:
-		virtual void Update(Enemy& owner)override;
-
-	};
-
-	class ActionEscape :public BaseAction
-	{
-	public:
-		virtual void Update(Enemy& owner)override;
-		std::shared_ptr<GameObject> m_sphuman;
-	};
-	std::shared_ptr<BaseAction>m_spActionState;
-
 	std::shared_ptr<AinmationEffect> m_spBikkurieffect;
 	Matrix							 m_BikkurieffectMat;
+
+	int pX = -10;
+	int pY = -10;
+	Vec3 m_EnemyPos;
 
 };

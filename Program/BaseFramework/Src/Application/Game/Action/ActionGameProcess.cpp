@@ -122,7 +122,7 @@ void ActionGameProcess::Draw2D()
 	}
 
 	//時間表示UI(メーター)
-	m_TexMat.CreateRotationZ(-m_rotate * KdToRadians);
+	m_TexMat.CreateRotationZ(-m_rotate * ToRadians);
 	m_rotate += m_angle;
 	m_TexMat.SetTranslation(30, 360, 0);
 	SHADER.m_spriteShader.SetMatrix(m_TexMat);
@@ -231,18 +231,6 @@ void ActionGameProcess::Update()
 		}
 	}
 
-	if (GetAsyncKeyState('Y'))
-	{
-		KD_AUDIO.StopBGM();
-		ShowCursor(true);
-		Scene::GetInstance().RequestChangeScene("Data/Scene/Result.json");
-	}
-
-	if (GetAsyncKeyState('U'))
-	{
-		Scene::GetInstance().RequestChangeScene("Data/Scene/Title.json");
-	}
-
 	if (GetAsyncKeyState('Q'))
 	{
 		m_TexPos.SetPos(0, 0, 0);
@@ -266,8 +254,6 @@ void ActionGameProcess::Update()
 	else if(Scene::GetInstance().GetHitCnt()>=3)
 	{
 		ShowCursor(true);
-		Scene::GetInstance().SetHitCnt(-3);
-		Scene::GetInstance().RequestChangeScene("Data/Scene/Result.json");
 	}
 
 	std::shared_ptr<Human> human = std::dynamic_pointer_cast<Human>(m_sphuman);

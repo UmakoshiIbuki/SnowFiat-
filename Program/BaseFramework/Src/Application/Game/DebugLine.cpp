@@ -61,35 +61,35 @@ void DebugLine::AddDebugSphereLine(const Math::Vector3& pos, float radius, const
 	{
 		//XZ平面
 		ver.Pos = pos;
-		ver.Pos.x += cos((float)i * (360 / kDetail) * KdToRadians) * radius;
-		ver.Pos.z += sin((float)i * (360 / kDetail) * KdToRadians) * radius;
+		ver.Pos.x += cos((float)i * (360 / kDetail) * ToRadians) * radius;
+		ver.Pos.z += sin((float)i * (360 / kDetail) * ToRadians) * radius;
 		m_debugLines.push_back(ver);
 
 		ver.Pos = pos;
-		ver.Pos.x += cos((float)(i + 1) * (360 / kDetail) * KdToRadians) * radius;
-		ver.Pos.z += sin((float)(i + 1) * (360 / kDetail) * KdToRadians) * radius;
+		ver.Pos.x += cos((float)(i + 1) * (360 / kDetail) * ToRadians) * radius;
+		ver.Pos.z += sin((float)(i + 1) * (360 / kDetail) * ToRadians) * radius;
 		m_debugLines.push_back(ver);
 
 		//XY平面
 		ver.Pos = pos;
-		ver.Pos.x += cos((float)i * (360 / kDetail) * KdToRadians) * radius;
-		ver.Pos.y += sin((float)i * (360 / kDetail) * KdToRadians) * radius;
+		ver.Pos.x += cos((float)i * (360 / kDetail) * ToRadians) * radius;
+		ver.Pos.y += sin((float)i * (360 / kDetail) * ToRadians) * radius;
 		m_debugLines.push_back(ver);
 
 		ver.Pos = pos;
-		ver.Pos.x += cos((float)(i + 1) * (360 / kDetail) * KdToRadians) * radius;
-		ver.Pos.y += sin((float)(i + 1) * (360 / kDetail) * KdToRadians) * radius;
+		ver.Pos.x += cos((float)(i + 1) * (360 / kDetail) * ToRadians) * radius;
+		ver.Pos.y += sin((float)(i + 1) * (360 / kDetail) * ToRadians) * radius;
 		m_debugLines.push_back(ver);
 
 		//YZ平面
 		ver.Pos = pos;
-		ver.Pos.y += cos((float)i * (360 / kDetail) * KdToRadians) * radius;
-		ver.Pos.z += sin((float)i * (360 / kDetail) * KdToRadians) * radius;
+		ver.Pos.y += cos((float)i * (360 / kDetail) * ToRadians) * radius;
+		ver.Pos.z += sin((float)i * (360 / kDetail) * ToRadians) * radius;
 		m_debugLines.push_back(ver);
 
 		ver.Pos = pos;
-		ver.Pos.y += cos((float)(i + 1) * (360 / kDetail) * KdToRadians) * radius;
-		ver.Pos.z += sin((float)(i + 1) * (360 / kDetail) * KdToRadians) * radius;
+		ver.Pos.y += cos((float)(i + 1) * (360 / kDetail) * ToRadians) * radius;
+		ver.Pos.z += sin((float)(i + 1) * (360 / kDetail) * ToRadians) * radius;
 		m_debugLines.push_back(ver);
 	}
 }

@@ -26,6 +26,10 @@ public:
 	void SetAttackCnt(int attackCnt) { AttackCnt = attackCnt; }
 	int GetAttackCntTen(){ return AttackCnt; }
 
+	void CanDrain(bool flg) { m_CanDrain = flg; }
+	float		m_power = 0.0f;
+	float m_CrystalDrain;
+
 private:
 	int AttackCnt = 0;
 
@@ -41,9 +45,10 @@ private:
 	float		m_rotateAngle = 10.0f;			//キャラクターの回転速度
 	Vec3		m_prevPos;						//1フレーム前のキャラクターのPos
 	float       m_jumpPow = 0.1f;
+	bool		m_jumpflg = true;
 	Vec3        m_memoryPos;
 	float       m_crouch;
-	float       m_crouchSpeed;
+	float       m_crouchSpeed=0.1f;
 
 
 	//カメラ/////////////////////////////////////////////////////////////////////////////////
@@ -51,29 +56,29 @@ private:
 	float		m_camRotSpeed = 0.2f;
 	
 	//衝突判定///////////////////////////////////////////////////////////////////////////////
-	bool		m_isGround;
 	void UpdateCollision();
 	void CheckBump();
 	bool CheckGround(float& rDistance, UINT m_tag, Vec3 Pos);
 	bool        m_hit = false;					//球に当たったか？
+	bool		m_isGround;
 	UINT		m_tag = OBJECT_TAG::TAG_None;
 
 	//雪玉////////////////////////////////////////////////////////////////////////////////////
-	void UpdateShoot();							//発射関数
-	void ChargeSnow();
-	float		m_snow = 0.0f;		//雪玉のリロード
-	bool        m_canShoot;				//発射可能かどうか
-	float		m_gather = -3.0f;
-	float		m_power = 0.0f;
+	void UpdateShoot();
+	void DrainSnow();
 	int			m_SnowBallNum = 0;
+	float		m_snow = 0.0f;		//雪玉のリロード
+	float		m_gather = -3.0f;
+	bool        m_CanShoot;			//発射可能かどうか
+	bool        m_CanDrain=false;			//吸収可能かどうか
 
 	std::shared_ptr<KdTexture> m_spReLoadTex;
 	Matrix					   m_ReLoadMat;
 
 	//壁//////////////////////////////////////////////////////////////////////////////////////
 	void MakeWall();
-	bool		m_makeWall;
 	float		m_canWall = 1;
+	bool		m_makeWall;
 
 	//HP//////////////////////////////////////////////////////////////////////////////////////
 	float		m_hp = 100;
@@ -102,52 +107,9 @@ private:
 	
 	int frame = 0;
 
-	int m_crystal = 2;
-
-	bool IsChangeMove();  // 移動状態に遷移するかどうか
-	bool IsChangeJump();  // ジャンプ状態に遷移するかどうか
-
-	void ChangeWait();// 待機に変更
-	void ChangeMove();// 移動に変更
-	void ChangeJump();// ジャンプに変更
-
-	//基本アクションステート
-	class BaseAction
-	{
-	public:
-		virtual void Update(Human& rOwner) = 0;
-	};
-
-	//待機モーション
-	class ActionWait :public BaseAction
-	{
-	public:
-		virtual void Update(Human& rOwner)override;
-	};
-
-	//歩きモーション
-	class ActionWalk :public BaseAction
-	{
-	public:
-		virtual void Update(Human& rOwner)override;
-	};
-
-	//ジャンプモーション
-	class ActionJump :public BaseAction
-	{
-	public:
-		virtual void Update(Human& rOwner)override;
-	};
-
-	//やられた
-	class ActionDie :public BaseAction
-	{
-	public:
-		virtual void Update(Human& owner)override;
-	};
-
+	int m_crystal = 0;
 
 	Matrix m_CamMat;
-	std::shared_ptr<BaseAction>m_spActionState;
+
 
 };

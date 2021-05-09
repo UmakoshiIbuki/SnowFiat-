@@ -23,7 +23,7 @@ void Tank::Update()
 
 	m_hit = false;
 	m_rot += 0.5;
-	m_mWorld.CreateRotationY(m_rot * KdToRadians);
+	m_mWorld.CreateRotationY(m_rot * ToRadians);
 	m_mWorld.Scale(m_scale.x, m_scale.y, m_scale.z);
 	m_mWorld.Move(pos);
 

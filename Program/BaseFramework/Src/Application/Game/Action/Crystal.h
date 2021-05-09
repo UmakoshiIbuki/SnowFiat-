@@ -10,6 +10,8 @@ public:
 	void Update();	
 
 private:
+	bool m_CanDrain = false;
+	float m_dissolveThreshold;
 	float m_rot;
 	Matrix m_rotMat;
 

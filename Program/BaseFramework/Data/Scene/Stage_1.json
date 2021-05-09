@@ -16,22 +16,30 @@
       "Prefab": "Data/Scene/Human.json"
     },
     {
-      "ClassName": "Enemy",
-      "Name": "Enemy00",
-      "Tag": 17,
-      "ModelFileName": "Data/Character/SnowManaAnimation.gltf",
-      "Pos": [ 0, 0, 6 ],
-      "Scale": [ 0.5, 0.5, 0.5 ],
-      "Rot": [ 0, 180, 0 ]
+      "ClassName": "Crystal",
+      "Name": "Crystal",
+      "ModelFileName": "Data/Crystal/Crystal.gltf",
+      "Pos": [ -1, -0.9, -10 ]
     },
     {
       "ClassName": "Enemy",
-      "Name": "Enemy01",
+      "Name": "Enemy",
       "Tag": 17,
-      "ModelFileName": "Data/Character/SnowManaAnimation.gltf",
+      "ModelFileName": "Data/Character/SnowManWalk.gltf",
+      "Pos": [ 0, 0, 6 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rot": [ 0, 180, 0 ],
+      "Speed": 0.02
+    },
+    {
+      "ClassName": "Enemy",
+      "Name": "Enemy",
+      "Tag": 17,
+      "ModelFileName": "Data/Character/SnowManWalk.gltf",
       "Pos": [ 0, -0.9, -15 ],
       "Scale": [ 0.5, 0.5, 0.5 ],
-      "Rot": [ 0, 100, 0 ]
+      "Rot": [ 0, 100, 0 ],
+      "Speed": 0.02
     },
     {
       "ClassName": "Lamp",

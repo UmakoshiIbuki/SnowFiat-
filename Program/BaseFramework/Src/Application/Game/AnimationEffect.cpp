@@ -34,7 +34,7 @@ void AinmationEffect::DrawEffect()
 		//ビルボード処理
 		Matrix drawMat;
 		drawMat.CreateScalling(scaleX, scaleY, scaleZ);		//拡大率を設定
-		drawMat.RotateZ(m_angleZ * KdToRadians);			//Z軸の回転角度を加える		常に同じ画像だったら嫌なのでZ軸回転させる
+		drawMat.RotateZ(m_angleZ * ToRadians);			//Z軸の回転角度を加える		常に同じ画像だったら嫌なのでZ軸回転させる
 
 		drawMat.SetBillboard(SHADER.m_cb7_Camera.GetWork().mV);		//カメラ行列の取得
 

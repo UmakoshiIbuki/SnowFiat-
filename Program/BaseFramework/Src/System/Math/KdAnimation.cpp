@@ -135,5 +135,15 @@ void KdAnimator::AdvanceTime(std::vector<KdModel::Node>& rNodes, float speed)
 		}
 		m_time += speed;
 
-		if (m_time >= m_spAnimation->m_maxLength) { m_time = 0.0f; }
+		if (m_time >= m_spAnimation->m_maxLength)
+		{
+			if (m_isLoop)
+			{
+				m_time = 0.0f;
+			}
+			else
+			{
+				m_time = m_spAnimation->m_maxLength;
+			}
+		}
 }

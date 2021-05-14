@@ -2,6 +2,7 @@
 #include"../GameObject.h"
 
 class CharacterUpdate;
+class AinmationEffect;
 
 class Title :public GameObject
 {
@@ -11,6 +12,7 @@ public:
 	void Update()override;
 
 	void Draw2D()override;
+	void Draw()override;
 
 	virtual void ImguiUpdate()override;
 
@@ -77,5 +79,11 @@ private:
 	std::string				   m_stagename;
 
 	std::shared_ptr<CharacterUpdate> m_spPoworUp;
+	Matrix m_CamMat;
+	std::string string = "Data/StageMap/StageMap.gltf";
 
+	std::shared_ptr<AinmationEffect> fallSnowTex[100];
+	Matrix  falleffectMat[100];
+	float   falleffectposY;
+	Vec3   m_FalleffectPos[100];
 };

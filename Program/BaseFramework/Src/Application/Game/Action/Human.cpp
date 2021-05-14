@@ -159,8 +159,8 @@ void Human::DrainSnow()
 		}
 	}
 	else {
-		m_CrystalDrain = 0.0f;
 		m_canmGather = true;
+		m_CanDrain = false;
 	}
 }
 

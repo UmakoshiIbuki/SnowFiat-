@@ -77,33 +77,8 @@ void Enemy::Update()
 
 	UpdateShoot();
 
-	if (m_hp < 0&&(m_name=="Boss"))
-	{
-		Scene::GetInstance().RequestChangeScene("Data/Scene/Result.json");
-	}
+	CheckBump();
 
-	Vec3 axisZ = m_mWorld.GetAxisZ();
-	axisZ.Normalize();
-	Vec3 Dir = m_sphuman->GetMatrix().GetTranslation() - m_mWorld.GetTranslation();
-	Dir.Normalize();
-	float Dot;
-	Dot = Vec3::Dot(axisZ, Dir);
-	Dot = std::min(std::max(Dot, -1.0f), 1.0f);
-	float radian = acos(Dot);
-	radian = radian * ToDegrees;
-	if (m_name == "Enemy1")
-	{
-		if (ImGui::Begin("Graphics Debug"))
-		{
-			ImGui::DragFloat("radian", &radian, 0.1f);
-		}
-		ImGui::End();
-	}
-	if (abs(radian) > 50)
-	{
-		m_canTrace = 0;
-	}
-	
 	if (m_hp < 6)
 	{
 		m_canTrace = 2;
@@ -111,26 +86,17 @@ void Enemy::Update()
 
 	if (m_canTrace==1)
 	{
-		Trace();
+		//Trace();
+		Back();
+		m_pos = m_mWorld.GetTranslation();
 	}
-	else if (m_canTrace == 0)
+
+	if (m_canTrace == 0)
 	{
 		m_BikkurieffectMat.SetTranslation(m_mWorld.GetTranslation().x, m_mWorld.GetTranslation().y + 1, m_mWorld.GetTranslation().z);
 		m_spBikkurieffect->SetAnimationInfo(ResFac.GetTexture("Data/Texture/Hatena.png"), 0.4f, 1, 1, 0, 0, 0);
 		m_spBikkurieffect->SetMatrix(m_BikkurieffectMat);
 		
-		m_force.y -= m_gravity;
-
-		UpdateRotate(m_force);
-		m_mWorld.CreateRotationX(m_rot.x);
-		m_mWorld.RotateY(m_rot.y);
-		m_pos.Move(m_force);
-		m_mWorld.Scale(m_scale.x, m_scale.y, m_scale.z);
-		if (frame %120==0){
-			i = rand() % 9; 
-			//m_force.y += 0.1f;
-		}
-
 		if (m_scale.Length() < 1)
 		{
 			m_hitRange = 5;
@@ -139,7 +105,7 @@ void Enemy::Update()
 
 			Dir.Normalize();
 			UpdateRotate(Dir);
-			m_force = Dir* m_Movespeed;
+			m_force = Dir * m_Movespeed;
 			m_force.y = 0;
 		}
 		else
@@ -147,16 +113,29 @@ void Enemy::Update()
 			m_hitRange = 15;
 			Shot = 360;
 		}
+
+		m_force.y -= m_gravity;
+
+		UpdateRotate(m_force);
+		m_mWorld.CreateRotationX(m_rot.x);
+		m_mWorld.RotateY(m_rot.y);
+		m_pos.Move(m_force);
+		m_mWorld.Scale(m_scale.x, m_scale.y, m_scale.z);
+		m_mWorld.Move(m_pos);
+
+		if (frame %120==0){
+			i = rand() % 9; 
+			//m_force.y += 0.1f;
+		}
 	}
-	else if (m_canTrace == 2)
+
+	if (m_canTrace == 2)
 	{
 		Escape();	
 	}
-	CheckBump();
-
-	m_mWorld.Move(m_pos);
 
 	UpdateCollision();
+
 	m_animator.AdvanceTime(m_spModelComponent->GetChangeableNodes(),2.0f);
 
 }
@@ -178,10 +157,61 @@ void Enemy::SetAnimation(const char* pAnimName)
 	}
 }
 
+bool Enemy::CanSee()
+{
+	Vec3 axisZ = m_mWorld.GetAxisZ();
+	axisZ.Normalize();
+	Vec3 Dir = m_sphuman->GetMatrix().GetTranslation() - m_mWorld.GetTranslation();
+	Dir.Normalize();
+	float Dot;
+	Dot = Vec3::Dot(axisZ, Dir);
+	Dot = std::min(std::max(Dot, -1.0f), 1.0f);
+	float radian = acos(Dot);
+	radian = radian * ToDegrees;
+	if (m_name == "Enemy1")
+	{
+		if (ImGui::Begin("Graphics Debug"))
+		{
+			ImGui::DragFloat("radian", &radian, 0.1f);
+		}
+		ImGui::End();
+	}
+	if (abs(radian) > 50)
+	{
+		m_canTrace = 0;
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+void Enemy::Back()
+{
+	/*Vec3 vTarget = m_sphuman->GetMatrix().GetTranslation() - m_mWorld.GetTranslation();
+	m_mWorld.SetAxisY(m_sphuman->GetMatrix().GetTranslation());
+	Vec3::Dot(m_sphuman->GetMatrix().GetTranslation(), m_mWorld.GetTranslation());
+	angle = m_mWorld.GetAngles();
+	m_mWorld.RotateY(angle.y);*/
+	//angle+=0.001;
+	/*Vec3 axisZ = m_sphuman->GetMatrix().GetAxisZ();
+	axisZ.Normalize();
+	Vec3 Dir = m_mWorld.GetTranslation()-m_sphuman->GetMatrix().GetTranslation();
+	Dir.Normalize();
+	float Dot;
+	Dot = Vec3::Dot(axisZ, Dir);
+	Dot = std::min(std::max(Dot, -1.0f), 1.0f);
+	float radian = acos(Dot);
+	radian = radian * ToDegrees;
+	m_mWorld.RotateY(radian);*/
+
+}
+
 void Enemy::Damage(int damage)
 {
 	m_hp -= damage;
-	m_force.y = 0.1f;
+	//m_force.y = 0.1f;
 }
 
 bool Enemy::CanShoot()
@@ -197,10 +227,6 @@ void Enemy::Trace()
 	m_BikkurieffectMat.SetTranslation(m_mWorld.GetTranslation().x, m_mWorld.GetTranslation().y + 1, m_mWorld.GetTranslation().z);
 	m_spBikkurieffect->SetMatrix(m_BikkurieffectMat);
 
-	if (m_IsHitRange) {
-		m_pos.Move(0, 0, 0);
-		return;  }
-
 	Vec3 Dir = m_TraceMat.GetTranslation() - m_mWorld.GetTranslation();
 
 	Dir.Normalize();
@@ -208,13 +234,21 @@ void Enemy::Trace()
 
 	Matrix copyMat = m_mWorld;
 	m_mWorld.CreateRotationX(m_rot.x);
+	//m_rot.y = 1 * ToRadians;
 	m_mWorld.RotateY(m_rot.y);
 	m_mWorld.Scale(m_scale.x, m_scale.y, m_scale.z);
 
 	m_mWorld.SetTranslation(copyMat.GetTranslation());
 	m_pos = Dir * m_Movespeed;
 	m_pos.y -= m_gravity;
+
+	if (m_IsHitRange)
+	{
+		m_pos.SetPos(0, 0, 0);
+		return;
+	}
 	if (m_sphuman->GetMatrix().GetTranslation().y > m_mWorld.GetTranslation().y) { m_pos.y = 0; }
+	m_mWorld.Move(m_pos);
 
 }
 
@@ -237,6 +271,7 @@ void Enemy::Escape()
 	m_pos = Dir * 0.02f;
 	m_pos.y -= m_gravity;
 	if (m_sphuman->GetMatrix().GetTranslation().y > m_mWorld.GetTranslation().y) { m_pos.y = 0; }
+	m_mWorld.Move(m_pos);
 }
 
 void Enemy::UpdateShoot()
@@ -329,10 +364,12 @@ void Enemy::UpdateCollision()
 
 	SphereInfo sInfo;
 	sInfo.m_pos = m_mWorld.GetTranslation();
-	sInfo.m_radius = 15.0f; //索敵範囲
+	sInfo.m_radius = 10.0f; //索敵範囲
 
 	for (auto& obj : Scene::GetInstance().GetObjects())
 	{
+		if (!CanSee()) { continue; }
+
 		if (obj.get() == this) { continue; }
 
 		if (obj->Getname() == "PlayerHuman")
@@ -387,8 +424,8 @@ void Enemy::CheckBump()
 
 		if (obj->HitCheckBySphereVsMesh(info, Result))
 		{
-			m_pos.Move(Result.m_push);
 			m_canTrace = 0;
+			m_pos.Move(Result.m_push);
 		}
 	}
 }

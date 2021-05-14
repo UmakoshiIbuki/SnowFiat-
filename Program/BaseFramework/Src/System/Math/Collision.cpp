@@ -8,32 +8,19 @@ bool RayToMesh(const XMVECTOR& rRayPos, const XMVECTOR& rRayDir, float maxDistan
 	//Matrix invMat = rMatrix;
 	//invMat.Inverse();		//逆行列
 
-	XMMATRIX invMat = XMMatrixInverse(0, rMatrix);//高速化いぇい
+	XMMATRIX invMat = XMMatrixInverse(0, rMatrix);
 
 
-	//レイの判定開始位置を逆変換
-	//KdVec3 rayPos = rRayPos;
-	//rayPos.TransformCoord(invMat);
+	XMVECTOR rayPos = XMVector3TransformCoord(rRayPos, invMat);
 
-	XMVECTOR rayPos = XMVector3TransformCoord(rRayPos, invMat);//高速化いぇい
-
-	//発射方向は正規化されていないと正しく判定できないので正規化
-	//KdVec3 rayDir = rRayDir;
-	//rayDir.TransformNormal(invMat);
-
-	XMVECTOR rayDir = XMVector3TransformNormal(rRayDir, invMat);//高速化いぇい
+	XMVECTOR rayDir = XMVector3TransformNormal(rRayDir, invMat);
 
 
-	//逆行列に拡縮が入っていると
-	//レイが当たった距離にも拡縮が反映されてしまうので
-	//判定用の最大距離にも拡縮を反映させておく
-	//float rayChecRange = maxDistance * XMVector3Length(rayDir).m128_f32[0];//高速化いぇい
+	
 	float dirLength = XMVector3Length(rayDir).m128_f32[0];
 	float rayCheckRange = maxDistance * dirLength;
 
-
-	//rayDir.Normalize();
-	rayDir = XMVector3Normalize(rayDir);//高速化いぇい
+	rayDir = XMVector3Normalize(rayDir);
 
 	///////////////////////////////////////////////////////////////////////////////
 	//ブロードフェイズ

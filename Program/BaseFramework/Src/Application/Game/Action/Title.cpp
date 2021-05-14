@@ -1,11 +1,28 @@
 ﻿#include "Title.h"
 #include "CharacterUpdate.h"
+#include"../AnimationEffect.h"
 #include"../Scene.h"
 #include"../../main.h"
+#include"../../Component//CameraComponent.h"
+#include"../../Component//ModelComponent.h"
 
 void Title::Deserialize(const json11::Json& jsonObj)
 {
 	GameObject::Deserialize(jsonObj);
+
+	if (m_spCameraComponent)
+	{
+		m_spCameraComponent->OffsetMatrix().CreateTranslation(7.0f, 5.0f, -30.0f);
+		m_spCameraComponent->OffsetMatrix().RotateX(0.0 * ToRadians);
+		m_spCameraComponent->OffsetMatrix().RotateY(0 * ToRadians);
+	}
+
+	Scene::GetInstance().SteTargetCamera(m_spCameraComponent);
+
+	m_CamMat.RotateZ((0 * ToRadians));
+	m_CamMat.RotateY((-180 * ToRadians));
+	m_spCameraComponent->SetCameraMatrix(m_CamMat);
+	m_spModelComponent->SetModel(ResFac.GetModel(string));
 
 	m_spTitleTex = ResFac.GetTexture("Data/Texture/Title/Title.png");
 
@@ -28,7 +45,17 @@ void Title::Deserialize(const json11::Json& jsonObj)
 
 	m_spPoworUp = std::make_shared<CharacterUpdate>();
 
+	for (UINT i = 0; i < 100; i++)
+	{
+		fallSnowTex[i] = std::make_shared< AinmationEffect>();
+		falleffectMat[i].SetTranslation(RND * 30 - 15, RND * 20, RND * 30 - 15);
 
+		fallSnowTex[i]->SetAnimationInfo(ResFac.GetTexture("Data/Texture/White1.png"), 0.4f, 1, 1, 0, 0, 0);
+		fallSnowTex[i]->SetMatrix(falleffectMat[i]);
+		m_FalleffectPos[i] = falleffectMat[i].GetTranslation();
+		Scene::GetInstance().AddObject(fallSnowTex[i]);
+	}
+	falleffectposY = 0.02f;
 }
 
 void Title::Update()
@@ -70,7 +97,7 @@ void Title::Update()
 						m_vGoal001 = Vec3(m_Select001Pos.x - 400, -270, 0);
 						m_vGoal002 = Vec3(m_Select002Pos.x - 400, -270, 0);
 
-						flgs--;
+						flgs++;
 
 						m_canChange = false;
 						m_CanScroll = true;
@@ -98,7 +125,7 @@ void Title::Update()
 						m_vGoal001 = Vec3(m_Select001Pos.x + 400, -270, 0);
 						m_vGoal002 = Vec3(m_Select002Pos.x + 400, -270, 0);
 
-						flgs++;
+						flgs--;
 
 						m_canChange = false;
 						m_CanScroll = true;
@@ -152,6 +179,9 @@ void Title::Update()
 		
 
 		if (flgs == 1) {
+			string = "Data/StageMap/StageMap.gltf";
+			m_spModelComponent->SetModel(ResFac.GetModel(string));
+
 			if (Collision2D(m_SelectPos, MousePos, 100, 100))
 			{
 				if (m_scale < 0.85f) { m_scale += 0.01f; }
@@ -173,6 +203,8 @@ void Title::Update()
 		}
 
 		if (flgs == 2) {
+			string = "Data/StageMap/Unlock.gltf";
+			m_spModelComponent->SetModel(ResFac.GetModel(string));
 			if (Collision2D(m_Select001Pos, MousePos, 100, 100))
 			{
 				if (m_scale001 < 0.85f) { m_scale001 += 0.01f; }
@@ -196,6 +228,8 @@ void Title::Update()
 		}
 
 		if (flgs == 3) {
+			string = "Data/StageMap/Unlock.gltf";
+			m_spModelComponent->SetModel(ResFac.GetModel(string));
 			if (Collision2D(m_Select002Pos, MousePos, 100, 100))
 			{
 				if (m_scale002 < 0.85f) { m_scale002 += 0.01f; }
@@ -207,7 +241,7 @@ void Title::Update()
 					{
 						flg = true;
 						m_canChange = false;
-						m_stagename = "Bridge";
+						m_stagename = "Bridge";					
 					}
 				}
 				else { m_canChange = true; }
@@ -233,17 +267,30 @@ void Title::Update()
 	}*/
 
 	//ImguiUpdate();
+
+	for (UINT i = 0; i < 100; i++)
+	{
+		m_FalleffectPos[i].y -= falleffectposY;
+		falleffectMat[i].Scale(0.99, 0.99, 0.99);
+		falleffectMat[i].SetTranslation(m_FalleffectPos[i]);
+		fallSnowTex[i]->SetMatrix(falleffectMat[i]);
+		if (falleffectMat[i].GetTranslation().y < 0)
+		{
+			falleffectMat[i].CreateScalling(1, 1, 1);
+			m_FalleffectPos[i].Move(RND * 30 - 15, RND * 20, RND * 30 - 15);
+		}
+	}
 }
 
 void Title::Draw2D()
 {
 	if (m_isTitleScene)
 	{
-		m_spTitleTex = ResFac.GetTexture("Data/Texture/Title/Title.png");
+	/*	m_spTitleTex = ResFac.GetTexture("Data/Texture/Title/Title.png");
 
 		m_TitleMat.SetTranslation(Vec3(0, 0, 0));
 		SHADER.m_spriteShader.SetMatrix(m_TitleMat);
-		SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 0);
+		SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 0);*/
 
 		if (flg)
 		{
@@ -297,6 +344,13 @@ void Title::Draw2D()
 		m_spPoworUp->Draw2D();
 	}*/
 
+}
+
+void Title::Draw()
+{
+	if (m_spModelComponent == nullptr) { return; }
+
+	m_spModelComponent->Draw();
 }
 
 void Title::ImguiUpdate()

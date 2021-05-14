@@ -3,9 +3,9 @@
 
 EditorCamera::EditorCamera()
 {
-	m_mCam = Math::Matrix::CreateTranslation(0.0f, 20.0f, -10.0f);
-	m_mCam *= Math::Matrix::CreateRotationX(DirectX::XMConvertToRadians(20));
-	m_mCam *= Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(10));
+	m_mCam = Math::Matrix::CreateTranslation(15.0f, 5.0f, -5.0f);
+	m_mCam *= Math::Matrix::CreateRotationX(DirectX::XMConvertToRadians(-45));
+	m_mCam *= Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(130));
 
 	//射影行列
 	m_mProj = DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(60),
@@ -24,7 +24,7 @@ void EditorCamera::Update()
 
 	float ratio = 1.0f;
 	//Shiftで大きく
-	if (GetAsyncKeyState(VK_RSHIFT) & 0x8000) { ratio = 5.f; }
+	if (GetAsyncKeyState(VK_RSHIFT) & 0x8000) { ratio = 5.0f; }
 
 	//CONTROLで小さく
 	if (GetAsyncKeyState(VK_CONTROL) & 0x8000) { ratio = 0.2f; }

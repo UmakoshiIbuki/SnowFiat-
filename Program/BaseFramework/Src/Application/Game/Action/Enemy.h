@@ -28,6 +28,8 @@ public:
 	inline void SetRespawnTime(int time) { m_RespawnTime = time; }
 	inline void SetHp(int hp) { m_hp = hp; }
 	void CanTrace(bool flg) { m_canTrace = flg; }
+	bool CanSee();
+	void Back();
 
 	inline int GetHp() { return m_hp; }
 
@@ -101,4 +103,5 @@ private:
 	int pY = -10;
 	Vec3 m_EnemyPos;
 
+	Vec3 angle;
 };

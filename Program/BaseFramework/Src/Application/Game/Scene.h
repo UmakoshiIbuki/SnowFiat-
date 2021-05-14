@@ -87,6 +87,7 @@ public:
 	void SetShotCnt(int one) { ShotCnt += one; }
 	int GetShotCnt() { return ShotCnt; }
 
+	void EditorCameraOnOff(bool flg) { m_editorCameraEnable = flg; }
 private:
 	int HitCnt = 0;
 	int ShotCnt = 0;

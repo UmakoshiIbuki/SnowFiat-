@@ -29,7 +29,7 @@ void Crystal::UpdateCollision()
 		bool hit = false;
 
 		//球判定
-		if (obj->Getname()=="PlayerHuman")
+		if (obj->GetTag() & TAG_Character)
 		{
 			if (obj->HitCheckBySphere(Info))
 			{
@@ -69,7 +69,15 @@ void Crystal::Update()
 	//Scene::GetInstance().AddObject(particle);
 	
 	this->GetModelComponent()->SetDissolveThreshold(m_dissolveThreshold);
-	
+	if (m_dissolveThreshold > 0.5f) {
+		ShowCursor(true);
+		Scene::GetInstance().RequestChangeScene("Data/Scene/Result.json");
+	}
+	if (ImGui::Begin("Graphics Debug"))
+	{
+		ImGui::DragFloat("dissolveThreshold", &m_dissolveThreshold, 0.1f);
+	}
+	ImGui::End();
 
 	m_rot += 0.5;
 	m_mWorld.CreateRotationY(m_rot*ToRadians);

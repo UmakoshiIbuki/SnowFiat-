@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include"../GameObject.h"
 
+class AinmationEffect;
+
 class Result :public GameObject
 {
 public:
@@ -58,5 +60,10 @@ private:
 	int i = 0;
 
 	bool m_canChange = false;
+	Matrix m_CamMat;
 
+	std::shared_ptr<AinmationEffect> fallSnowTex[100];
+	Matrix  falleffectMat[100];
+	float   falleffectposY;
+	Vec3   m_FalleffectPos[100];
 };

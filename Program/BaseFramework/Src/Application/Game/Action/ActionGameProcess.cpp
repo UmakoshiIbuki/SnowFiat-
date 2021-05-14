@@ -53,18 +53,19 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonObj)
 	}
 
 	//雪の降るエフェクト
-	for (UINT i = 0; i < 10; i++)
+	for (UINT i = 0; i < 100; i++)
 	{
 		fallSnowTex[i] = std::make_shared< AinmationEffect>();
-		falleffectMat[i].SetTranslation(RND * 30 - 15, RND * 12, RND * 30 - 15);
+		falleffectMat[i].SetTranslation(RND * 30 - 15, RND * 20, RND * 30 - 15);
 
-		falleffectposY[i] = falleffectMat[i].GetTranslation().y;
-	
-		fallSnowTex[i]->SetAnimationInfo(ResFac.GetTexture("Data/Texture/White.png"), 0.4f, 1, 1, 0, 0, 0);
+		fallSnowTex[i]->SetAnimationInfo(ResFac.GetTexture("Data/Texture/White1.png"), 0.4f, 1, 1, 0, 0, 0);
 		fallSnowTex[i]->SetMatrix(falleffectMat[i]);
+		m_FalleffectPos[i] = falleffectMat[i].GetTranslation();
 		Scene::GetInstance().AddObject(fallSnowTex[i]);
 	}
-	m_spSnowTex = ResFac.GetTexture("Data/Texture/White.png");
+	falleffectposY = 0.02f;
+
+	m_spSnowTex = ResFac.GetTexture("Data/Texture/White1.png");
 
 	KD_AUDIO.Play("Data/Audio/BGM/loop100315.wav", true);
 
@@ -266,16 +267,16 @@ void ActionGameProcess::Update()
 		AttackCnt = Scene::GetInstance().GetHitCnt();
 	}
 
-
-	for (UINT i = 0; i < 10; i++)
+	for (UINT i = 0; i < 100; i++)
 	{
-		falleffectposY[i] -= 0.02f;
-
-		falleffectMat[i].SetTranslation(falleffectMat[i].GetTranslation().x, falleffectposY[i], falleffectMat[i].GetTranslation().z);
+		m_FalleffectPos[i].y -= falleffectposY;
+		falleffectMat[i].Scale(0.99, 0.99, 0.99);
+		falleffectMat[i].SetTranslation(m_FalleffectPos[i]);
 		fallSnowTex[i]->SetMatrix(falleffectMat[i]);
 		if (falleffectMat[i].GetTranslation().y < 0)
 		{
-			falleffectposY[i] = 12.0f;
+			falleffectMat[i].CreateScalling(1, 1, 1);
+			m_FalleffectPos[i].Move(RND * 30 - 15, RND * 20, RND * 30 - 15);
 		}
 	}
 

@@ -28,19 +28,19 @@ void SnowManager::Draw2DHP(float f1,int f2)
 {
 	m_spBackTex = ResFac.GetTexture("Data/Texture/UITexture/back.png");
 	m_spBackMat.CreateScalling(1.5f, 1.0f, 1.0f);
-	m_spBackMat.SetTranslation(Vec3(-410, -340, 0));
+	m_spBackMat.SetTranslation(Vec3(-430, -340, 0));
 	SHADER.m_spriteShader.SetMatrix(m_spBackMat);
 	SHADER.m_spriteShader.DrawTex(m_spBackTex.get(), 0, 0);
 
 	m_spHpBerTex = ResFac.GetTexture("Data/Texture/UITexture/UI_HP_BER.png");
 	m_HpMat.CreateScalling(0.4f, 0.25f, 1.0f);
-	m_HpMat.SetTranslation(Vec3(-400, -280, 0));
+	m_HpMat.SetTranslation(Vec3(-430, -280, 0));
 	SHADER.m_spriteShader.SetMatrix(m_HpMat);
 	SHADER.m_spriteShader.DrawTex(m_spHpBerTex.get(), 0, 0);
 
 	m_spHpTex = ResFac.GetTexture("Data/Texture/UITexture/UI_Hp_00.png");
 	m_HpMat.CreateScalling(f1 / 100, 0.65f, 1.0f);
-	m_HpMat.SetTranslation(Vec3((float)-400 - f2, -293, 0));
+	m_HpMat.SetTranslation(Vec3((float)-430 - f2, -293, 0));
 	SHADER.m_spriteShader.SetMatrix(m_HpMat);
 	SHADER.m_spriteShader.DrawTex(m_spHpTex.get(), 0, 0);
 }

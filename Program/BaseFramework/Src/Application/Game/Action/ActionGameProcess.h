@@ -64,9 +64,10 @@ private:
 	Vec3 pos[SnowNum];
 	Vec3 move;
 	
-	std::shared_ptr<AinmationEffect> fallSnowTex[10] ;
-	Matrix  falleffectMat[10];
-	float   falleffectposY[10];
+	std::shared_ptr<AinmationEffect> fallSnowTex[100];
+	Matrix  falleffectMat[100];
+	float   falleffectposY;
+	Vec3   m_FalleffectPos[100];
 
 	bool m_canChange = false;
 	std::shared_ptr<KdTexture> m_spPauseTex;
@@ -81,8 +82,6 @@ private:
 	Matrix					   m_PauseMat;
 
 	Vec3                       MousePos;
-
-
 
 
 	Math::Vector3 copy;

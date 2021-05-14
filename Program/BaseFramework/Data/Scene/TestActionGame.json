@@ -46,11 +46,11 @@
       "ClassName": "Crystal",
       "Name": "Crystal",
       "ModelFileName": "Data/Crystal/Crystal.gltf",
-      "Pos": [ -1, -0.9, -10 ]
+      "Pos": [ 2.3, 0.0, 2 ]
     },
     {
       "ClassName": "Enemy",
-      "Name": "Enemy1",
+      "Name": "Enemy0",
       "Tag": 17,
       "ModelFileName": "Data/Character/SnowManaAnimation.gltf",
       "Pos": [ 11, 0, 6 ],

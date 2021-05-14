@@ -1,8 +1,23 @@
 ﻿#include "Result.h"
 #include"../Scene.h"
+#include"../AnimationEffect.h"
+#include"../../Component//CameraComponent.h"
 
 void Result::Deserialize(const json11::Json& jsonObj)
 {
+	if (m_spCameraComponent)
+	{
+		m_spCameraComponent->OffsetMatrix().CreateTranslation(10.0f, 5.0f, -30.0f);
+		m_spCameraComponent->OffsetMatrix().RotateX(0.0 * ToRadians);
+		m_spCameraComponent->OffsetMatrix().RotateY(0 * ToRadians);
+	}
+
+	Scene::GetInstance().SteTargetCamera(m_spCameraComponent);
+
+	m_CamMat.RotateZ((0 * ToRadians));
+	m_CamMat.RotateY((-180 * ToRadians));
+	m_spCameraComponent->SetCameraMatrix(m_CamMat);
+
 	m_spResultTex = ResFac.GetTexture("Data/Texture/Result/Result.png");
 
 	m_CrystalCntOne =  Scene::GetInstance().GetCrystal();
@@ -22,6 +37,18 @@ void Result::Deserialize(const json11::Json& jsonObj)
 	m_spShotCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_ONE_0.png");
 	Crystals =m_HitCntTen * 10+ m_HitCntOne;
 	//Crystals = 20;
+
+	for (UINT i = 0; i < 100; i++)
+	{
+		fallSnowTex[i] = std::make_shared< AinmationEffect>();
+		falleffectMat[i].SetTranslation(RND * 30 - 15, RND * 20, RND * 30 - 15);
+
+		fallSnowTex[i]->SetAnimationInfo(ResFac.GetTexture("Data/Texture/White1.png"), 0.4f, 1, 1, 0, 0, 0);
+		fallSnowTex[i]->SetMatrix(falleffectMat[i]);
+		m_FalleffectPos[i] = falleffectMat[i].GetTranslation();
+		Scene::GetInstance().AddObject(fallSnowTex[i]);
+	}
+	falleffectposY = 0.02f;
 }
 
 void Result::Update()
@@ -49,6 +76,19 @@ void Result::Update()
 	HitCount(m_HitCnt);
 
 	ShotCount(m_AttackCnt);
+
+	for (UINT i = 0; i < 100; i++)
+	{
+		m_FalleffectPos[i].y -= falleffectposY;
+		falleffectMat[i].Scale(0.99, 0.99, 0.99);
+		falleffectMat[i].SetTranslation(m_FalleffectPos[i]);
+		fallSnowTex[i]->SetMatrix(falleffectMat[i]);
+		if (falleffectMat[i].GetTranslation().y < 0)
+		{
+			falleffectMat[i].CreateScalling(1, 1, 1);
+			m_FalleffectPos[i].Move(RND * 30 - 15, RND * 20, RND * 30 - 15);
+		}
+	}
 }
 
 void Result::Draw()

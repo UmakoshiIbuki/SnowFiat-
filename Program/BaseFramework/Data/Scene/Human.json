@@ -2,7 +2,7 @@
   "ClassName": "Human",
   "ModelFileName": "Data/Character/SnowManWalk.gltf",
   "Name": "PlayerHuman",
-  "Pos": [ -5, -0.90000000000000002, 1 ],
+  "Pos": [ -3, -0.90000000000000002, 1 ],
   "Scale": [ 0.5, 0.5, 0.5 ],
   "Tag": 3,
   "Powor": 3

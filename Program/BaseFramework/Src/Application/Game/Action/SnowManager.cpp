@@ -55,7 +55,7 @@ void SnowManager::Draw2DRemaining(int snow)
 	m_spSnowRemainingTex = ResFac.GetTexture("Data/Texture/UITexture/UI_SNOWBALL000.png");
 
 	m_SnowRemainingMat.CreateScalling(0.25f, 0.25f, 1.0f);
-	m_SnowRemainingMat.SetTranslation(50 * snow, -330, 0);
+	m_SnowRemainingMat.SetTranslation((50*snow) - 110, -330, 0);
 	SHADER.m_spriteShader.SetMatrix(m_SnowRemainingMat);
 	SHADER.m_spriteShader.DrawTex(m_spSnowRemainingTex.get(), 0, 0);
 }

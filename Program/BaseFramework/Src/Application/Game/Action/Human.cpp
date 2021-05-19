@@ -4,20 +4,16 @@
 #include"Lift.h"
 #include"SnowManager.h"
 #include"../Scene.h"
+#include"../DebugLine.h"
 #include"../../Component//CameraComponent.h"
 #include"../../Component//InputComponent.h"
 #include"../../Component//ModelComponent.h"
-#include"SnowManager.h"
-#include"../DebugLine.h"
 
 const float Human::s_allowToStepHeight=0.8f;
 const float Human::s_landingHeight=0.1f;
 
 void Human::Deserialize(const json11::Json& jsonObj)
 {
-
-	ShowCursor(false);
-
 	GameObject::Deserialize(jsonObj);
 	
 	if (m_spCameraComponent)
@@ -37,14 +33,15 @@ void Human::Deserialize(const json11::Json& jsonObj)
 	const std::vector<json11::Json>& rRot = jsonObj["Rot"].array_items();
 	m_power = jsonObj["Power"].int_value();
 
-	m_CamMat.RotateZ((-5 * ToRadians));
-	m_CamMat.RotateY((-140 * ToRadians));
+	m_CamMat.RotateZ((-10 * ToRadians));
+	m_CamMat.RotateY((-130 * ToRadians));
 	m_spCameraComponent->SetCameraMatrix(m_CamMat);
 
 	m_pos = m_mWorld.GetTranslation();
 	m_gravity = 0.008f;
-
+	m_colRadius = 1;
 	m_spReticleTex = ResFac.GetInstance().GetTexture("Data/Texture/UITexture/UI_Reticle.png");
+
 }
 
 void Human::Update()
@@ -120,15 +117,13 @@ void Human::Damage(float damage)
 	m_hpScroll += 14;	//HP表示拡縮に合わせて場所をずらす(調整)
 	
 	m_notMove = true;
-	//m_force.z = m_spCameraComponent->GetCameraMatrix().GetAxisZ() * -0.1;
-	//m_force.y = 0.2f;
 
 	if (m_hp <= 0)
 	{
+		KD_AUDIO.StopBGM();
 		m_spInputComponent->m_base = false;
 		ShowCursor(true);
-		Scene::GetInstance().RequestChangeScene("Data/Scene/Result.json");
-		//m_spActionState = std::make_shared<ActionDie>();
+		Scene::GetInstance().RequestChangeScene("Data/Scene/GameOver.json");
 	}
 }
 
@@ -199,8 +194,6 @@ void Human::UpdateShoot()
 
 				Scene::GetInstance().AddObject(spSnowBall);
 				Scene::GetInstance().SetShotCnt(1);
-
-				float minDistance = FLT_MAX;
 			}
 		}
 		m_CanShoot = false;
@@ -269,7 +262,6 @@ void Human::UpdateMove()
 	m_force.x = moveVec.x;
 	m_force.z = moveVec.z;
 
-	m_crouch = 0.05f+sin((float)frame*0.3f) * 0.03f;
 	if (m_spInputComponent->GetButton(Input::Buttons::Y))
 	{
 		if (!m_jumpflg||!m_isGround) { return; }
@@ -289,17 +281,19 @@ void Human::Crouch()
 		m_force.z *= 0.5f;
 		m_force.x *= 0.5f;
 	}
+
 	if (m_spInputComponent->GetButton(Input::Buttons::SHIFT))
 	{
-		if (m_crouch < -0.5f) { m_crouchSpeed = 0; return; }
-		m_crouchSpeed -= 0.01f;
-		m_crouch += m_crouchSpeed;
+		m_colRadius = 0.7;
+		if (m_crouchSpeed < -0.5) { return; }
+		m_crouchSpeed -= 0.05f;
 	}
 	else
 	{
-		if (m_crouch > 0.0f) { m_crouchSpeed = 0; return; }
-		m_crouchSpeed += 0.01f;
-		m_crouch += m_crouchSpeed;
+		m_crouch = 0.05f + sin((float)frame * 0.3f) * 0.03f;
+		m_colRadius = 1;
+		if (m_crouchSpeed > 0) { return; }
+		m_crouchSpeed += 0.05f;
 	}
 
 }
@@ -326,7 +320,7 @@ void Human::UpdaetCamera()
 	mRotX = DirectX::XMMatrixRotationAxis(AxisX, DeltaY * ToRadians);
 	m_CamMat *= mRotX;
 
-	m_CamMat.SetTranslation(m_pos.x, m_pos.y + m_crouch, m_pos.z);
+	m_CamMat.SetTranslation(m_pos.x, m_pos.y + m_crouch+ m_crouchSpeed, m_pos.z);
 	m_spCameraComponent->SetCameraMatrix(m_CamMat);
 }
 
@@ -453,7 +447,7 @@ void Human::Draw2D()
 	snow.Draw2DTex(m_snow, m_gather);
 
 	Vec3 pos;
-	pos.SetPos(110, -330, 0);
+	pos.SetPos(0, -330, 0);
 	snow.DrawTex("UI_SnowBallGage", pos);
 
 	for (int i = 0; m_SnowBallNum > i; i++)

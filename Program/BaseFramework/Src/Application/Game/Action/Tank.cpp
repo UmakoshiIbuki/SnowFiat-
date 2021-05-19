@@ -27,7 +27,6 @@ void Tank::Update()
 	m_mWorld.Scale(m_scale.x, m_scale.y, m_scale.z);
 	m_mWorld.Move(pos);
 
-
 	UpdateCollision();	
 
 	if (!m_hit) { return; }
@@ -48,7 +47,7 @@ void Tank::Update()
 		if (m_dissolveThreshold > 0) { return; }
 		Scene::GetInstance().SetCrystal(m_crystal);
 		KD_AUDIO.StopBGM();
-		ShowCursor(true);
+		//ShowCursor(true);
 		Scene::GetInstance().RequestChangeScene("Data/Scene/Result.json");
 	}
 

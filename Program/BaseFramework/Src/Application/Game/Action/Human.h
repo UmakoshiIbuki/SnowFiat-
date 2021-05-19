@@ -1,8 +1,6 @@
 ﻿#pragma once
 #include"../GameObject.h"
 
-class HumanMini;
-
 class Human:public GameObject
 {
 public:
@@ -18,16 +16,17 @@ public:
 	void SetChange(float snow) { m_snow = snow; }
 
 	void SetCrystal(int crystal) { m_crystal += crystal; }
-	int GetCrystal() { return m_crystal; }
+	int  GetCrystal() { return m_crystal; }
 
 	int GetHitCntOne(){ return m_hitCntOne; }
 	int GetHitCntTen(){ return m_hitCntTen; }
 
 	void SetAttackCnt(int attackCnt) { AttackCnt = attackCnt; }
-	int GetAttackCntTen(){ return AttackCnt; }
+	int  GetAttackCntTen(){ return AttackCnt; }
 
-	void CanDrain(bool flg) { m_CanDrain = flg; }
-	float		m_power = 0.0f;
+	void  CanDrain(bool flg) { m_CanDrain = flg; }
+	float NowDrain() {return m_CanDrain; }
+	float m_power = 0.0f;
 	float m_CrystalDrain;
 
 private:
@@ -48,7 +47,7 @@ private:
 	bool		m_jumpflg = true;
 	Vec3        m_memoryPos;
 	float       m_crouch;
-	float       m_crouchSpeed=0.1f;
+	float       m_crouchSpeed=0.0f;
 
 
 	//カメラ/////////////////////////////////////////////////////////////////////////////////

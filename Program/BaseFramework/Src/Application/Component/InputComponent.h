@@ -107,8 +107,8 @@ class ActionPlayerInputComponent:public InputComponent
 public:
 	ActionPlayerInputComponent(GameObject& rOwner) :InputComponent(rOwner)
 	{
-		m_baseMousePos.x = 100;
-		m_baseMousePos.y = 100;
+		m_baseMousePos.x = 640;
+		m_baseMousePos.y = 360;
 	}
 	virtual void Update()override;
 

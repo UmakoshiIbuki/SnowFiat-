@@ -23,8 +23,9 @@ Scene::~Scene()
 //初期化
 void Scene::Init()
 {
-	//Scene::GetInstance().RequestChangeScene("Data/Scene/Title.json");
-	Scene::GetInstance().RequestChangeScene("Data/Scene/TestActionGame.json");
+	Scene::GetInstance().RequestChangeScene("Data/Scene/Title.json");
+	//Scene::GetInstance().RequestChangeScene("Data/Scene/TestActionGame.json");
+	//Scene::GetInstance().RequestChangeScene("Data/Scene/GameOver.json");
 
 	m_spsky = ResourceFactory::GetInstance().GetModel("Data/Sky/Sky.gltf");
 
@@ -144,6 +145,7 @@ void Scene::Update()
 
 	if (GetAsyncKeyState('U'))
 	{
+		ShowCursor(true);
 		Scene::GetInstance().RequestChangeScene("Data/Scene/Title.json");
 	}
 

@@ -1,6 +1,7 @@
 ﻿#include"CharacterUpdate.h"
 #include"Title.h"
 #include"../../main.h"
+#include"../Scene.h"
 
 CharacterUpdate::CharacterUpdate()
 {
@@ -37,7 +38,10 @@ void CharacterUpdate::Update()
 	MousePos.x = nowMousePos.x;
 	MousePos.y = nowMousePos.y;
 
+
 	std::string filepath = "Data/Scene/Human.json";
+	json11::Json json = ResFac.GetJSON(filepath);
+
 	json11::Json::object serial;
 	{
 		serial["ClassName"] = "Human";

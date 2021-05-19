@@ -7,10 +7,10 @@
 #include"Action/Enemy.h"
 #include"Action/Wall.h"
 #include"Action/Lift.h"
-#include"Action/HumanMini.h"
 #include"Action/SnowManager.h"
 #include"Action/Lamp.h"
 #include"Action/Bench.h"
+#include"../main.h"
 
 GameObject::GameObject()
 {
@@ -81,6 +81,8 @@ void GameObject::Deserialize(const json11::Json& jsonObj)
 
 	m_mWorld =mScale*mRotate*mTrans;
 
+	hwnd = APP.m_window.GetWndHandle();
+
 }
 void GameObject::Update() {}
 
@@ -98,6 +100,7 @@ void GameObject::Draw()
 
 void GameObject::ImguiUpdate()
 {
+
 	ImGui::InputText("Name", &m_name);
 		
 	if (ImGui::TreeNodeEx("TAG", ImGuiTreeNodeFlags_DefaultOpen))
@@ -284,6 +287,7 @@ void GameObject::Release()
 #include"Action/Title.h"
 #include"Action/StageSelect.h"
 #include"Particle.h"
+#include"Action/GameOver.h"
 #include"Action/Crystal.h"
 #include"Action/Tank.h"
 #include"Action/Wall.h"
@@ -292,10 +296,6 @@ std::shared_ptr<GameObject>CreateGameObject(const std::string& name)
 {
 	if (name == "GameObject") {
 		return std::make_shared<GameObject>();
-	}
-
-	if (name == "HumanMini") {
-		return std::make_shared<HumanMini>();
 	}
 
 	if (name == "Wall") {
@@ -337,6 +337,11 @@ std::shared_ptr<GameObject>CreateGameObject(const std::string& name)
 	if (name == "Result")
 	{
 		return std::make_shared<Result>();
+	}
+
+	if (name == "GameOver")
+	{
+		return std::make_shared<GameOver>();
 	}
 
 	if (name == "Tank")

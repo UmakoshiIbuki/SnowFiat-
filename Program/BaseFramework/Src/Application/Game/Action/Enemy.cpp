@@ -17,7 +17,7 @@ void Enemy::Deserialize(const json11::Json& jsonObj)
 	GameObject::Deserialize(jsonObj);
 
 	m_spInputComponent = std::make_shared<EnemyInputComponent>(*this);
-	m_EnemyMat.resize(9);
+	m_EnemyMat.resize(25);
 	m_pos = m_mWorld.GetTranslation();
 	m_sphuman = Scene::GetInstance().FindObjectWithName("PlayerHuman");
 	m_spCrystal = Scene::GetInstance().FindObjectWithName("Crystal");
@@ -26,11 +26,11 @@ void Enemy::Deserialize(const json11::Json& jsonObj)
 	{
 		if (pX > 10)
 		{
-			pX = -10;
-			pY+=10;
+			pX =-10;
+			pY+=5;
 		}
-		m_EnemyMat[i].CreateTranslation(pX, 0, pY );
-		pX+=10;
+		m_EnemyMat[i].CreateTranslation(pX+ m_spCrystal->GetMatrix().GetTranslation().x, 0, pY+ m_spCrystal->GetMatrix().GetTranslation().z);
+		pX+=5;
 	}
 	
 	m_spBikkurieffect = std::make_shared< AinmationEffect>();
@@ -40,10 +40,9 @@ void Enemy::Deserialize(const json11::Json& jsonObj)
 
 void Enemy::Update()
 {
-	/*SphereInfo sinfo;
-	sinfo.m_pos = m_sphuman->GetMatrix().GetTranslation();
-	sinfo.m_radius = 15;
-	if (!HitCheckBySphere(sinfo)) { return; }*/
+
+	/*std::shared_ptr<Human> human = std::dynamic_pointer_cast<Human>(m_sphuman);
+	if (human->NowDrain()) { m_canTrace = 1; }*/
 
 	if (m_RespawnTime >0)
 	{
@@ -51,17 +50,7 @@ void Enemy::Update()
 		m_RespawnTime--;
 		return;
 	}
-
 	
-	/*else {
-		if (!m_LetsMove)
-		{
-			m_LetsMove = true;
-			m_mWorld.CreateTranslation(0,5,0);
-			m_pos = m_mWorld.GetTranslation();
-			return;
-		}
-	}*/
 	if (m_mWorld.GetTranslation().y < -10) { m_hp -= 100; }
 
 	frame++;
@@ -75,19 +64,17 @@ void Enemy::Update()
 
 	Reload();
 
-	UpdateShoot();
-
 	CheckBump();
 
 	if (m_hp < 6)
 	{
+		m_hp += 0.01;
 		m_canTrace = 2;
 	}
 
 	if (m_canTrace==1)
 	{
-		//Trace();
-		Back();
+		Trace();
 		m_pos = m_mWorld.GetTranslation();
 	}
 
@@ -96,13 +83,15 @@ void Enemy::Update()
 		m_BikkurieffectMat.SetTranslation(m_mWorld.GetTranslation().x, m_mWorld.GetTranslation().y + 1, m_mWorld.GetTranslation().z);
 		m_spBikkurieffect->SetAnimationInfo(ResFac.GetTexture("Data/Texture/Hatena.png"), 0.4f, 1, 1, 0, 0, 0);
 		m_spBikkurieffect->SetMatrix(m_BikkurieffectMat);
-		
+	
 		if (m_scale.Length() < 1)
 		{
 			m_hitRange = 5;
-			Shot = 0;
-			Vec3 Dir = m_EnemyMat[i].GetTranslation() - m_mWorld.GetTranslation();
-
+			Shot = 10;
+			Vec3 Dir = m_EnemyMat[pos].GetTranslation() - m_mWorld.GetTranslation();
+			if (frame%180==0) {
+				pos=rand() % 24;
+			}
 			Dir.Normalize();
 			UpdateRotate(Dir);
 			m_force = Dir * m_Movespeed;
@@ -123,16 +112,15 @@ void Enemy::Update()
 		m_mWorld.Scale(m_scale.x, m_scale.y, m_scale.z);
 		m_mWorld.Move(m_pos);
 
-		if (frame %120==0){
-			i = rand() % 9; 
-			//m_force.y += 0.1f;
-		}
 	}
 
 	if (m_canTrace == 2)
 	{
 		Escape();	
+		m_pos = m_mWorld.GetTranslation();
 	}
+	m_canTrace = 0;
+
 
 	UpdateCollision();
 
@@ -168,14 +156,14 @@ bool Enemy::CanSee()
 	Dot = std::min(std::max(Dot, -1.0f), 1.0f);
 	float radian = acos(Dot);
 	radian = radian * ToDegrees;
-	if (m_name == "Enemy1")
-	{
-		if (ImGui::Begin("Graphics Debug"))
-		{
-			ImGui::DragFloat("radian", &radian, 0.1f);
-		}
-		ImGui::End();
-	}
+	//if (m_name == "Enemy1")
+	//{
+	//	if (ImGui::Begin("Graphics Debug"))
+	//	{
+	//		ImGui::DragFloat("radian", &radian, 0.1f);
+	//	}
+	//	ImGui::End();
+	//}
 	if (abs(radian) > 50)
 	{
 		m_canTrace = 0;
@@ -189,22 +177,6 @@ bool Enemy::CanSee()
 
 void Enemy::Back()
 {
-	/*Vec3 vTarget = m_sphuman->GetMatrix().GetTranslation() - m_mWorld.GetTranslation();
-	m_mWorld.SetAxisY(m_sphuman->GetMatrix().GetTranslation());
-	Vec3::Dot(m_sphuman->GetMatrix().GetTranslation(), m_mWorld.GetTranslation());
-	angle = m_mWorld.GetAngles();
-	m_mWorld.RotateY(angle.y);*/
-	//angle+=0.001;
-	/*Vec3 axisZ = m_sphuman->GetMatrix().GetAxisZ();
-	axisZ.Normalize();
-	Vec3 Dir = m_mWorld.GetTranslation()-m_sphuman->GetMatrix().GetTranslation();
-	Dir.Normalize();
-	float Dot;
-	Dot = Vec3::Dot(axisZ, Dir);
-	Dot = std::min(std::max(Dot, -1.0f), 1.0f);
-	float radian = acos(Dot);
-	radian = radian * ToDegrees;
-	m_mWorld.RotateY(radian);*/
 
 }
 
@@ -254,6 +226,10 @@ void Enemy::Trace()
 
 void Enemy::Escape()
 {
+	m_BikkurieffectMat.SetTranslation(m_mWorld.GetTranslation().x, m_mWorld.GetTranslation().y + 1, m_mWorld.GetTranslation().z);
+	m_spBikkurieffect->SetAnimationInfo(ResFac.GetTexture("Data/Texture/Hatena.png"), 0.4f, 1, 1, 0, 0, 0);
+	m_spBikkurieffect->SetMatrix(m_BikkurieffectMat);
+
 	Vec3 Dir = m_sphuman->GetMatrix().GetTranslation() - m_mWorld.GetTranslation();
 
 	Dir.x *= -1;
@@ -388,6 +364,7 @@ void Enemy::UpdateCollision()
 			if (obj->HitCheckBySphere(sInfo))
 			{
 				m_IsHitRange = true;
+				UpdateShoot();
 				return;
 			}
 			else
@@ -447,7 +424,6 @@ bool Enemy::CheckGround(float& rDstDistance,UINT m_tag,Vec3 Pos)
 
 	KdRayResult finalRayResult;
 
-	//全員とレイ判定
 	for (auto& obj : Scene::GetInstance().GetObjects())
 	{
 		if (obj.get() == this) { continue; }

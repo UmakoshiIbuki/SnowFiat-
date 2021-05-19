@@ -90,8 +90,8 @@ void ActionPlayerInputComponent::Update()
 		m_axes[Input::R].x = (float)(m_baseMousePos.x - nowMousePos.x);
 		m_axes[Input::R].y = (float)(m_baseMousePos.y - nowMousePos.y);
 
-		m_baseMousePos.x = 100;
-		m_baseMousePos.y = 100;
+		m_baseMousePos.x = 640;
+		m_baseMousePos.y = 360;
 		SetCursorPos(m_baseMousePos.x, m_baseMousePos.y);
 	}
 	//投げる

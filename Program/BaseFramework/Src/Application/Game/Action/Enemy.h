@@ -60,7 +60,7 @@ private:
 	UINT		m_tag = OBJECT_TAG::TAG_None;
 	float		Shot = 0;
 
-	float		m_charge = 10.0f;		//雪玉のリロード
+	float		m_charge = 100.0f;		//雪玉のリロード
 	bool        m_canShoot;				//発射可能かどうか
 	bool		m_makeWall;
 
@@ -72,8 +72,8 @@ private:
 	std::vector<Matrix> m_EnemyMat;
 	bool locate;
 	//bool SearchPlayer(float& rDstDistance, UINT m_tag, Vec3 Pos);
-	int i = 1;//ランダム用
-	int m_hp = 9;
+	int pos = 0;//ランダム用
+	float m_hp = 9;
 
 	int frame = 0;
 	bool canMove=false;
@@ -103,5 +103,5 @@ private:
 	int pY = -10;
 	Vec3 m_EnemyPos;
 
-	Vec3 angle;
+
 };

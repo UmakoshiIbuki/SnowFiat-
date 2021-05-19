@@ -35,6 +35,18 @@ void Result::Deserialize(const json11::Json& jsonObj)
 	m_spCrystalCntTex = ResFac.GetTexture("Data/Texture/Result/Crystal.png");
 
 	m_spShotCntTex = ResFac.GetTexture("Data/Texture/UITexture/UI_ONE_0.png");
+
+	m_spGoTitleTex = ResFac.GetTexture("Data/Texture/Result/UI_GoTitle.png");
+	m_spReTryTex = ResFac.GetTexture("Data/Texture/Result/UI_ReTry.png");
+
+	m_GoTitlePos.x = -200;
+	m_GoTitlePos.y = -100;
+	m_GoTitleMat.SetTranslation(m_GoTitlePos);
+
+	m_ReTryPos.x = 200;
+	m_ReTryPos.y = -100;
+	m_ReTryMat.SetTranslation(m_ReTryPos);
+
 	Crystals =m_HitCntTen * 10+ m_HitCntOne;
 	//Crystals = 20;
 
@@ -56,17 +68,57 @@ void Result::Update()
 
 	Weight++;
 
-	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+	GetCursorPos(&nowMousePos);				//マウス現在位置の取得
+	ScreenToClient(hwnd, &nowMousePos);		//マウスをクライアント座標に
+
+	nowMousePos.x -= 640;
+	nowMousePos.y -= 360;
+
+	MousePos.x = nowMousePos.x;
+	MousePos.y = nowMousePos.y;
+
+	if (Collision2D(MousePos, m_GoTitlePos, 200, 100))
 	{
-		if (m_canChange)
+		if (m_scale0 < 0.85f) { m_scale0 += 0.01f; }
+
+		if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 		{
-			Scene::GetInstance().RequestChangeScene("Data/Scene/Title.json");
-			m_canChange = false;
+			if (m_CanChange)
+			{
+				Scene::GetInstance().RequestChangeScene("Data/Scene/Title.json");
+				m_CanChange = false;
+			}
+		}
+		else
+		{
+			m_CanChange = true;
 		}
 	}
 	else
 	{
-		m_canChange = true;
+		if (m_scale0 > 0.7) { m_scale0 -= 0.01f; }
+	}
+
+	if (Collision2D(MousePos, m_ReTryPos, 200, 100))
+	{
+		if (m_scale1 < 0.85f) { m_scale1 += 0.01f; }
+
+		if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+		{
+			if (m_CanChange)
+			{
+				Scene::GetInstance().RequestChangeScene("Data/Scene/TestActionGame.json");
+				m_CanChange = false;
+			}
+		}
+		else
+		{
+			m_CanChange = true;
+		}
+	}
+	else
+	{
+		if (m_scale1 > 0.7) { m_scale1 -= 0.01f; }
 	}
 
 	CrystalCount(m_CrystalCntOne, m_CrystalCntTen);
@@ -97,6 +149,16 @@ void Result::Draw()
 	SHADER.m_spriteShader.SetMatrix(m_spResultMat);
 	SHADER.m_spriteShader.DrawTex(m_spResultTex.get(), 0, 0);
 
+	m_GoTitleMat.CreateScalling(m_scale0, m_scale0, 0);
+	m_GoTitleMat.SetTranslation(m_GoTitlePos);
+	SHADER.m_spriteShader.SetMatrix(m_GoTitleMat);
+	SHADER.m_spriteShader.DrawTex(m_spGoTitleTex.get(), 0, 0);
+
+	m_ReTryMat.CreateScalling(m_scale1, m_scale1, 0);
+	m_ReTryMat.SetTranslation(m_ReTryPos);
+	SHADER.m_spriteShader.SetMatrix(m_ReTryMat);
+	SHADER.m_spriteShader.DrawTex(m_spReTryTex.get(), 0, 0);
+
 	//m_spCrystalCntOneMat.CreateScalling(0.23f, 0.15f, 1);
 	//m_spCrystalCntOneMat.SetTranslation(Vec3(250, 90, 0));
 	//SHADER.m_spriteShader.SetMatrix(m_spCrystalCntOneMat);
@@ -107,7 +169,7 @@ void Result::Draw()
 	//SHADER.m_spriteShader.SetMatrix(m_spCrystalCntTenMat);
 	//SHADER.m_spriteShader.DrawTex(m_spCrystalCntTenTex.get(), 0, 0);
 
-	m_spDamageCntOneMat.CreateScalling(0.23f, 0.15f, 1);
+	/*m_spDamageCntOneMat.CreateScalling(0.23f, 0.15f, 1);
 	m_spDamageCntOneMat.SetTranslation(Vec3(250, -120, 0));
 	SHADER.m_spriteShader.SetMatrix(m_spDamageCntOneMat);
 	SHADER.m_spriteShader.DrawTex(m_spDamageCntOneTex.get(), 0, 0);
@@ -125,9 +187,9 @@ void Result::Draw()
 	m_spHitCntMat.CreateScalling(0.23f, 0.15f, 1);
 	m_spHitCntMat.SetTranslation(Vec3(390, -30, 0));
 	SHADER.m_spriteShader.SetMatrix(m_spHitCntMat);
-	SHADER.m_spriteShader.DrawTex(m_spHitCntTex.get(), 0, 0);
+	SHADER.m_spriteShader.DrawTex(m_spHitCntTex.get(), 0, 0);*/
 
-	if (i < m_CrystalCntOne)
+	/*if (i < m_CrystalCntOne)
 	{
 		if (i < 10)
 		{
@@ -161,7 +223,7 @@ void Result::Draw()
 				SHADER.m_spriteShader.DrawTex(m_spCrystalCntTex.get(), 0, 0);
 			}
 		}
-	}
+	}*/
 }
 
 void Result::CrystalCount(int one, int ten)

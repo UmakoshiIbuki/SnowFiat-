@@ -60,10 +60,6 @@ void Title::Deserialize(const json11::Json& jsonObj)
 
 void Title::Update()
 {
-	POINT nowMousePos;
-	HWND hwnd;
-	hwnd = APP.m_window.GetWndHandle();
-
 	GetCursorPos(&nowMousePos);				//マウス現在位置の取得
 	ScreenToClient(hwnd, &nowMousePos);		//マウスをクライアント座標に
 
@@ -75,7 +71,7 @@ void Title::Update()
 
 	if (m_isTitleScene)
 	{
-		m_CposY = -80 + 10 * sin(m_CspeedY);
+		m_CposY = -160 + 10 * sin(m_CspeedY);
 		m_CspeedY += 0.1f;
 
 		if (m_ScrollSpeed == 0.0f)
@@ -254,7 +250,6 @@ void Title::Update()
 
 		if (m_black > 0.6)
 		{
-
 			KD_AUDIO.StopBGM();
 			Scene::GetInstance().RequestChangeScene("Data/Scene/" + m_stagename + ".json");
 		}
@@ -286,11 +281,11 @@ void Title::Draw2D()
 {
 	if (m_isTitleScene)
 	{
-	/*	m_spTitleTex = ResFac.GetTexture("Data/Texture/Title/Title.png");
+		m_spTitleTex = ResFac.GetTexture("Data/Texture/Title/Title.png");
 
 		m_TitleMat.SetTranslation(Vec3(0, 0, 0));
 		SHADER.m_spriteShader.SetMatrix(m_TitleMat);
-		SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 0);*/
+		SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 0);
 
 		if (flg)
 		{
@@ -334,8 +329,8 @@ void Title::Draw2D()
 		SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 0);
 
 		m_spTitleTex = ResFac.GetTexture("Data/Texture/Title/ClickToStart.png");
-		m_ClickToStartMat.CreateScalling(1.3, 1, 0);
-		m_ClickToStartMat.SetTranslation(-35, m_CposY, 1);
+		m_ClickToStartMat.CreateScalling(0.7, 0.7, 0);
+		m_ClickToStartMat.SetTranslation(20, m_CposY, 1);
 		SHADER.m_spriteShader.SetMatrix(m_ClickToStartMat);
 		SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 0);
 	}

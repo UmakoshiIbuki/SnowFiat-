@@ -91,7 +91,9 @@ protected:
 	//モデルコンポーネント
 	std::shared_ptr<ModelComponent>m_spModelComponent = std::make_shared<ModelComponent>(*this);
 
-
+	Vec3                       MousePos;
+	POINT nowMousePos;
+	HWND hwnd;
 	Matrix  m_mWorld;
 	Matrix  m_mPrev;
 	float   m_gravity = 0.01f;

@@ -80,12 +80,16 @@ private:
 	Vec3					   m_GoTitlePos;
 
 	Matrix					   m_PauseMat;
+	Matrix					   m_StopMat;
 
 	Vec3                       MousePos;
 
+	bool					   m_OneTouch=true;
 
 	Math::Vector3 copy;
 
+	float					   m_scale0 = 0.7f;
+	float					   m_scale1 = 0.7f;
 	///////////////////////////////////////////////////////////////////////////////////////
 	int  m_CrystalsTenthPlace = 0;
 	int  m_CrystalsOncePlace = 0;

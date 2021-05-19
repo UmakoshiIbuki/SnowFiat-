@@ -1,7 +1,0 @@
-{
-  "ClassName": "HumanMini",
-  "Name": "HumanMini",
-  "Tag": 256,
-  "Scale": [ 1, 1, 1 ],
-  "ModelFileName": "Data/Human/Human.gltf"
-}

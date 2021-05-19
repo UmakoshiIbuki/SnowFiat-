@@ -18,7 +18,6 @@ public:
 
 	void ParticleEffect();
 
-	void UpdateTrail();			//軌跡の更新
 	void DrawEffect()override;	//透明物の描画
 	void SetSpeed(float speed) { m_speed = speed; }
 	void SetGravity(float gravity) { m_gravity = gravity; }
@@ -30,21 +29,20 @@ private:
 	std::weak_ptr<GameObject>m_wpOwner;		//発射したオーナーオブジェクト
 	int   m_shotCnt = 0;
 	int   m_hitCnt = 0;
-
+	int	  m_lifeSpan = 100;
 	float m_speed = 0.0f;
 	float m_power = 0.0f;
-	//float gravity = 0.0f;
-	int	  m_lifeSpan = 100;
+
 	std::weak_ptr<GameObject>m_wpTarget;
 
 	float m_trailRotate = 0.0f;
 	int frame = 0;
 
-	static const int particleNum = 200;
+	static const int	      particleNum = 200;
 	std::shared_ptr<Particle> particleSnow[particleNum];
 
-	int count = 0;
+	int	  count = 0;
+	int   AttackCnt;
 
-	int AttackCnt;
 
 };

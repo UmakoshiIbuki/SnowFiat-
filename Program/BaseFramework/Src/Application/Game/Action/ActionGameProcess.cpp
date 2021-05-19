@@ -10,11 +10,12 @@
 
 void ActionGameProcess::Deserialize(const json11::Json& jsonObj)
 {
+	ShowCursor(false);
 
 	m_spFrameTex = ResFac.GetTexture("Data/Texture/UITexture/UI_FRAME.png");
 	m_spMeterTex = ResFac.GetTexture("Data/Texture/UITexture/UI_FRAME_1.png");
 	m_spInfinityTex = ResFac.GetTexture("Data/Texture/UITexture/UI_Infinite.png");
-	m_spMissionTex = ResFac.GetTexture("Data/Texture/UITexture/UI_Mission001.png");
+	//m_spMissionTex = ResFac.GetTexture("Data/Texture/UITexture/UI_Mission001.png");
 	m_spExpTex = ResFac.GetTexture("Data/Texture/UITexture/UI_Exp.png");
 
 	m_sphuman = Scene::GetInstance().FindObjectWithName("PlayerHuman");
@@ -25,6 +26,8 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonObj)
 
 	m_ReplayPos.x = 0;
 	m_ReplayPos.y = 50;
+
+	m_StopMat.SetTranslation(0, 150, 0);
 
 	//プレイ時間
 	if (jsonObj["Time"].is_null() == false)
@@ -88,39 +91,39 @@ void ActionGameProcess::Draw2D()
 	SHADER.m_spriteShader.SetMatrix(m_TexMat);
 	SHADER.m_spriteShader.DrawTex(m_spCrystalsTenthPlaceTex.get(), 0, 0);
 
-	//チャージ中のエフェクト
-	if (GetAsyncKeyState(VK_RBUTTON) & 0x8000)
-	{
-		for (UINT i = 0; i < SnowNum; i++)
-		{
-			move = m_SnowMat[i].GetTranslation();
-			move.y *= 0.97;
-			move.x *= 0.97;
-			scale -= 0.002f;
-			m_SnowMat[i].CreateScalling(scale, scale, 1.0f);
-			m_SnowMat[i].SetTranslation(move.x, move.y, 1);
-			SHADER.m_spriteShader.SetMatrix(m_SnowMat[i]);
-			SHADER.m_spriteShader.DrawTex(m_spSnowTex.get(), 0, 0);
-			if (abs(m_SnowMat[i].GetTranslation().y) < 50 && abs(m_SnowMat[i].GetTranslation().x) < 50)
-			{
-				m_SnowMat[i].SetTranslation(RND * 1280 - 640, RND * 720 - 360, 1);
-				scale = 1;
-			}
-		}
-		static const Math::Vector3 a = { 1.0,3.0,5.0 };
-		SHADER.m_cb8_Light.Work().DL_Color = a;
-	}
-	else
-	{
-		//時間経過で暗くなる
-		if (SHADER.m_cb8_Light.Work().DL_Color.x > 1)
-		{
-			static const Math::Vector3 a = { 0.00,0.00,0.00 };
-			SHADER.m_cb8_Light.Work().DL_Color -= a;
-			copy = SHADER.m_cb8_Light.Work().DL_Color;
-		}
-		SHADER.m_cb8_Light.Work().DL_Color = copy;
-	}
+	////チャージ中のエフェクト
+	//if (GetAsyncKeyState(VK_RBUTTON) & 0x8000)
+	//{
+	//	for (UINT i = 0; i < SnowNum; i++)
+	//	{
+	//		move = m_SnowMat[i].GetTranslation();
+	//		move.y *= 0.97;
+	//		move.x *= 0.97;
+	//		scale -= 0.002f;
+	//		m_SnowMat[i].CreateScalling(scale, scale, 1.0f);
+	//		m_SnowMat[i].SetTranslation(move.x, move.y, 1);
+	//		SHADER.m_spriteShader.SetMatrix(m_SnowMat[i]);
+	//		SHADER.m_spriteShader.DrawTex(m_spSnowTex.get(), 0, 0);
+	//		if (abs(m_SnowMat[i].GetTranslation().y) < 50 && abs(m_SnowMat[i].GetTranslation().x) < 50)
+	//		{
+	//			m_SnowMat[i].SetTranslation(RND * 1280 - 640, RND * 720 - 360, 1);
+	//			scale = 1;
+	//		}
+	//	}
+	//	static const Math::Vector3 a = { 1.0,3.0,5.0 };
+	//	SHADER.m_cb8_Light.Work().DL_Color = a;
+	//}
+	//else
+	//{
+	//	//時間経過で暗くなる
+	//	if (SHADER.m_cb8_Light.Work().DL_Color.x > 1)
+	//	{
+	//		static const Math::Vector3 a = { 0.00,0.00,0.00 };
+	//		SHADER.m_cb8_Light.Work().DL_Color -= a;
+	//		copy = SHADER.m_cb8_Light.Work().DL_Color;
+	//	}
+	//	SHADER.m_cb8_Light.Work().DL_Color = copy;
+	//}
 
 	//時間表示UI(メーター)
 	m_TexMat.CreateRotationZ(-m_rotate * ToRadians);
@@ -155,10 +158,10 @@ void ActionGameProcess::Draw2D()
 		SHADER.m_spriteShader.DrawTex(m_spInfinityTex.get(), 0, 0);
 	}
 
-	m_TexMat.CreateScalling(0.5, 0.5, 1);
+	/*m_TexMat.CreateScalling(0.5, 0.5, 1);
 	m_TexMat.SetTranslation(-300, 330, 0);
 	SHADER.m_spriteShader.SetMatrix(m_TexMat);
-	SHADER.m_spriteShader.DrawTex(m_spMissionTex.get(), 0, 0);
+	SHADER.m_spriteShader.DrawTex(m_spMissionTex.get(), 0, 0);*/
 
 	m_TexMat.CreateScalling(0.5, 0.5, 1);
 	m_TexMat.SetTranslation(m_TexPos);
@@ -168,16 +171,18 @@ void ActionGameProcess::Draw2D()
 	if (m_GoPause)
 	{
 		m_spPauseTex = ResFac.GetTexture("Data/Texture/Stop.png");
-		m_PauseMat.SetTranslation(0, 150, 0);
-		SHADER.m_spriteShader.SetMatrix(m_PauseMat);
+		SHADER.m_spriteShader.SetMatrix(m_StopMat);
 		SHADER.m_spriteShader.DrawTex(m_spPauseTex.get(), 0, 0);
 
 		m_spPauseTex = ResFac.GetTexture("Data/Texture/GoTitle.png");
+		m_PauseMat.CreateScalling(m_scale1, m_scale1, 0);
 		m_PauseMat.SetTranslation(m_GoTitlePos);
 		SHADER.m_spriteShader.SetMatrix(m_PauseMat);
 		SHADER.m_spriteShader.DrawTex(m_spPauseTex.get(), 0, 0);
 
 		m_spPauseTex = ResFac.GetTexture("Data/Texture/Replay.png");
+		m_ReplayMat.CreateScalling(m_scale0, m_scale0, 0);
+		m_ReplayMat.SetTranslation(m_ReplayPos);
 		SHADER.m_spriteShader.SetMatrix(m_ReplayMat);
 		SHADER.m_spriteShader.DrawTex(m_spPauseTex.get(), 0, -0);
 	}
@@ -185,6 +190,7 @@ void ActionGameProcess::Draw2D()
 
 void ActionGameProcess::Update()
 {
+
 	//改善//////////////////////////////////////////////////////////////////
 	POINT nowMousePos;
 	HWND hwnd;
@@ -200,35 +206,55 @@ void ActionGameProcess::Update()
 	MousePos.y = nowMousePos.y;
 	//改善//////////////////////////////////////////////////////////////////
 
+	
 	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
 	{
-		m_GoPause = true;
-		m_sphuman->m_base = true;
-		ShowCursor(true);
-		m_ReplayMat.SetTranslation(m_ReplayPos);
-		m_GoTitleMat.SetTranslation(m_GoTitlePos);
+		if (m_OneTouch)
+		{
+			m_OneTouch = false;
+			m_GoPause = true;
+			m_sphuman->m_base = true;
+			ShowCursor(true);
+			m_ReplayMat.SetTranslation(m_ReplayPos);
+			m_GoTitleMat.SetTranslation(m_GoTitlePos);
+		}
 	}
-
+	else
+	{
+		m_OneTouch = true;
+	}
+	
+	
 	if (m_GoPause)
 	{
 		if (Collision2D(m_ReplayPos, MousePos, 300, 50))
 		{
+			if (m_scale0 < 0.85f) { m_scale0 += 0.01f; }
 			if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 			{
+				ShowCursor(false);
 				m_sphuman->m_base = false;
 				m_GoPause = false;
-				ShowCursor(false);
+				return;
 			}
+		}
+		else
+		{
+			if (m_scale0 > 0.7) { m_scale0 -= 0.01f; }
 		}
 
 		if (Collision2D(m_GoTitlePos, MousePos, 300, 50))
 		{
+			if (m_scale1 < 0.85f) { m_scale1 += 0.01f; }
 			if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 			{
 				m_sphuman->m_base = false;
-
 				Scene::GetInstance().RequestChangeScene("Data/Scene/Title.json");
 			}
+		}
+		else
+		{
+			if (m_scale1 > 0.7) { m_scale1 -= 0.01f; }
 		}
 	}
 
@@ -248,13 +274,12 @@ void ActionGameProcess::Update()
 		time--;
 		if (time <= 0)
 		{
-			ShowCursor(true);
 			Scene::GetInstance().RequestChangeScene("Data/Scene/Result.json");
 		}
 	}
 	else if(Scene::GetInstance().GetHitCnt()>=3)
 	{
-		ShowCursor(true);
+		//ShowCursor(true);
 	}
 
 	std::shared_ptr<Human> human = std::dynamic_pointer_cast<Human>(m_sphuman);

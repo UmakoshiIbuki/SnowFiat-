@@ -163,8 +163,8 @@
     <ClInclude Include="Src\Application\Game\Action\CharacterUpdate.h" />
     <ClInclude Include="Src\Application\Game\Action\Crystal.h" />
     <ClInclude Include="Src\Application\Game\Action\Enemy.h" />
+    <ClInclude Include="Src\Application\Game\Action\GameOver.h" />
     <ClInclude Include="Src\Application\Game\Action\Human.h" />
-    <ClInclude Include="Src\Application\Game\Action\HumanMini.h" />
     <ClInclude Include="Src\Application\Game\Action\Lamp.h" />
     <ClInclude Include="Src\Application\Game\Action\Lift.h" />
     <ClInclude Include="Src\Application\Game\Action\Result.h" />
@@ -225,8 +225,8 @@
     <ClCompile Include="Src\Application\Game\Action\CharacterUpdate.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Crystal.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Enemy.cpp" />
+    <ClCompile Include="Src\Application\Game\Action\GameOver.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Human.cpp" />
-    <ClCompile Include="Src\Application\Game\Action\HumanMini.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Lamp.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Lift.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Result.cpp" />
